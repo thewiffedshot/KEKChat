@@ -18,15 +18,18 @@
         <h3 class="login-title">Login</h3>
         <div class="login-div">
             @using (Html.BeginForm("Login", "Account", FormMethod.Post))
-            {
+             {
                 <br>
                 <p class="center-text"><b>Username:</b></p>
-                <input type="text" id="user" class="login-input"><br><br>
+                @Html.EditorFor(model => model.Username,
+                    new { htmlAttributes = new { @class = "login-input", placeholder = "Username" } })
+                <br><br>
                 <p class="center-text"><b>Password:</b></p>
-                <input type="password" id="pass" class="login-input">
-                <button type="submit" runat="server" onclick="@PrintInfo()" class="login-button">Login</button>
+                @Html.EditorFor(model => model.Password,
+                    new { htmlAttributes = new { @class = "login-input", placeholder = "Password" } })
+                <button type="submit" runat="server" class="login-button">Login</button>
                 <p class="center-text"><b>Not registered?</b> @Html.ActionLink("Register.", "Register")</p>
-            }
+             }
         </div>
     </div>
 
