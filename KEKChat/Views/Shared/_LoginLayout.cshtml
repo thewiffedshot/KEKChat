@@ -19,10 +19,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/LoginForm.css" rel="stylesheet" type="text/css" />
 </head>
-<body style="background-color: #F5F5DC">
-    <div style="padding: 10%" class="formParentDiv">
-        <h3 style="text-align: center; font-family: verdana">Login</h3>
+<body>
+    <div class="form-parent-div">
+        <h3 class="login-title">Login</h3>
         <div style="margin: auto; width: 25%; border-width: 2px; border-color: gray; border-radius: 5px; border-style: solid; background-color: #7FFFD4; padding: 10px">
             @using (Html.BeginForm("Login", "Account", FormMethod.Post))
             {
