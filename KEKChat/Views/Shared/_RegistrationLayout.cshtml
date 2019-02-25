@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<script runat="server">
+    void sub_b_Click
+
+
+</script>
+
+<html>
+<head>
+    <title>KEKChat Registration</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Registration Form for KEKChat.">
+    <meta name="keywords" content="memes,meme,chat,social,economy,fun,login,register">
+    <meta name="authors" content="Angel Neev, Simeon Laplev">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="background-color: #F5F5DC">
+    <div style="padding: 10%" class="formParentDiv">
+        <h3 style="text-align: center; font-family: verdana">Register</h3>
+        <div style="margin: auto; width: 25%; border-width: 2px; border-color: gray; border-radius: 5px; border-style: solid; background-color: #7FFFD4; padding: 10px">
+            @using (Html.BeginForm("Register", "Accounts", FormMethod.Post))
+            { 
+                <br>
+                <p style="text-align: center"><b>Username:</b></p>
+                <input type="text" id="user" style="margin-left: 15%; width: 70%"><br><br>
+                <p style="text-align: center"><b>Password:</b></p>
+                <input type="password" id="pass" style="margin-left: 15%; margin-bottom: 10%; width: 70%">
+                <p style="text-align: center"><b>Repeat Password:</b></p>
+                <input type="password" id="passRepeat" style="margin-left: 15%; margin-bottom: 10%; width: 70%">
+                <button type="button" id="sub_b" style="display: block; margin: auto; width: auto; text-align: center; margin-bottom: 7%">Register</button>
+            }
+        </div>
+    </div>
+
+
+    @{ RenderBody(); }
+</body>
+</html>
