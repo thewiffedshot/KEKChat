@@ -1,13 +1,5 @@
-﻿<!DOCTYPE html>
-
-@{ 
-    bool PrintInfo()
-    {
-        Write("Lmao nibba");
-        //Html.Action("Login", "Account");
-        return true;
-    }
-}
+﻿@model KEKChat.Models.LoginModel
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -32,7 +24,7 @@
                 <input type="text" id="user" style="margin-left: 15%; width: 70%"><br><br>
                 <p style="text-align: center"><b>Password:</b></p>
                 <input type="password" id="pass" style="margin-left: 15%; margin-bottom: 10%; width: 70%">
-                <button type="submit" runat="server" onclick="@PrintInfo()" style="display: block; margin: auto; width: auto; text-align: center; margin-bottom: 7%">Login</button>
+                <button type="submit" runat="server" style="display: block; margin: auto; width: auto; text-align: center; margin-bottom: 7%">Login</button>
                 <p style="padding-left: 5%"><b>Not registered?</b> @Html.ActionLink("Register.", "Register")</p>
             }
         </div>

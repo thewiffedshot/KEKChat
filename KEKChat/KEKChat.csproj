@@ -170,6 +170,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\LoginForm.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -201,16 +202,16 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Shared\_RegistrationLayout.cshtml" />
-    <Content Include="Views\Home\Login.cshtml">
+    <Content Include="Views\Account\Login.cshtml">
       <BrowseToURL>~/Home/Login</BrowseToURL>
     </Content>
-    <Content Include="Views\Home\Register.cshtml">
+    <Content Include="Views\Account\Register.cshtml">
       <BrowseToURL>~/Home/Register</BrowseToURL>
     </Content>
+    <Content Include="Views\Home\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

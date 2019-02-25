@@ -12,16 +12,13 @@ namespace KEKChat.Controllers
         // GET: Account
         //[HttpPost]
         public ActionResult Login()
-        {
-           
+        {         
             return View();
         }
 
         //[HttpPost]
         public ActionResult Register()
         {
-
-
             return View();
         }
     }

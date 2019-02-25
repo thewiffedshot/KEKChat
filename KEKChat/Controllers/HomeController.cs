@@ -8,12 +8,7 @@ namespace KEKChat.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        public ActionResult Login()
+        public ActionResult Dashboard()
         {
             return View();
         }
