@@ -24,16 +24,16 @@
 <body>
     <div class="form-parent-div">
         <h3 class="login-title">Login</h3>
-        <div style="margin: auto; width: 25%; border-width: 2px; border-color: gray; border-radius: 5px; border-style: solid; background-color: #7FFFD4; padding: 10px">
+        <div class="login-div">
             @using (Html.BeginForm("Login", "Account", FormMethod.Post))
             {
                 <br>
-                <p style="text-align: center"><b>Username:</b></p>
-                <input type="text" id="user" style="margin-left: 15%; width: 70%"><br><br>
-                <p style="text-align: center"><b>Password:</b></p>
-                <input type="password" id="pass" style="margin-left: 15%; margin-bottom: 10%; width: 70%">
-                <button type="submit" runat="server" onclick="@PrintInfo()" style="display: block; margin: auto; width: auto; text-align: center; margin-bottom: 7%">Login</button>
-                <p style="padding-left: 5%"><b>Not registered?</b> @Html.ActionLink("Register.", "Register")</p>
+                <p class="center-text"><b>Username:</b></p>
+                <input type="text" id="user" class="login-input"><br><br>
+                <p class="center-text"><b>Password:</b></p>
+                <input type="password" id="pass" class="login-input">
+                <button type="submit" runat="server" onclick="@PrintInfo()" class="login-button">Login</button>
+                <p class="center-text"><b>Not registered?</b> @Html.ActionLink("Register.", "Register")</p>
             }
         </div>
     </div>

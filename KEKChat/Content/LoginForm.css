@@ -5,4 +5,33 @@
 .login-title {
     text-align: center; 
     font-family: verdana;
+    min-width:220px;
+}
+
+.login-div {
+    margin: auto;
+    width: 25%;
+    min-width: 220px;
+    border-width: 2px;
+    border-color: gray;
+    border-radius: 5px;
+    border-style: solid;
+    background-color: #7FFFD4;
+    padding: 10px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.login-input {
+    margin-left: 15%;
+    width: 70%
+}
+
+.login-button {
+    display: block;
+    margin: 7% auto;
+    width: auto;
+    text-align: center;
 }
