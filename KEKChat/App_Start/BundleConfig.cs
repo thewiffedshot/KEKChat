@@ -1,5 +1,7 @@
-﻿using System.Web;
+﻿using System.Data.Entity;
+using System.Web;
 using System.Web.Optimization;
+using Npgsql;
 
 namespace KEKChat
 {
@@ -26,6 +28,24 @@ namespace KEKChat
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            new NpgsqlConfiguration();
+        }
+    }
+
+    public class NpgsqlConfiguration : DbConfiguration
+    {
+        public NpgsqlConfiguration()
+        {
+            var name = "Npgsql";
+
+            SetProviderFactory(providerInvariantName: name,
+            providerFactory: NpgsqlFactory.Instance);
+
+            SetProviderServices(providerInvariantName: name,
+            provider: NpgsqlServices.Instance);
+
+            SetDefaultConnectionFactory(connectionFactory: new NpgsqlConnectionFactory());
         }
     }
 }
