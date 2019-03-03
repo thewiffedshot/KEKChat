@@ -208,10 +208,11 @@
     <Content Include="Views\Account\Register.cshtml">
       <BrowseToURL>~/Home/Register</BrowseToURL>
     </Content>
-    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Account\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

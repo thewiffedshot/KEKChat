@@ -2,6 +2,7 @@ namespace KEKChat.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
@@ -17,18 +18,19 @@ namespace KEKChat.Models
 
     public class UsersDB : DbContext
     {
-        DbSet<LoginModel> Users { get; set; }
+        public DbSet<LoginModel> Users { get; set; }
 
         public UsersDB()
             :base("name=UsersDB")
         {
-
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<UsersDB>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LoginModel>().Property(u => u.Username).HasColumnName("username");
-            modelBuilder.Entity<LoginModel>().Property(u => u.Password).HasColumnName("password");
+            modelBuilder.HasDefaultSchema("public");
+            modelBuilder.Entity<LoginModel>().ToTable("users");
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
