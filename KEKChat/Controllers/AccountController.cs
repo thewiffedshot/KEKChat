@@ -14,38 +14,40 @@ namespace KEKChat.Controllers
         // GET: Account
         public ActionResult Login()
         {
+            if ((string)TempData["loginfailDisplay"] != "inline")
+                TempData["loginfailDisplay"] = "none";
+
             return View();
         }
 
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {     
-            if (ModelState.IsValid)
+            using (UsersDB db = new UsersDB())
             {
-                using (UsersDB db = new UsersDB())
+                var user = db.Users
+                                .SqlQuery("SELECT * FROM users WHERE \"Username\"='" + model.Username + "'")
+                                .SingleOrDefault();
+
+                if (user != null && PasswordHash.ValidatePassword(model.Password, user.Password))
                 {
-                    var user = db.Users
-                                 .SqlQuery("SELECT * FROM users WHERE \"Username\"='" + model.Username + "'")
-                                 .SingleOrDefault();
-
-                    if (user != null && user.Password == model.Password)
-                    {
-                        return View("Dashboard");
-                    }
-                    else
-                    {
-                        TempData["msg"] = "<script>alert(\"Wrong username and/or password.\");</script>";
-                    }
+                    return View("Dashboard");
                 }
-            }
-
-            return View(model);
+                else
+                {
+                    TempData["loginfailDisplay"] = "inline";
+                    return View();
+                }
+            } 
         }
 
         public ActionResult Register()
         {
             if ((string)TempData["confirmationDisplay"] != "inline")
                 TempData["confirmationDisplay"] = "none";
+
+            if ((string)TempData["usertakenDisplay"] != "inline")
+                TempData["usertakenDisplay"] = "none";
 
             return View();
         }
@@ -63,7 +65,7 @@ namespace KEKChat.Controllers
 
                     if (user == null)
                     {
-                        db.Users.Add(model);
+                        db.Users.Add(new User(model.Username, PasswordHash.CreateHash(model.Password)));
                         db.SaveChanges();
                         db.Dispose();
 
@@ -73,7 +75,8 @@ namespace KEKChat.Controllers
                     }
                     else
                     {
-                        TempData["msg"] = "<script>alert(\"User already registered.\");</script>";
+                        TempData["usertakenDisplay"] = "inline";
+                        return View();
                     }
                 }    
             }

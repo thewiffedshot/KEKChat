@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 
 <html>
-    @Html.Raw(TempData["msg"]);
 <head>
     <title>KEKChat Login</title>
     <meta charset="UTF-8">
@@ -23,11 +22,16 @@
                 <br>
                 <p class="center-text"><b>Username:</b></p>
                 @Html.EditorFor(model => model.Username,
-                    new { htmlAttributes = new { @class = "login-input", placeholder = "Username" } })
+                 new { htmlAttributes = new { @class = "login-input", placeholder = "Username" } })
                 <br><br>
                 <p class="center-text"><b>Password:</b></p>
                 @Html.EditorFor(model => model.Password,
-                    new { htmlAttributes = new { @class = "login-input", placeholder = "Password" } })
+                 new { htmlAttributes = new { @class = "login-input", placeholder = "Password" } })
+                <ul>
+                    <li style="color:red; display: @Html.Raw(TempData["loginfailDisplay"]).ToString();">
+                        Invalid username and/or password.
+                    </li>
+                </ul>
                 <button type="submit" runat="server" class="login-button">Login</button>
                 <p class="center-text"><b>Not registered?</b> @Html.ActionLink("Register.", "Register")</p>
              }

@@ -19,20 +19,39 @@ namespace KEKChat.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class User
+    {
+        [Key]
+        public string Username { get; set; }
+
+        public string Password { get; set; }
+
+        public User(string name, string pass)
+        {
+            Username = name;
+            Password = pass;
+        }
+
+        public User()
+        {
+
+        }
+    }
+
     public class UsersDB : DbContext
     {
-        public DbSet<LoginModel> Users { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public UsersDB()
             :base("name=UsersDB")
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<UsersDB>());
+            Database.SetInitializer(new CreateDatabaseIfNotExists<UsersDB>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("public");
-            modelBuilder.Entity<LoginModel>().ToTable("users");
+            modelBuilder.Entity<User>().ToTable("users");
             base.OnModelCreating(modelBuilder);
         }
     }
