@@ -29,8 +29,9 @@ namespace KEKChat.Controllers
                                 .SqlQuery("SELECT * FROM users WHERE \"Username\"='" + model.Username + "'")
                                 .SingleOrDefault();
 
-                if (user != null && PasswordHash.ValidatePassword(model.Password, user.Password))
+                if (user != null && PasswordHash.ValidatePassword(model.Password, user.PasswordHash, user.HashSalt, user.HashIterations))
                 {
+                    TempData["loginfailDisplay"] = "none";
                     return View("Dashboard");
                 }
                 else
@@ -65,11 +66,14 @@ namespace KEKChat.Controllers
 
                     if (user == null)
                     {
-                        db.Users.Add(new User(model.Username, PasswordHash.CreateHash(model.Password)));
+                        string[] hashes = PasswordHash.CreateHash(model.Password);
+
+                        db.Users.Add(new User(model.Username, hashes[0], hashes[1], hashes[2]));
                         db.SaveChanges();
                         db.Dispose();
 
                         TempData["confirmationDisplay"] = "none";
+                        TempData["loginfailDisplay"] = "none";
 
                         return View("Login");
                     }
@@ -95,29 +99,24 @@ namespace KEKChat.Controllers
         public const int HASH_BYTE_SIZE = 24;
         public const int PBKDF2_ITERATIONS = 1000;
 
-        public const int ITERATION_INDEX = 0;
-        public const int SALT_INDEX = 1;
-        public const int PBKDF2_INDEX = 2;
-
-        public static string CreateHash(string password)
+        public static string[] CreateHash(string password)
         {
             RNGCryptoServiceProvider csprng = new RNGCryptoServiceProvider();
             byte[] salt = new byte[SALT_BYTE_SIZE];
             csprng.GetBytes(salt);
 
             byte[] hash = PBKDF2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
-            return PBKDF2_ITERATIONS + ":" +
-                Convert.ToBase64String(salt) + ":" +
-                Convert.ToBase64String(hash);
+
+            return new string[] { Convert.ToBase64String(hash),
+                                  Convert.ToBase64String(salt),
+                                  PBKDF2_ITERATIONS.ToString() };
         }
 
-        public static bool ValidatePassword(string password, string correctHash)
+        public static bool ValidatePassword(string password, string passhash, string _salt, string _iterations)
         {
-            char[] delimiter = { ':' };
-            string[] split = correctHash.Split(delimiter);
-            int iterations = Int32.Parse(split[ITERATION_INDEX]);
-            byte[] salt = Convert.FromBase64String(split[SALT_INDEX]);
-            byte[] hash = Convert.FromBase64String(split[PBKDF2_INDEX]);
+            int iterations = Int32.Parse(_iterations);
+            byte[] salt = Convert.FromBase64String(_salt);
+            byte[] hash = Convert.FromBase64String(passhash);
 
             byte[] testHash = PBKDF2(password, salt, iterations, hash.Length);
             return SlowEquals(hash, testHash);

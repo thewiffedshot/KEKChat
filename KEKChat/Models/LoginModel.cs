@@ -13,6 +13,7 @@ namespace KEKChat.Models
         public string Username { get; set; }
 
         [Required, DataType(DataType.Password)]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
         public string Password { get; set; }
 
         [Compare("Password", ErrorMessage = "Password confirmation invalid. Please confirm password again."), DataType(DataType.Password)]
@@ -24,12 +25,18 @@ namespace KEKChat.Models
         [Key]
         public string Username { get; set; }
 
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
 
-        public User(string name, string pass)
+        public string HashSalt { get; set; }
+
+        public string HashIterations { get; set; }
+
+        public User(string name, string passhash, string salt, string iterations)
         {
             Username = name;
-            Password = pass;
+            PasswordHash = passhash;
+            HashSalt = salt;
+            HashIterations = iterations;
         }
 
         public User()
