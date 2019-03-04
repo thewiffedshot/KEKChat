@@ -14,6 +14,9 @@ namespace KEKChat.Models
 
         [Required, DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [Compare("Password", ErrorMessage = "Password confirmation invalid. Please confirm password again."), DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
     }
 
     public class UsersDB : DbContext

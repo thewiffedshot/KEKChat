@@ -25,19 +25,24 @@
         <h3 class="login-title">Register</h3>
         <div class="login-div">
             @using (Html.BeginForm("Register", "Account", FormMethod.Post))
-             {
+            {
                 <br>
                 <p class="center-text"><b>Username:</b></p>
-                @Html.EditorFor(model => model.Username, 
-                    new { htmlAttributes = new { @class = "login-input", placeholder = "Username" } })
+                @Html.EditorFor(model => model.Username,
+                 new { htmlAttributes = new { @class = "login-input", placeholder = "Username" } })
                 <br><br>
                 <p class="center-text"><b>Password:</b></p>
-                @Html.EditorFor(model => model.Password, 
-                    new { htmlAttributes = new { @class = "login-input", placeholder = "Password" } })
+                @Html.EditorFor(model => model.Password,
+                 new { htmlAttributes = new { @class = "login-input", placeholder = "Password" } })
                 <br><br>
                 <p class="center-text"><b>Repeat Password:</b></p>
-                @Html.EditorFor(model => model.Password, 
-                    new { htmlAttributes = new { @class = "login-input", placeholder = "Password" } })
+                @Html.EditorFor(model => model.ConfirmPassword,
+                 new { htmlAttributes = new { @class = "login-input", placeholder = "Password Confirmation" } })
+                <ul >
+                    <li style="color:red; display: @Html.Raw(TempData["confirmationDisplay"]).ToString();">
+                        Password mismatch. Retype password fields.
+                    </li>
+                </ul>
                 <button type="submit" id="sub_b" class="login-button">Register</button>
                 <p class="center-text"><b>Already registered?</b> @Html.ActionLink("Login.", "Login")</p>
              }
