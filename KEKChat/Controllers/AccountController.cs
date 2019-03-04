@@ -99,10 +99,6 @@ namespace KEKChat.Controllers
         public const int HASH_BYTE_SIZE = 24;
         public const int PBKDF2_ITERATIONS = 1000;
 
-        public const int ITERATION_INDEX = 0;
-        public const int SALT_INDEX = 1;
-        public const int PBKDF2_INDEX = 2;
-
         public static string[] CreateHash(string password)
         {
             RNGCryptoServiceProvider csprng = new RNGCryptoServiceProvider();
