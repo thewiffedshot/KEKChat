@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
@@ -18,13 +19,13 @@
 <body>
     <div class="top-parent">
         <div class="top-section top-left">
-            @Html.ActionLink("Home", "Index")
+            @Html.ActionLink("Home", "Home")
         </div>
         <div class="top-section top-left">
-            @Html.ActionLink("Home", "Chat")
+            @Html.ActionLink("Chat", "Home")
         </div>
         <div class="top-section top-left">
-            @Html.ActionLink("Home", "Store")
+            @Html.ActionLink("Store", "Home")
         </div>
         <div class="top-section top-right">
             <p class="username">@Html.Raw(Session["username"])</p>
