@@ -170,7 +170,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Dashboard.css" />
+    <Content Include="Content\Chat.css" />
     <Content Include="Content\LoginForm.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -209,8 +209,8 @@
     <Content Include="Views\Account\Register.cshtml">
       <BrowseToURL>~/Home/Register</BrowseToURL>
     </Content>
-    <Content Include="Views\Home\Dashboard.cshtml" />
-    <Content Include="Views\Shared\_DashboardLayout.cshtml" />
+    <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Shared\_ChatLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

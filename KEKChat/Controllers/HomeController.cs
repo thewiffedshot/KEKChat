@@ -9,7 +9,7 @@ namespace KEKChat.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Dashboard()
+        public ActionResult Chat()
         {
             return View();
         }
