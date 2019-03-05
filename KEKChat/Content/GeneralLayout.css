@@ -1,0 +1,118 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: 'Comic Sans MS';
+}
+
+.top-parent {
+    width: 100%;
+    min-width: 320px;
+    background-color: #23B14D;
+    height: 85px;
+    display: table;
+    table-layout: fixed;
+}
+
+.top-section {
+    width: 33%;
+    height: 100%;
+    display: table-cell;
+    font-size: 2.3em;
+    color: #B3C3C3;
+    text-align: center;
+    vertical-align: middle;
+}
+
+    .top-left:hover {
+        font-size: 2.5em;
+        background-color: #13A13D;
+    }
+
+.top-section.top-left a {
+    color: #B3C3C3;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    display: -webkit-flex;
+    -webkit-align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+    .top-section.top-left a:hover {
+        color: #B3C3C3;
+        text-decoration: none;
+    }
+
+.top-right {
+    width: 150px;
+    height: 100%;
+    font-size: 1em;
+    display: table-cell;
+    vertical-align: top;
+    text-align: right;
+    padding-right: 7px;
+}
+
+.top-right-container {
+    min-width: 100px;
+}
+
+.username {
+    color: #D7E1A5;
+    font-size: 1.6em;
+    margin: 0;
+}
+
+.sign-out {
+    color: #A93327;
+    font-size: 1.3em;
+    margin: 0;
+}
+
+.keks {
+    color: #FFC90E;
+    font-size: 1.4em;
+    vertical-align: bottom;
+    margin: 0;
+}
+
+.main-parent {
+    width: 100%;
+    min-height: calc(100vh - 85px);
+    display: table;
+    table-layout: fixed;
+}
+
+.main-left {
+    width: 100%;
+    min-height: calc(100vh - 85px);
+    display: table-cell;
+}
+
+.main-right {
+    width: calc(100px + 10vw);
+    max-width: 200px;
+    min-height: calc(100vh - 85px);
+    background-color: #FFC90E;
+    display: table-cell;
+}
+
+@media only screen and (max-width: 374px) {
+    body {
+        font-size: 1em;
+    }
+
+    .top-parent {
+        height: 75px;
+    }
+
+    .top-right, .main-right {
+        width: 100px;
+    }
+
+    .main-parent {
+        min-height: calc(100vh - 75px);
+    }
+}
