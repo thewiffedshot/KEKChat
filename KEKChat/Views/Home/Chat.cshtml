@@ -1,14 +1,20 @@
 ﻿@model KEKChat.Models.MessageText
-
 @{
     ViewBag.Title = "KEKChat";
     Layout = "~/Views/Shared/_ChatLayout.cshtml";
 }
 
 @section ChatSection{
-    <div class="chat">
-        @RenderSection("ChatMessages")
-    </div>
+<div class="chat">
+    @{
+        foreach (KEKChat.Models.Message message in Model.MessageCollection)
+        {
+            <div class='message'>
+                @Html.Raw(message.Username + " " + message.Date + ": " + message.Text)
+            </div>
+        }
+    }
+</div>
     <div class="chatbox">
         @using (Html.BeginForm("SendMessage", "Home", FormMethod.Post, new { @style = "height:100%;" }))
         {
@@ -16,15 +22,4 @@
             <button type="submit" runat="server" class="message-button">Send</button>
         }
     </div>
-}
-
-@section ChatMessages{
-    @{
-        foreach (KEKChat.Models.Message message in Model.MessageCollection)
-        {
-            Html.Raw("<div class='message'>" + message.Text);
-
-            Html.Raw("</div>");
-        }
-    }
 }
