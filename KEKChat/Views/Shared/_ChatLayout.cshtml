@@ -21,15 +21,15 @@
             @Html.ActionLink("Home", "Index")
         </div>
         <div class="top-section top-left">
-            Chat
+            @Html.ActionLink("Home", "Chat")
         </div>
         <div class="top-section top-left">
-            Store
+            @Html.ActionLink("Home", "Store")
         </div>
         <div class="top-section top-right">
             <p class="username">@Html.Raw(Session["username"])</p>
-            <p class="sign-out">Sign out</p>
-            <p class="keks">1337 KEKs</p>
+            @Html.ActionLink("Sign Out", "SignOut", "Account", null, new { @class = "sign-out"})
+            <p class="keks">@Html.Raw(Session["currency"]) KEKs</p>
         </div>
     </div>
     <div class="main-parent">

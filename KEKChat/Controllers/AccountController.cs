@@ -25,6 +25,14 @@ namespace KEKChat.Controllers
             return View();
         }
 
+        public ActionResult SignOut()
+        {
+            Session["username"] = null;
+            Session["currency"] = null;
+
+            return View("Login");
+        }
+
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
@@ -39,6 +47,7 @@ namespace KEKChat.Controllers
                 {
                     TempData["loginfailDisplay"] = "none";
                     Session["username"] = user.Username;
+                    Session["currency"] = user.Currency;
                     return RedirectToAction("Chat", "Home");
                 }
                 else
