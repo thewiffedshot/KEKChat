@@ -16,7 +16,7 @@
     height: 100px;
 }
 
-textarea#Text.chat-input.text-box.multi-line {
+textarea#textArea.chat-input.text-box.multi-line {
     width: calc(100% - 60px);
     height: 100%;
     max-width: none;

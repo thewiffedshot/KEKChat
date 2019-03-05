@@ -21,21 +21,25 @@
         element.scrollTop = element.scrollHeight;   
     </script>
 
+
     <div class="chatbox" id="chatBox">
-        @using (Html.BeginForm("SendMessage", "Home", FormMethod.Post, new { @style = "height:100%;" }))
+        @using (Html.BeginForm("SendMessage", "Home", FormMethod.Post, new { @style = "height:100%;", @id = "MainForm" }))
         {
-            @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "chat-input", @autofocus = "", @id = "textArea" } })
+            @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "chat-input", @autofocus = "", id = "textArea" } })
             <button type="submit" runat="server" class="message-button" id="sendButton">Send</button>
         }
     </div>
 
     <script>
-        $('#chatBox').keypress(function (e) {
-            if (e.keyCode == 13 && !e.shiftKey) {
-                var element = getElementById("sendButton");
-                element.click();
+        document.getElementById('textArea').addEventListener('keydown', function (event) {
+            if (event.which === 13 && event.shiftKey) {
+                return false;              
+            }
+            else if (event.which === 13) {
+                event.preventDefault();
+                document.getElementById('sendButton').click();
+                return true;
             }
         });
     </script>
-
 }
