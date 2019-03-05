@@ -1,4 +1,9 @@
-﻿.form-parent-div {
+﻿.body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.form-parent-div {
     padding: 10%;
 }
 

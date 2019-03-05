@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Registration Form for KEKChat.">
+    <meta name="keywords" content="memes,meme,chat,social,economy,fun,login,register">
+    <meta name="authors" content="Angel Neev, Simeon Laplev">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Dashboard.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="top-parent">
+        <div class="top-section">
+            Home
+        </div>
+        <div class="top-section">
+            Chat
+        </div>
+        <div class="top-section">
+            Store
+        </div>
+        <div class="top-section top-right">
+            <p class="username">@Html.Raw(Session["username"])</p>
+            <p class="sign-out">Sign out</p>
+            <p class="keks">1337 KEKs</p>
+        </div>
+    </div>
+    <div class="main-parent">
+        <div class="main-left">
+            <div class="chat">
+            </div>
+            <div class="chatbox">
+            </div>
+        </div>
+        <div class="main-right">
+        </div>
+    </div>
+
+    @{ RenderBody(); }
+</body>
+</html>

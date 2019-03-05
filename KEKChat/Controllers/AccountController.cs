@@ -14,6 +14,11 @@ namespace KEKChat.Controllers
         // GET: Account
         public ActionResult Login()
         {
+            if(Session["username"] != null)
+            {
+                return RedirectToAction("Dashboard","Home");
+            }
+
             if ((string)TempData["loginfailDisplay"] != "inline")
                 TempData["loginfailDisplay"] = "none";
 
@@ -22,7 +27,8 @@ namespace KEKChat.Controllers
 
         [HttpPost]
         public ActionResult Login(LoginModel model)
-        {     
+        {
+
             using (UsersDB db = new UsersDB())
             {
                 var user = db.Users
@@ -32,7 +38,8 @@ namespace KEKChat.Controllers
                 if (user != null && PasswordHash.ValidatePassword(model.Password, user.PasswordHash, user.HashSalt, user.HashIterations))
                 {
                     TempData["loginfailDisplay"] = "none";
-                    return View("Dashboard");
+                    Session["username"] = user.Username;
+                    return RedirectToAction("Dashboard", "Home");
                 }
                 else
                 {
