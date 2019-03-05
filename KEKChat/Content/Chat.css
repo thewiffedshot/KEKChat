@@ -31,6 +31,10 @@ textarea#Text.chat-input.text-box.multi-line {
     vertical-align: middle;
 }
 
+.message {
+    margin-left: 1vw
+}
+
 @media only screen and (max-width: 374px) {
     .chat {
         height: calc(100vh - 150px);

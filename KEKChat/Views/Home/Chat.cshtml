@@ -1,30 +1,41 @@
 ﻿@model KEKChat.Models.MessageText
-
 @{
     ViewBag.Title = "KEKChat";
     Layout = "~/Views/Shared/_ChatLayout.cshtml";
 }
 
 @section ChatSection{
-    <div class="chat">
-        @RenderSection("ChatMessages")
+    <div class="chat" id="chatView">
+        @{
+            foreach (KEKChat.Models.Message message in Model.MessageCollection)
+            {
+                <div class='message'>
+                    @Html.Raw(message.Username + " " + message.Date + ": " + message.Text)
+                </div>
+            }
+        }
     </div>
-    <div class="chatbox">
+
+    <script>
+        var element = document.getElementById("chatView");
+        element.scrollTop = element.scrollHeight;   
+    </script>
+
+    <div class="chatbox" id="chatBox">
         @using (Html.BeginForm("SendMessage", "Home", FormMethod.Post, new { @style = "height:100%;" }))
         {
-            @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "chat-input" } })
-            <button type="submit" runat="server" class="message-button">Send</button>
+            @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "chat-input", @autofocus = "", @id = "textArea" } })
+            <button type="submit" runat="server" class="message-button" id="sendButton">Send</button>
         }
     </div>
-}
 
-@section ChatMessages{
-    @{
-        foreach (KEKChat.Models.Message message in Model.MessageCollection)
-        {
-            Html.Raw("<div class='message'>" + message.Text);
+    <script>
+        $('#chatBox').keypress(function (e) {
+            if (e.keyCode == 13 && !e.shiftKey) {
+                var element = getElementById("sendButton");
+                element.click();
+            }
+        });
+    </script>
 
-            Html.Raw("</div>");
-        }
-    }
 }

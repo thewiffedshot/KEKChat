@@ -9,8 +9,6 @@ namespace KEKChat.Controllers
 {
     public class HomeController : Controller
     {
-
-        [HttpPost]
         public ActionResult Chat()
         {
             MessageText messages;
@@ -21,16 +19,8 @@ namespace KEKChat.Controllers
                                              .ToList());
             }
 
-            return RedirectToAction("Chat", messages);
+            return View("Chat", messages);
         }
-
-        public ActionResult Chat(MessageText msgs)
-        {
-
-            return View("Chat");
-        }
-
-
 
         public ActionResult SendMessage()
         {
