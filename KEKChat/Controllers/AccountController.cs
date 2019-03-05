@@ -16,7 +16,7 @@ namespace KEKChat.Controllers
         {
             if(Session["username"] != null)
             {
-                return RedirectToAction("Dashboard","Home");
+                return RedirectToAction("Chat","Home");
             }
 
             if ((string)TempData["loginfailDisplay"] != "inline")
@@ -39,7 +39,7 @@ namespace KEKChat.Controllers
                 {
                     TempData["loginfailDisplay"] = "none";
                     Session["username"] = user.Username;
-                    return RedirectToAction("Dashboard", "Home");
+                    return RedirectToAction("Chat", "Home");
                 }
                 else
                 {

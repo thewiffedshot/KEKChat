@@ -31,6 +31,8 @@ namespace KEKChat.Models
 
         public string HashIterations { get; set; }
 
+        public decimal Currency { get; set; } = 50;
+
         public User(string name, string passhash, string salt, string iterations)
         {
             Username = name;
@@ -45,9 +47,24 @@ namespace KEKChat.Models
         }
     }
 
+    public class Message
+    {
+        [Key]
+        public int ID { get; set; }
+
+        public string Text { get; set; }
+
+        public DateTime Date { get; set; } = DateTime.Now;
+
+        public User User { get; set; }
+        [ForeignKey("User")]
+        public string Username { get; set; }
+    }
+
     public class UsersDB : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         public UsersDB()
             :base("name=UsersDB")
@@ -59,6 +76,7 @@ namespace KEKChat.Models
         {
             modelBuilder.HasDefaultSchema("public");
             modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<Message>().ToTable("messages");
             base.OnModelCreating(modelBuilder);
         }
     }
