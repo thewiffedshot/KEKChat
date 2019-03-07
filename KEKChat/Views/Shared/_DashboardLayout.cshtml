@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 
 <html>
-
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
@@ -29,7 +28,7 @@
         </div>
         <div class="top-section top-right">
             <p class="username">@User.Identity.Name</p>
-            @Html.ActionLink("Sign Out", "SignOut", "Account", null, new { @class = "sign-out"})
+            @Html.ActionLink("Sign out", "SignOut", "Account", null, new { @class = "sign-out"})
             <p class="keks">@Html.Raw(Session["currency"]) KEKs</p>
         </div>
     </div>

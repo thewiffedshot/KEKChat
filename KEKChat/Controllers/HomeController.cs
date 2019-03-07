@@ -1,4 +1,5 @@
-﻿using KEKChat.Models;
+﻿using KEKChat.Contexts;
+using KEKChat.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,11 @@ namespace KEKChat.Controllers
     {
         public ActionResult Chat()
         {
-            MessageText messages;
+            MessageTextModel messages;
             using (UsersDB db = new UsersDB())
             {
-                messages = new MessageText(db.Messages
-                                             .ToList());
+                messages = new MessageTextModel(db.Messages
+                                                  .ToList());
             }
 
             return View("Chat", messages);
@@ -28,7 +29,7 @@ namespace KEKChat.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendMessage(MessageText msg)
+        public ActionResult SendMessage(MessageTextModel msg)
         {
             if (ModelState.IsValid)
             {
