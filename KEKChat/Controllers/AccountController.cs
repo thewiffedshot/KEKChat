@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using KEKChat.Models;
 using System.Data.Sql;
 using System.Security.Cryptography;
@@ -27,6 +28,7 @@ namespace KEKChat.Controllers
 
         public ActionResult SignOut()
         {
+            FormsAuthentication.SignOut();
             Session["username"] = null;
             Session["currency"] = null;
 
@@ -40,11 +42,13 @@ namespace KEKChat.Controllers
             using (UsersDB db = new UsersDB())
             {
                 var user = db.Users
-                                .SqlQuery("SELECT * FROM users WHERE \"Username\"='" + model.Username + "'")
+                                .Where(u => u.Username == model.Username)
                                 .SingleOrDefault();
 
                 if (user != null && PasswordHash.ValidatePassword(model.Password, user.PasswordHash, user.HashSalt, user.HashIterations))
                 {
+                    FormsAuthentication.SetAuthCookie(user.Username, false);
+
                     TempData["loginfailDisplay"] = "none";
                     Session["username"] = user.Username;
                     Session["currency"] = user.Currency;
@@ -52,7 +56,7 @@ namespace KEKChat.Controllers
                 }
                 else
                 {
-                    TempData["loginfailDisplay"] = "inline";
+                    ModelState.AddModelError("LoginError", "Invalid username and/or password.");
                     return View();
                 }
             } 
@@ -70,14 +74,14 @@ namespace KEKChat.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(LoginModel model)
+        public ActionResult Register(RegistrationModel model)
         {
             if (ModelState.IsValid)
             {
                 using (UsersDB db = new UsersDB())
                 {
                     var user = db.Users
-                                 .SqlQuery("SELECT * FROM users WHERE \"Username\"='" + model.Username + "'")
+                                 .Where(n => n.Username == model.Username) 
                                  .SingleOrDefault();
 
                     if (user == null)
@@ -88,21 +92,14 @@ namespace KEKChat.Controllers
                         db.SaveChanges();
                         db.Dispose();
 
-                        TempData["confirmationDisplay"] = "none";
-                        TempData["loginfailDisplay"] = "none";
-
                         return View("Login");
                     }
                     else
                     {
-                        TempData["usertakenDisplay"] = "inline";
+                        ModelState.AddModelError("", "User already taken.");
                         return View();
                     }
                 }    
-            }
-            else
-            {
-                TempData["confirmationDisplay"] = "inline";
             }
 
             return View();

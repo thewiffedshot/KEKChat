@@ -28,11 +28,8 @@
                 <p class="center-text"><b>Password:</b></p>
                 @Html.EditorFor(model => model.Password,
                  new { htmlAttributes = new { @class = "login-input", placeholder = "Password" } })
-                <ul>
-                    <li style="color:red; display: @Html.Raw(TempData["loginfailDisplay"]).ToString();">
-                        Invalid username and/or password.
-                    </li>
-                </ul>
+                <br><br>
+                @Html.ValidationMessage("LoginError", new { @class = "text-error" })
                 <button type="submit" runat="server" class="login-button">Login</button>
                 <p class="center-text"><b>Not registered?</b> @Html.ActionLink("Register.", "Register")</p>
              }

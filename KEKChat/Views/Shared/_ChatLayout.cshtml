@@ -28,7 +28,7 @@
             @Html.ActionLink("Store", "Home")
         </div>
         <div class="top-section top-right">
-            <p class="username">@Html.Raw(Session["username"])</p>
+            <p class="username">@User.Identity.Name</p>
             @Html.ActionLink("Sign Out", "SignOut", "Account", null, new { @class = "sign-out"})
             <p class="keks">@Html.Raw(Session["currency"]) KEKs</p>
         </div>

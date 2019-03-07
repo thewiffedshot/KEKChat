@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace KEKChat.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Chat()
@@ -15,7 +16,6 @@ namespace KEKChat.Controllers
             using (UsersDB db = new UsersDB())
             {
                 messages = new MessageText(db.Messages
-                                             .SqlQuery("SELECT * FROM messages LIMIT 50")
                                              .ToList());
             }
 
@@ -35,14 +35,13 @@ namespace KEKChat.Controllers
                 using (UsersDB db = new UsersDB())
                 {
                     var user = db.Users
-                                 .SqlQuery("SELECT * FROM users WHERE \"Username\"='" + Session["username"] + "'")
+                                 .Where(u => u.Username == User.Identity.Name)
                                  .SingleOrDefault();
                     db.Messages.Add(new Message(msg.Text, user));
                     db.SaveChanges();
                 }
             }
             
-
             return RedirectToAction("Chat");
         }
     }

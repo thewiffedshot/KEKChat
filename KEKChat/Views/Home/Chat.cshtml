@@ -5,16 +5,19 @@
 }
 
 @section ChatSection{
-    <div class="chat" id="chatView">
-        @{
-            foreach (KEKChat.Models.Message message in Model.MessageCollection)
-            {
-                <div class='message'>
-                    @Html.Raw(message.Username + " " + message.Date + ": " + message.Text)
-                </div>
-            }
+<div class="chat" id="chatView">
+    @{
+        foreach (KEKChat.Models.Message message in Model.MessageCollection)
+        {
+            <div class='message'>
+                @Html.Raw(message.Username + " " + message.Date)
+            </div>
+            <div class='message'>
+                @Html.Raw(message.Text)
+            </div>
         }
-    </div>
+    }
+</div>
 
     <script>
         var element = document.getElementById("chatView");

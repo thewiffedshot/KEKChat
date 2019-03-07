@@ -8,17 +8,28 @@ namespace KEKChat.Models
     using System.Data.Entity.Infrastructure;
     using System.Linq;
 
-    public class LoginModel
+    public class RegistrationModel
     {
-        [Required, Key]
+        [Required]
+        [Range(5, 50, ErrorMessage = "Username must be between 5 and 50 characters long.")]
         public string Username { get; set; }
 
         [Required, DataType(DataType.Password)]
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
         public string Password { get; set; }
 
-        [Compare("Password", ErrorMessage = "Password confirmation invalid. Please confirm password again."), DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Password confirmation invalid. Please input password again."), DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class LoginModel
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required, DataType(DataType.Password)]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
+        public string Password { get; set; }
     }
 
     public class User
