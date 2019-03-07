@@ -9,12 +9,17 @@
     @{
         foreach (KEKChat.Models.Message message in Model.MessageCollection)
         {
+            string[] messageBlock = message.Text.Split(new char[] { '\n' });
+
             <div class='message'>
-                @Html.Raw(message.Username + " " + message.Date)
+            <b>@Html.Raw(message.Username + " " + (message.Date.DayOfYear == DateTime.Now.Date.DayOfYear ? message.Date.ToString("HH:mm") : message.Date.ToString("dd/MM/yyyy HH:mm")))</b>
             </div>
-            <div class='message'>
-                @Html.Raw(message.Text)
-            </div>
+            foreach (string line in messageBlock)
+            {
+                <div class='message'>
+                    @Html.Raw(line)
+                </div>
+            }
         }
     }
 </div>
