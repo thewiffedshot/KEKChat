@@ -18,13 +18,17 @@ namespace KEKChat.Models
         public DateTime Date { get; set; } = DateTime.Now;
 
         public User User { get; set; }
+
         [ForeignKey("User")]
+        public int UserID { get; set; }
+
         public string Username { get; set; }
 
         public Message(string message, User user)
         {
             Text = message;
             User = user;
+            UserID = user.ID;
             Username = user.Username;
         }
 

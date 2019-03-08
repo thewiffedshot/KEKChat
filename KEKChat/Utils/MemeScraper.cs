@@ -27,10 +27,10 @@ namespace KEKChat.Utils
             Subreddit = reddit.GetSubreddit(sub);
         }
 
-        public async Task<List<MemeModel>> DownloadImagesAsync()
+        public async Task<List<MemeInventory>> DownloadImagesAsync()
         {
-            List<Task<MemeModel>> tasks = new List<Task<MemeModel>>((int)Amount);
-            List<MemeModel> memes = new List<MemeModel>();
+            List<Task<MemeInventory>> tasks = new List<Task<MemeInventory>>((int)Amount);
+            List<MemeInventory> memes = new List<MemeInventory>();
 
             foreach (var post in Subreddit.Hot.Take((int)Amount))
             {
@@ -45,10 +45,10 @@ namespace KEKChat.Utils
             return memes;
         }
 
-        private async Task<MemeModel> DownloadImageAsync(Post post)
+        private async Task<MemeInventory> DownloadImageAsync(Post post)
         {
             string postURL = Convert.ToString(post.Url);
-            if (post.IsStickied || post.IsSelfPost || postURL.Contains("reddituploads") || postURL.Contains("gfycat") || postURL.Contains(".gifv") || postURL.Contains(".mp4")) continue;
+            if (post.IsStickied || post.IsSelfPost || postURL.Contains("reddituploads") || postURL.Contains("gfycat") || postURL.Contains(".gifv") || postURL.Contains(".mp4")) return null;
 
             string[] splitURL;
 
@@ -63,7 +63,7 @@ namespace KEKChat.Utils
 
                 await client.DownloadFileTaskAsync(post.Url, SavePath + fileName);
 
-                return new MemeModel();
+                return new MemeInventory();
             }
 
             return null;

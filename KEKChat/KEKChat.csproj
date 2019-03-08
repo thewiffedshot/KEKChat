@@ -170,7 +170,7 @@
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Meme.cs" />
-    <Compile Include="Models\MemeModel.cs" />
+    <Compile Include="Models\MemeInventory.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\MessageTextModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
