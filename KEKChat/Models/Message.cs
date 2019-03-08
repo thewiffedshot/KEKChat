@@ -7,6 +7,7 @@ using System.Web;
 
 namespace KEKChat.Models
 {
+    [Table("messages")]
     public class Message
     {
         [Key]

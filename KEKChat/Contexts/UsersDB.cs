@@ -21,8 +21,6 @@ namespace KEKChat.Contexts
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("public");
-            modelBuilder.Entity<User>().ToTable("users");
-            modelBuilder.Entity<Message>().ToTable("messages");
             base.OnModelCreating(modelBuilder);
         }
     }
