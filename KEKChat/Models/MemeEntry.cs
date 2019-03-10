@@ -9,22 +9,24 @@ using KEKChat.Models;
 namespace KEKChat.Models
 {
     [Table("memes")]
-    public class MemeInventory
+    public class MemeEntry
     {
         [Key]
         public int ID { get; set; }
         public string ImagePath { get; set; }
         public int Price { get; set; }
         public int VendorAmount { get; set; }
+        public string Subreddit { get; set; }
 
-        public MemeInventory(string path, int price, int vendorAmount)
+        public MemeEntry(string path, int price, int vendorAmount, string sub)
         {
             ImagePath = path;
             Price = price;
             VendorAmount = vendorAmount;
+            Subreddit = sub;
         }
 
-        public MemeInventory()
+        public MemeEntry()
         {
 
         }

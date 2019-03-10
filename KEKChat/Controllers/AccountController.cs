@@ -22,8 +22,6 @@ namespace KEKChat.Controllers
                 return RedirectToAction("Chat","Home");
             }
 
-            //MemeScraper memeScraper = new MemeScraper(Server.MapPath("~") + "Memes\\");
-
             return View();
         }
 

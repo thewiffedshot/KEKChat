@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KEKChat.Utils;
+using System.Threading.Tasks;
 
 namespace KEKChat.Controllers
 {
@@ -26,6 +28,29 @@ namespace KEKChat.Controllers
         public ActionResult SendMessage()
         {
             return View("Chat");
+        }
+
+        public async Task<ActionResult> Home()
+        {
+            ViewBag.SyncOrAsync = "Asynchronous";
+
+            string savepath = Server.MapPath("~") + "Memes\\";
+
+            MemeScraper scraper = new MemeScraper(savepath, new string[] { "me_irl", "deepfriedmemes", "memes" }, 10);
+
+            await scraper.GetMemesFromSubsAsync();
+
+            return RedirectToAction("Chat");
+        }
+
+        public ActionResult Store(MemeModel meme)
+        {
+            return View();
+        }
+
+        public ActionResult Store()
+        {
+            return View();
         }
 
         [HttpPost]

@@ -21,10 +21,10 @@
             @Html.ActionLink("Home", "Home")
         </div>
         <div class="top-section top-left">
-            @Html.ActionLink("Chat", "Home")
+            @Html.ActionLink("Chat", "Chat")
         </div>
         <div class="top-section top-left">
-            @Html.ActionLink("Store", "Home")
+            @Html.ActionLink("Store", "StoreLoadAsync")
         </div>
         <div class="top-section top-right">
             <p class="username">@User.Identity.Name</p>
@@ -34,7 +34,7 @@
     </div>
     <div class="main-parent">
         <div class="main-left">
-            @RenderSection("ChatSection")
+            @RenderSection("MainSection")
         </div>
         <div class="main-right">
         </div>
