@@ -7,12 +7,14 @@
 @section MainSection{
     <div class="store-page-catalog" id="chatView">
         @{
-            foreach (var meme in Model.Memes)
+            <div class="row">
+            @foreach (var meme in Model.Memes)
             {
-                <div>
+                <div class="col-sm-1 col-lg-10 thumbnail">
                     <img src="~/@meme.ImagePath.Replace('\\', '/')"/>
                 </div>
             }
+            </div>
         }
     </div>
 }

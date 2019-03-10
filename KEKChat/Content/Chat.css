@@ -41,6 +41,11 @@ textarea#textArea.chat-input.text-box.multi-line {
     margin-left: 1vw
 }
 
+.thumbnail {
+    height: 250px;
+    width: 100%;
+}
+
 @media only screen and (max-width: 374px) {
     .chat {
         height: calc(100vh - 150px);
