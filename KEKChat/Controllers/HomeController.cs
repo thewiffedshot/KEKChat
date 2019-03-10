@@ -48,9 +48,18 @@ namespace KEKChat.Controllers
             return View();
         }
 
-        public ActionResult Store()
+        public ActionResult StoreInit()
         {
-            return View();
+            List<MemeEntry> memes = new List<MemeEntry>(0);
+
+            using (UsersDB db = new UsersDB())
+            {
+                memes = db.MemeStash
+                          .Where(meme => meme.VendorAmount > 0)
+                          .ToList();
+            }
+
+            return View("Store", new MemeModel(memes));
         }
 
         [HttpPost]

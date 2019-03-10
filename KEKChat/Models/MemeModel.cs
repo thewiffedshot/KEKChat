@@ -11,7 +11,12 @@ namespace KEKChat.Models
 
         public MemeModel(List<MemeEntry> collection)
         {
-            Memes = collection.Where(meme => meme != null).ToList();
+            Memes = collection;
+        }
+
+        public MemeModel()
+        {
+
         }
     }
 }
