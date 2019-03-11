@@ -5,17 +5,26 @@
 }
 
 @section MainSection{
-    <div class="store-page-catalog" id="chatView">
-        @{
-            <div class="row">
+    <div class="store-page-catalog align-content-center pt-3" id="chatView">
             @foreach (var meme in Model.Memes)
             {
-                <div class="col-sm-10 thumbnail">
-                    <img src="~/@meme.ImagePath.Replace('\\', '/')"/>
+                <div class="card mb-lg-5 mb-3 p-lg-3 w-85 align-self-center bg-darker p-1">
+                    <img src="~/@meme.ImagePath.Replace('\\', '/')" class="card-img img-fluid" />
+                    <div class="row">
+                        <div class="col-4">
+                            Stock:<br/>
+                            @meme.VendorAmount
+                        </div>
+                        <div class="col-4">
+                            Price:<br />
+                            @meme.Price KEKs
+                        </div>
+                        <div class="col-4">
+                            asd
+                        </div>
+                    </div>
                 </div>
             }
-            </div>
-        }
     </div>
 }
 

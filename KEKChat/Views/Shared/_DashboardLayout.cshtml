@@ -11,29 +11,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link href="~/Content/GeneralLayout.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/Chat.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/GeneralLayout.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Chat.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/png" href="~/pepe.png" />
 </head>
 <body>
    
-    <ul class="nav navbar nav-tabs nav-justified" style="height: 60px">
+    <ul class="nav navbar nav-pills nav-justified bg-success p-1">
         <li class="nav-item">
-            @Html.ActionLink("Home", "Home", null, new { @class = "nav-link" })
+            @Html.ActionLink("Home", "Home", null, new { @class = "nav-link text-light" })
         </li>
         <li class="nav-item">
-            @Html.ActionLink("Chat", "Chat", null, new { @class = "nav-link" })
+            @Html.ActionLink("Chat", "Chat", null, new { @class = "nav-link  text-light" })
         </li>
         <li class="nav-item active">
-            @Html.ActionLink("Store", "StoreInit", null, new { @class = "nav-link" })
+            @Html.ActionLink("Store", "StoreInit", null, new { @class = "nav-link  text-light" })
         </li>
         <li class="navbar-text nav-item">
             <ul class="navbar-nav flex-row ml-md-auto d-md-flex">
-                <li class="username nav-item">@User.Identity.Name</li>
-                <li class="sign-out nav-item">@Html.ActionLink("Sign out", "SignOut", "Account")</li>
-                <li class="keks nav-item">@Html.Raw(Session["currency"]) KEKs</li>
+                <li class="username nav-item m-1">@User.Identity.Name</li>
+                <li class="nav-item m-1">@Html.ActionLink("Sign out", "SignOut", "Account", new { @class = "signout" })</li>
+                <li class="keks nav-item  m-1">@Html.Raw(Session["currency"]) KEKs</li>
             </ul>
         </li>
     </ul>
