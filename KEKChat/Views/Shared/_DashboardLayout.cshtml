@@ -18,22 +18,25 @@
     <link rel="icon" type="image/png" href="~/pepe.png" />
 </head>
 <body>
-    <div class="top-parent">
-        <div class="top-section top-left">
-            @Html.ActionLink("Home", "Home")
-        </div>
-        <div class="top-section top-left">
-            @Html.ActionLink("Chat", "Chat")
-        </div>
-        <div class="top-section top-left">
-            @Html.ActionLink("Store", "StoreInit")
-        </div>
-        <div class="top-section top-right">
-            <p class="username">@User.Identity.Name</p>
-            @Html.ActionLink("Sign out", "SignOut", "Account", null, new { @class = "sign-out"})
-            <p class="keks">@Html.Raw(Session["currency"]) KEKs</p>
-        </div>
-    </div>
+   
+    <ul class="nav navbar nav-tabs nav-justified" style="height: 60px">
+        <li class="nav-item">
+            @Html.ActionLink("Home", "Home", null, new { @class = "nav-link" })
+        </li>
+        <li class="nav-item">
+            @Html.ActionLink("Chat", "Chat", null, new { @class = "nav-link" })
+        </li>
+        <li class="nav-item active">
+            @Html.ActionLink("Store", "StoreInit", null, new { @class = "nav-link" })
+        </li>
+        <li class="navbar-text nav-item">
+            <ul class="navbar-nav flex-row ml-md-auto d-md-flex">
+                <li class="username nav-item">@User.Identity.Name</li>
+                <li class="sign-out nav-item">@Html.ActionLink("Sign out", "SignOut", "Account")</li>
+                <li class="keks nav-item">@Html.Raw(Session["currency"]) KEKs</li>
+            </ul>
+        </li>
+    </ul>
     <div class="main-parent">
         <div class="main-left">
             @RenderSection("MainSection")

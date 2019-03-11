@@ -14,11 +14,11 @@ namespace KEKChat.Models
         [Key]
         public int ID { get; set; }
         public string ImagePath { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         public int VendorAmount { get; set; }
         public string Subreddit { get; set; }
 
-        public MemeEntry(string path, int price, int vendorAmount, string sub)
+        public MemeEntry(string path, decimal price, int vendorAmount, string sub)
         {
             ImagePath = path;
             Price = price;

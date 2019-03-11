@@ -6,8 +6,9 @@
 
 .store-page-catalog {
     width: 100%;
-    height: calc(100vh - 160px);
+    height: 100vh;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .chatbox {

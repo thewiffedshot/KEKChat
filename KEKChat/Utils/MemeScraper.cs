@@ -75,10 +75,11 @@ namespace KEKChat.Utils
 
                 await client.DownloadFileTaskAsync(post.Url, SavePath + fileName);
 
-                int price = (int)(10 * Math.Min(post.Upvotes, 10000) * 1e-2);
-                int batch = 250;
+                decimal basePrice = 10;
+                decimal price = basePrice * Math.Min(post.Upvotes, 10000) * 1e-2m;
+                int batch = 50;
 
-                var meme = new MemeEntry("Memes\\" + fileName, price, batch / price, post.Subreddit.Name);
+                var meme = new MemeEntry("Memes\\" + fileName, price, batch, post.Subreddit.Name);
 
                 using (UsersDB db = new UsersDB())
                 {

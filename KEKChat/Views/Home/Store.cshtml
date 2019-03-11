@@ -10,7 +10,7 @@
             <div class="row">
             @foreach (var meme in Model.Memes)
             {
-                <div class="col-sm-1 col-lg-10 thumbnail">
+                <div class="col-sm-10 thumbnail">
                     <img src="~/@meme.ImagePath.Replace('\\', '/')"/>
                 </div>
             }
