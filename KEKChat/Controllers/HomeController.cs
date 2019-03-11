@@ -15,7 +15,11 @@ namespace KEKChat.Controllers
     {
         public ActionResult Chat()
         {
+            UpdateUserCurrencyLabel();
+
             MessageTextModel messages;
+
+            
             using (UsersDB db = new UsersDB())
             {
                 messages = new MessageTextModel(db.Messages
@@ -50,6 +54,8 @@ namespace KEKChat.Controllers
 
         public ActionResult StoreInit()
         {
+            UpdateUserCurrencyLabel();
+
             List<MemeEntry> memes = new List<MemeEntry>(0);
 
             using (UsersDB db = new UsersDB())
@@ -57,6 +63,7 @@ namespace KEKChat.Controllers
                 memes = db.MemeStash
                           .Where(meme => meme.VendorAmount > 0)
                           .ToList();
+
             }
 
             return View("Store", new MemeModel(memes));
@@ -78,6 +85,25 @@ namespace KEKChat.Controllers
             }
             
             return RedirectToAction("Chat");
+        }
+
+        [HttpPost]
+        public ActionResult BuyMeme(MemeModel meme)
+        {
+            //TODO
+            return StoreInit();
+        }
+
+        public void UpdateUserCurrencyLabel()
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                Session["currency"] = db.Users
+                                        .Where(u => u.Username == User.Identity.Name)
+                                        .SingleOrDefault()
+                                        .Currency;
+                
+            }
         }
     }
 }

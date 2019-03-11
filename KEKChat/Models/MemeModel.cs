@@ -9,6 +9,10 @@ namespace KEKChat.Models
     {
         public List<MemeEntry> Memes { get; set; }
 
+        public int Quantity { get; set; }
+
+        public int MemeID { get; set; }
+
         public MemeModel(List<MemeEntry> collection)
         {
             Memes = collection;

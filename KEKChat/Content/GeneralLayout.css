@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     height: 100vh;
-    font-family: 'Comic Sans MS';
+    font-family: 'Comic Sans MS' !important;
 }
 
 .top-parent {
@@ -63,8 +63,8 @@
     color: #D7E1A5;
 }
 
-.sign-out {
-    color: #A93327;
+.signout {
+    color: #FF8A20;
 }
 
 .keks {
@@ -90,6 +90,19 @@
     min-height: calc(100vh - 85px);
     background-color: #FFC90E;
     display: table-cell;
+}
+
+.bg-darker {
+    background-color: #DDFFDD;
+}
+
+.w-85 {
+    width: 85% !important;
+}
+
+.card {
+    margin: 0 auto;
+    float: none;
 }
 
 @media only screen and (max-width: 374px) {
