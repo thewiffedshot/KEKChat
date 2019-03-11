@@ -1,0 +1,21 @@
+﻿@model KEKChat.Models.MemeModel
+@{
+    ViewBag.Title = "Store";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+@section MainSection{
+    <div class="store-page-catalog" id="chatView">
+        @{
+            <div class="row">
+            @foreach (var meme in Model.Memes)
+            {
+                <div class="col-sm-10 thumbnail">
+                    <img src="~/@meme.ImagePath.Replace('\\', '/')"/>
+                </div>
+            }
+            </div>
+        }
+    </div>
+}
+

@@ -1,22 +1,25 @@
-﻿using KEKChat.Models;
+﻿using KEKChat.Contexts;
+using KEKChat.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KEKChat.Utils;
+using System.Threading.Tasks;
 
 namespace KEKChat.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Chat()
         {
-            MessageText messages;
+            MessageTextModel messages;
             using (UsersDB db = new UsersDB())
             {
-                messages = new MessageText(db.Messages
-                                             .SqlQuery("SELECT * FROM messages LIMIT 50")
-                                             .ToList());
+                messages = new MessageTextModel(db.Messages
+                                                  .ToList());
             }
 
             return View("Chat", messages);
@@ -27,22 +30,53 @@ namespace KEKChat.Controllers
             return View("Chat");
         }
 
+        public async Task<ActionResult> Home()
+        {
+            ViewBag.SyncOrAsync = "Asynchronous";
+
+            string savepath = Server.MapPath("~") + "Memes\\";
+
+            MemeScraper scraper = new MemeScraper(savepath, new string[] { "me_irl", "deepfriedmemes", "memes" }, 10);
+
+            await scraper.GetMemesFromSubsAsync();
+
+            return RedirectToAction("Chat");
+        }
+
+        public ActionResult Store(MemeModel meme)
+        {
+            return View();
+        }
+
+        public ActionResult StoreInit()
+        {
+            List<MemeEntry> memes = new List<MemeEntry>(0);
+
+            using (UsersDB db = new UsersDB())
+            {
+                memes = db.MemeStash
+                          .Where(meme => meme.VendorAmount > 0)
+                          .ToList();
+            }
+
+            return View("Store", new MemeModel(memes));
+        }
+
         [HttpPost]
-        public ActionResult SendMessage(MessageText msg)
+        public ActionResult SendMessage(MessageTextModel msg)
         {
             if (ModelState.IsValid)
             {
                 using (UsersDB db = new UsersDB())
                 {
                     var user = db.Users
-                                 .SqlQuery("SELECT * FROM users WHERE \"Username\"='" + Session["username"] + "'")
+                                 .Where(u => u.Username == User.Identity.Name)
                                  .SingleOrDefault();
                     db.Messages.Add(new Message(msg.Text, user));
                     db.SaveChanges();
                 }
             }
             
-
             return RedirectToAction("Chat");
         }
     }

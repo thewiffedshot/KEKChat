@@ -4,6 +4,13 @@
     overflow-y: scroll;
 }
 
+.store-page-catalog {
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
 .chatbox {
     width: 100%;
     height: 75px;
@@ -16,7 +23,7 @@
     height: 100px;
 }
 
-textarea#Text.chat-input.text-box.multi-line {
+textarea#textArea.chat-input.text-box.multi-line {
     width: calc(100% - 60px);
     height: 100%;
     max-width: none;
@@ -33,6 +40,11 @@ textarea#Text.chat-input.text-box.multi-line {
 
 .message {
     margin-left: 1vw
+}
+
+.thumbnail {
+    height: 250px;
+    width: 100%;
 }
 
 @media only screen and (max-width: 374px) {
