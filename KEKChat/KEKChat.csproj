@@ -192,6 +192,7 @@
     <Content Include="Content\Chat.css" />
     <Content Include="Content\GeneralLayout.css" />
     <Content Include="Content\LoginForm.css" />
+    <Content Include="Content\Store.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

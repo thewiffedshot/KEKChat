@@ -3,8 +3,6 @@
     padding: 0;
     height: 100vh;
     font-family: 'Comic Sans MS' !important;
-    --font-family-sans-serif: 'Comic Sans MS' !important;
-    --font-family-monospace: 'Comic Sans MS' !important;
 }
 
 .top-parent {

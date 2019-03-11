@@ -87,6 +87,13 @@ namespace KEKChat.Controllers
             return RedirectToAction("Chat");
         }
 
+        [HttpPost]
+        public ActionResult BuyMeme(MemeModel meme)
+        {
+            //TODO
+            return StoreInit();
+        }
+
         public void UpdateUserCurrencyLabel()
         {
             using (UsersDB db = new UsersDB())
