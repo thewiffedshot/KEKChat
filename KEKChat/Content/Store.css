@@ -2,3 +2,9 @@
     margin: 0 auto;
     float: none;
 }
+
+.store-page-catalog {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}

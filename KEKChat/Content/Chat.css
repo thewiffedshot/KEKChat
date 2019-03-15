@@ -4,13 +4,6 @@
     overflow-y: scroll;
 }
 
-.store-page-catalog {
-    width: 100%;
-    height: 100vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-
 .chatbox {
     width: 100%;
     height: 75px;

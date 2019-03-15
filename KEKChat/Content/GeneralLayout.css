@@ -73,21 +73,21 @@
 
 .main-parent {
     width: 100%;
-    min-height: calc(100vh - 85px);
+    height: calc(100vh - 85px);
     display: table;
     table-layout: fixed;
 }
 
 .main-left {
     width: 100%;
-    min-height: calc(100vh - 85px);
+    height: 100%;
     display: table-cell;
 }
 
 .main-right {
     width: calc(100px + 10vw);
     max-width: 200px;
-    min-height: calc(100vh - 85px);
+    height: 100%;
     background-color: #FFC90E;
     display: table-cell;
 }

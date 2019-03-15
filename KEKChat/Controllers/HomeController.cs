@@ -94,6 +94,18 @@ namespace KEKChat.Controllers
             return StoreInit();
         }
 
+        public JsonResult GetMessages()
+        {
+            List<Message> messages;
+
+            using (UsersDB db = new UsersDB())
+            {
+                messages = db.Messages.ToList();
+            }
+
+            return Json(messages, JsonRequestBehavior.AllowGet);
+        }
+
         public void UpdateUserCurrencyLabel()
         {
             using (UsersDB db = new UsersDB())

@@ -4,50 +4,52 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-@section MainSection{
-    <div class="chat" id="chatView">
-        @{
-            foreach (KEKChat.Models.Message message in Model.MessageCollection)
-            {
-                string[] messageBlock = message.Text.Split(new char[] { '\n' });
+@section CustomCss{
+    <link href="~/Content/Chat.css" rel="stylesheet" type="text/css" />
 
-                <div class='message'>
-                <b>@Html.Raw(message.Username + " " + (message.Date.DayOfYear == DateTime.Now.Date.DayOfYear ? message.Date.ToString("HH:mm") : message.Date.ToString("dd/MM/yyyy HH:mm")))</b>
-                </div>
-                foreach (string line in messageBlock)
-                {
-                    <div class='message'>
-                        @Html.Raw(line)
-                    </div>
-                }
-            }
-        }
-    </div>
-
-    <script>
-        var element = document.getElementById("chatView");
-        element.scrollTop = element.scrollHeight;   
-    </script>
-
-
-    <div class="chatbox" id="chatBox">
-        @using (Html.BeginForm("SendMessage", "Home", FormMethod.Post, new { @style = "height:100%;", @id = "MainForm" }))
-        {
-            @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "chat-input", @autofocus = "", id = "textArea" } })
-            <button type="submit" runat="server" class="message-button" id="sendButton">Send</button>
-        }
-    </div>
-
-    <script>
-        document.getElementById('textArea').addEventListener('keydown', function (event) {
-            if (event.which === 13 && event.shiftKey) {
-                return false;              
-            }
-            else if (event.which === 13) {
-                event.preventDefault();
-                document.getElementById('sendButton').click();
-                return true;
-            }
-        });
-    </script>
 }
+
+<div class="chat" id="chatView">
+    @{
+        foreach (KEKChat.Models.Message message in Model.MessageCollection)
+        {
+            string[] messageBlock = message.Text.Split(new char[] { '\n' });
+
+            <div class='message'>
+                <b>@Html.Raw(message.Username + " " + (message.Date.DayOfYear == DateTime.Now.Date.DayOfYear ? message.Date.ToString("HH:mm") : message.Date.ToString("dd/MM/yyyy HH:mm")))</b>
+            </div>
+            foreach (string line in messageBlock)
+            {
+                <div class='message'>
+                    @Html.Raw(line)
+                </div>
+            }
+        }
+    }
+</div>
+
+<script>
+    var element = document.getElementById("chatView");
+    element.scrollTop = element.scrollHeight;
+</script>
+
+<div class="chatbox" id="chatBox">
+    @using (Html.BeginForm("SendMessage", "Home", FormMethod.Post, new { @style = "height:100%;", @id = "MainForm" }))
+    {
+        @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "chat-input", @autofocus = "", id = "textArea" } })
+        <button type="submit" runat="server" class="message-button" id="sendButton">Send</button>
+    }
+</div>
+
+<script>
+    document.getElementById('textArea').addEventListener('keydown', function (event) {
+        if (event.which === 13 && event.shiftKey) {
+            return false;
+        }
+        else if (event.which === 13) {
+            event.preventDefault();
+            document.getElementById('sendButton').click();
+            return true;
+        }
+    });
+</script>
