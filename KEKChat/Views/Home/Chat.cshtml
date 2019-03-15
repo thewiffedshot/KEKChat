@@ -6,31 +6,41 @@
 
 @section CustomCss{
     <link href="~/Content/Chat.css" rel="stylesheet" type="text/css" />
-
 }
 
 <div class="chat" id="chatView">
-    @{
-        foreach (KEKChat.Models.Message message in Model.MessageCollection)
-        {
-            string[] messageBlock = message.Text.Split(new char[] { '\n' });
-
-            <div class='message'>
-                <b>@Html.Raw(message.Username + " " + (message.Date.DayOfYear == DateTime.Now.Date.DayOfYear ? message.Date.ToString("HH:mm") : message.Date.ToString("dd/MM/yyyy HH:mm")))</b>
-            </div>
-            foreach (string line in messageBlock)
-            {
-                <div class='message'>
-                    @Html.Raw(line)
-                </div>
-            }
-        }
-    }
+    
 </div>
 
 <script>
-    var element = document.getElementById("chatView");
-    element.scrollTop = element.scrollHeight;
+    var messageCount = 0;
+
+    function loadPartialView() {
+        $.ajax(
+        {
+            url: "@Url.Action("GetMessages", "Home")",
+            type: 'GET',
+            dataType: 'html', 
+            success: function (result)
+                     {
+                        $('#chatView').html(result);
+
+                        if (document.getElementById("chatView").childElementCount > messageCount) {
+                            var element = document.getElementById("chatView");
+                            element.scrollTop = element.scrollHeight;
+                        }
+
+                        messageCount = document.getElementById("chatView").childElementCount;
+            }
+        }
+        );
+    }
+
+    $(function() {
+       loadPartialView();
+
+       window.setInterval("loadPartialView()", 200);
+    });
 </script>
 
 <div class="chatbox" id="chatBox">

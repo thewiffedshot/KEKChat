@@ -17,22 +17,13 @@ namespace KEKChat.Controllers
         {
             UpdateUserCurrencyLabel();
 
-            MessageTextModel messages;
-
-            
-            using (UsersDB db = new UsersDB())
-            {
-                messages = new MessageTextModel(db.Messages
-                                                  .ToList());
-            }
-
-            return View("Chat", messages);
-        }
-
-        public ActionResult SendMessage()
-        {
             return View("Chat");
         }
+
+        /*public ActionResult SendMessage()
+        {
+            return View("Chat");
+        }*/
 
         public async Task<ActionResult> Home()
         {
@@ -87,23 +78,26 @@ namespace KEKChat.Controllers
             return RedirectToAction("Chat");
         }
 
+        public ActionResult GetMessages()
+        {
+            MessageTextModel msg = new MessageTextModel();
+
+            if (ModelState.IsValid)
+            {
+                using (UsersDB db = new UsersDB())
+                {
+                    msg = new MessageTextModel(db.Messages.ToList());
+                }
+            }
+
+            return PartialView("_ChatView", msg);
+        }
+
         [HttpPost]
         public ActionResult BuyMeme(MemeModel meme)
         {
             //TODO
             return StoreInit();
-        }
-
-        public JsonResult GetMessages()
-        {
-            List<Message> messages;
-
-            using (UsersDB db = new UsersDB())
-            {
-                messages = db.Messages.ToList();
-            }
-
-            return Json(messages, JsonRequestBehavior.AllowGet);
         }
 
         public void UpdateUserCurrencyLabel()
