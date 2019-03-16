@@ -12,6 +12,13 @@
     
 </div>
 
+<div class="chatbox" id="chatBox">
+    <form style="height:100%;" id="MainForm">
+        <textarea class ="chat-input" autofocus="" id="textArea"></textarea>
+        <button type="submit" runat="server" class="message-button" id="sendButton">Send</button>
+    </form>
+</div>
+
 <script>
     var messageCount = 0;
 
@@ -20,7 +27,7 @@
         {
             url: "@Url.Action("GetMessages", "Home")",
             type: 'GET',
-            dataType: 'html', 
+            dataType: 'html',
             success: function (result)
                      {
                         $('#chatView').html(result);
@@ -41,25 +48,65 @@
 
        window.setInterval("loadPartialView()", 200);
     });
-</script>
 
-<div class="chatbox" id="chatBox">
-    @using (Html.BeginForm("SendMessage", "Home", FormMethod.Post, new { @style = "height:100%;", @id = "MainForm" }))
-    {
-        @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "chat-input", @autofocus = "", id = "textArea" } })
-        <button type="submit" runat="server" class="message-button" id="sendButton">Send</button>
-    }
-</div>
-
-<script>
     document.getElementById('textArea').addEventListener('keydown', function (event) {
         if (event.which === 13 && event.shiftKey) {
             return false;
         }
         else if (event.which === 13) {
             event.preventDefault();
-            document.getElementById('sendButton').click();
+            //document.getElementById('sendButton').click();
+
+            $.ajax(
+            {
+                url: "@Url.Action("SendMessage", "Home")",
+                data: { 'msg' : $('#textArea').val() },
+                type: 'POST',
+                dataType: 'html',
+                success: function (result)
+                         {
+                            $('#chatView').html(result);
+                            $('#textArea').val("");
+
+                            if (document.getElementById("chatView").childElementCount > messageCount) {
+                                var element = document.getElementById("chatView");
+                                element.scrollTop = element.scrollHeight;
+                            }
+
+                            messageCount = document.getElementById("chatView").childElementCount;
+                }
+            }
+            );
+
             return true;
         }
     });
+
+    $("#sendButton").click(function (event) {
+        event.preventDefault();
+            $.ajax(
+            {
+                url: "@Url.Action("SendMessage", "Home")",
+                data: { 'msg' : $('#textArea').val() },
+                type: 'POST',
+                dataType: 'html',
+                success: function (result)
+                         {
+                            $('#chatView').html(result);
+                            $('#textArea').val("");
+
+                            if (document.getElementById("chatView").childElementCount > messageCount) {
+                                var element = document.getElementById("chatView");
+                                element.scrollTop = element.scrollHeight;
+                            }
+
+                            messageCount = document.getElementById("chatView").childElementCount;
+                },
+                error: function (result) {
+                    alert("error");
+                }
+            }
+            );
+        }
+    );
 </script>

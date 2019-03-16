@@ -2,6 +2,16 @@
     width: 100%;
     height: calc(100% - 75px);
     overflow-y: scroll;
+
+    -ms-word-break: break-all;
+    word-break: break-all;
+
+    /* Non standard for webkit */
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 .chatbox {
@@ -16,7 +26,7 @@
     height: 100px;
 }
 
-textarea#textArea.chat-input.text-box.multi-line {
+.chat-input {
     width: calc(100% - 60px);
     height: 100%;
     max-width: none;
@@ -31,8 +41,22 @@ textarea#textArea.chat-input.text-box.multi-line {
     vertical-align: middle;
 }
 
+.message-header {
+    margin-left: 1vw;
+    color: red;
+}
+
 .message {
-    margin-left: 1vw
+    margin-left: 1vw;
+    -ms-word-break: break-all;
+    word-break: break-all;
+
+    /* Non standard for webkit */
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 .thumbnail {

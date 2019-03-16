@@ -61,33 +61,30 @@ namespace KEKChat.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendMessage(MessageTextModel msg)
+        public ActionResult SendMessage(string msg)
         {
-            if (ModelState.IsValid)
+            if (msg != null)
             {
                 using (UsersDB db = new UsersDB())
                 {
                     var user = db.Users
-                                 .Where(u => u.Username == User.Identity.Name)
-                                 .SingleOrDefault();
-                    db.Messages.Add(new Message(msg.Text, user));
+                                    .Where(u => u.Username == User.Identity.Name)
+                                    .SingleOrDefault();
+                    db.Messages.Add(new Message(msg, user));
                     db.SaveChanges();
                 }
             }
-            
-            return RedirectToAction("Chat");
+
+            return GetMessages();
         }
 
         public ActionResult GetMessages()
         {
             MessageTextModel msg = new MessageTextModel();
 
-            if (ModelState.IsValid)
+            using (UsersDB db = new UsersDB())
             {
-                using (UsersDB db = new UsersDB())
-                {
-                    msg = new MessageTextModel(db.Messages.ToList());
-                }
+                msg = new MessageTextModel(db.Messages.ToList());
             }
 
             return PartialView("_ChatView", msg);
