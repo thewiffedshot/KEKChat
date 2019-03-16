@@ -22,10 +22,17 @@
     <script>
         $(document).ready(function () {
             $(".main-parent").height($(this).height() - $(".nav").outerHeight());
+            console.log("Window height: " + $(window).height());
+            console.log("Navbar height: " + $(".nav").outerHeight());
+            console.log("Parent height: " + $(".main-parent").height());
         }).resize();
 
         $(window).resize(function () {
             $(".main-parent").height($(this).height() - $(".nav").outerHeight());
+            console.log("Window height: " + $(window).height());
+            console.log("Navbar height: " + $(".nav").outerHeight());
+            console.log("Parent height: " + $(".main-parent").height());
+            console.log("Should be: " + ($(this).height() - $(".nav").outerHeight()));
         }).resize();
     </script>
     <ul class="nav navbar nav-pills nav-justified bg-success p-1">

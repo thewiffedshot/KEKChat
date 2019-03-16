@@ -13,8 +13,8 @@
     @foreach (var meme in Model.Memes)
     {
         <div class="card mb-lg-5 mb-3 p-lg-3 w-85 align-self-center bg-darker p-1">
-            <img src="~/@meme.ImagePath.Replace('\\', '/')" class="card-img img-fluid" />
-            @using (Html.BeginForm("BuyMeme", "Home", FormMethod.Post))
+            <img src="~/@meme.ImagePath.Replace('\\', '/')" class="card-img-top"/>
+            @using (Html.BeginForm("BuyMeme", "Home", FormMethod.Post, new { @class = "card-footer" }))
             {
                 Model.MemeID = meme.ID;
                 <div class="row">

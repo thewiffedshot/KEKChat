@@ -73,7 +73,7 @@
 
 .main-parent {
     width: 100%;
-    height: calc(100vh - 85px);
+    max-height: inherit;
     display: table;
     table-layout: fixed;
 }
@@ -97,12 +97,7 @@
 }
 
 .w-85 {
-    width: 85% !important;
-}
-
-.card {
-    margin: 0 auto;
-    float: none;
+    max-width: 85% !important;
 }
 
 @media only screen and (max-width: 374px) {
@@ -116,9 +111,5 @@
 
     .top-right, .main-right {
         width: 100px;
-    }
-
-    .main-parent {
-        min-height: calc(100vh - 75px);
     }
 }

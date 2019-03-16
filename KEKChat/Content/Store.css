@@ -3,6 +3,12 @@
     float: none;
 }
 
+.card-img-top {
+    height: auto;
+    max-height: 80vh;
+    object-fit: scale-down;
+}
+
 .store-page-catalog {
     width: 100%;
     height: 100%;
