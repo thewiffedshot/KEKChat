@@ -21,18 +21,17 @@
 <body>
     <script>
         $(document).ready(function () {
-            $(".main-parent").height($(this).height() - $(".nav").outerHeight());
-            console.log("Window height: " + $(window).height());
-            console.log("Navbar height: " + $(".nav").outerHeight());
-            console.log("Parent height: " + $(".main-parent").height());
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+            $(".main-parent").height($(window).height() - $(".nav").outerHeight());
         }).resize();
 
         $(window).resize(function () {
-            $(".main-parent").height($(this).height() - $(".nav").outerHeight());
-            console.log("Window height: " + $(window).height());
-            console.log("Navbar height: " + $(".nav").outerHeight());
-            console.log("Parent height: " + $(".main-parent").height());
-            console.log("Should be: " + ($(this).height() - $(".nav").outerHeight()));
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+            $(".main-parent").height($(window).height() - $(".nav").outerHeight());
         }).resize();
     </script>
     <ul class="nav navbar nav-pills nav-justified bg-success p-1">
@@ -53,11 +52,11 @@
             </ul>
         </li>
     </ul>
-    <div class="main-parent">
-        <div class="main-left">
+    <div class="main-parent row m-0">
+        <div class="main-left col-9 col-xl-10 p-0">
             @RenderBody()
         </div>
-        <div class="main-right">
+        <div class="main-right col-3 col-xl-2 p-0">
         </div>
     </div>
 </body>

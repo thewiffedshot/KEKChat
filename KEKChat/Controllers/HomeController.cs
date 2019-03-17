@@ -31,7 +31,7 @@ namespace KEKChat.Controllers
 
             string savepath = Server.MapPath("~") + "Memes\\";
 
-            MemeScraper scraper = new MemeScraper(savepath, new string[] { "me_irl", "deepfriedmemes", "memes" }, 10);
+            MemeScraper scraper = new MemeScraper(savepath, new string[] { "me_irl", "memes" }, 10);
 
             await scraper.GetMemesFromSubsAsync();
 
