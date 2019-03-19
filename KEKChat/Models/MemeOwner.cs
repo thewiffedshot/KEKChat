@@ -8,7 +8,7 @@ using System.Web;
 namespace KEKChat.Models
 {
     [Table("memeOwners")]
-    public class MemeOwners
+    public class MemeOwner
     {
         [Key]
         public int ID { get; set; }
@@ -25,9 +25,17 @@ namespace KEKChat.Models
 
         public int Amount { get; set; }
 
-        public MemeOwners(User user, MemeEntry meme, int amount)
+        public MemeOwner(User user, MemeEntry meme, int amount)
         {
+            User = user;
 
+            UserID = User.ID;
+
+            MemeEntry = meme;
+
+            MemeID = meme.ID;
+
+            Amount = amount;
         }
     }
 }

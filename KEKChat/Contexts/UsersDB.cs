@@ -11,7 +11,7 @@ namespace KEKChat.Contexts
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<MemeOwners> MemeOwners { get; set; }
+        public DbSet<MemeOwner> MemeOwners { get; set; }
         public DbSet<MemeEntry> MemeStash { get; set; }
 
         public UsersDB()

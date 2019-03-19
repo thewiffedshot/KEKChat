@@ -17,12 +17,24 @@ namespace KEKChat.Controllers
         // GET: Account
         public ActionResult Login()
         {
-            if(User.Identity.IsAuthenticated)
+            if(User.Identity.IsAuthenticated && UserExists(User.Identity.Name))
             {
                 return RedirectToAction("Chat","Home");
             }
 
             return View();
+        }
+
+        private bool UserExists(string name)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                var user = db.Users.Where(u => u.Username == name).SingleOrDefault();
+
+                if (user != null)
+                    return true;
+            }
+            return false;
         }
 
         public ActionResult SignOut()

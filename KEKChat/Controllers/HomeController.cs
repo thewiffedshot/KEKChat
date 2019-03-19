@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using KEKChat.Utils;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace KEKChat.Controllers
 {
@@ -91,8 +92,45 @@ namespace KEKChat.Controllers
         }
 
         [HttpPost]
-        public ActionResult BuyMeme(MemeModel meme)
+        public ActionResult BuyMeme(MemeModel meme, string buy)
         {
+            int memeID = int.Parse(buy);
+
+            using(TransactionScope scope = new TransactionScope())
+            {
+                using (UsersDB db = new UsersDB())
+                {
+                    User user = db.Users
+                                  .Where(u => u.Username == User.Identity.Name)
+                                  .SingleOrDefault();
+
+                    decimal userCurrency = user.Currency;
+
+                    MemeEntry currentMeme = db.MemeStash
+                                       .Where(u => u.ID == memeID)
+                                       .SingleOrDefault();
+
+                    decimal memePrice = currentMeme.Price;
+
+                    decimal totalPrice = memePrice * meme.Quantity;
+
+                    if (userCurrency >= totalPrice && currentMeme.VendorAmount >= meme.Quantity && meme.Quantity > 0)
+                    {
+
+                        user.Currency -= totalPrice;
+                        currentMeme.VendorAmount -= meme.Quantity;
+
+                        MemeOwner owner = new MemeOwner(user, currentMeme, meme.Quantity);
+
+                        db.MemeOwners.Add(owner);
+                        db.SaveChanges();
+                    }
+                }
+
+                scope.Complete();
+            }
+            
+
             //TODO
             return StoreInit();
         }
