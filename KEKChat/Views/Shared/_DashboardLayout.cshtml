@@ -20,6 +20,17 @@
 </head>
 <body>
     <script>
+        $(window).on("beforeunload", function () {
+            $.ajax(
+            {
+                url: "@Url.Action("UpdateUserStatus", "Account")",
+                data: { 'isOnline' : false, "username" : "@User.Identity.Name" },
+                type: 'POST',
+                dataType: 'html'
+            }
+            );
+        });
+
         $(document).ready(function () {
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);

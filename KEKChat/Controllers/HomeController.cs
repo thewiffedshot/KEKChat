@@ -91,6 +91,26 @@ namespace KEKChat.Controllers
             return PartialView("_ChatView", msg);
         }
 
+        public ActionResult GetPeople()
+        {
+            List<User> people;
+
+            using (UsersDB db = new UsersDB())
+            {
+                db.Users
+                  .Where(u => u.Username == User.Identity.Name)
+                  .SingleOrDefault().IsOnline = true;
+
+                db.SaveChanges();
+
+                people = db.Users
+                           .OrderByDescending(u => u.IsOnline)
+                           .ToList(); 
+            }
+
+            return PartialView("_PeopleList", new PeopleListModel(people));
+        }
+
         [HttpPost]
         public ActionResult BuyMeme(MemeModel meme, string buy)
         {

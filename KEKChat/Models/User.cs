@@ -23,6 +23,8 @@ namespace KEKChat.Models
 
         public decimal Currency { get; set; } = 5000;
 
+        public bool IsOnline { get; set; } = false;
+
         public User(string name, string passhash, string salt, string iterations)
         {
             Username = name;

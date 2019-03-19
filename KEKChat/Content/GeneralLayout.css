@@ -4,6 +4,7 @@
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
     font-family: 'Comic Sans MS' !important;
+    overflow-y: hidden;  /* Така си крия провала. */
 }
 
 .username {
@@ -28,14 +29,17 @@ a.signout:hover {
     border: 1px solid;
     border-color: #03004e;
     border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    overflow-y: scroll;
 }
 
 .side-tab-left {
-    
+    overflow-y: inherit;
 }
 
 .side-tab-right {
     background-color: #EFB900;
+    overflow-y: inherit;
 }
 
 .main-parent {

@@ -179,6 +179,7 @@
     <Compile Include="Models\MemeModel.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\MessageTextModel.cs" />
+    <Compile Include="Models\PeopleListModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -276,6 +277,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\_ChatView.cshtml" />
+    <Content Include="Views\Home\_PeopleList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

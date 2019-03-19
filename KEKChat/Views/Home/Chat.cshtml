@@ -44,11 +44,28 @@
                 }
             }
             );
+
+            loadPeople();
         });
+
+        function loadPeople() {
+            $.ajax(
+            {
+                url: "@Url.Action("GetPeople", "Home")",
+                type: 'GET',
+                dataType: 'html',
+                success: function (result) {
+                        $(".people").html(result);
+                }
+            }
+            );
+        }
+
+        window.setInterval("loadPeople()", 5000);
     </script>
 
     <div class="row m-0">
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link">
+        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link" id="peopleList">
             People
         </div>
         <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link">
