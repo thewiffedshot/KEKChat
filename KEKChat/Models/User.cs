@@ -21,7 +21,7 @@ namespace KEKChat.Models
 
         public string HashIterations { get; set; }
 
-        public decimal Currency { get; set; } = 50;
+        public decimal Currency { get; set; } = 5000;
 
         public User(string name, string passhash, string salt, string iterations)
         {

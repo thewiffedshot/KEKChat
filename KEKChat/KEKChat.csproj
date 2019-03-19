@@ -80,6 +80,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -173,7 +174,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\Meme.cs" />
+    <Compile Include="Models\MemeOwner.cs" />
     <Compile Include="Models\MemeEntry.cs" />
     <Compile Include="Models\MemeModel.cs" />
     <Compile Include="Models\Message.cs" />
