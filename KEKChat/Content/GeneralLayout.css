@@ -14,8 +14,28 @@
     color: #FF8A20;
 }
 
+a.signout:hover {
+    text-decoration: none !important;
+    color: #FF7B20 !important;
+}
+
 .keks {
     color: #FFC90E;
+}
+
+.side-tab {
+    color: #000000;
+    border: 1px solid;
+    border-color: #03004e;
+    border-radius: 10px 10px 0 0;
+}
+
+.side-tab-left {
+    
+}
+
+.side-tab-right {
+    background-color: #EFB900;
 }
 
 .main-parent {

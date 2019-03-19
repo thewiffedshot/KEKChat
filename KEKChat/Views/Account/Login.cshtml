@@ -23,11 +23,11 @@
                 <br>
                 <p class="center-text"><b>Username:</b></p>
                 @Html.EditorFor(model => model.Username,
-                      new { htmlAttributes = new { @class = "login-input", placeholder = "Username" } })
+                      new { htmlAttributes = new { @class = "login-input", @placeholder = "Username", @autofocus = "" } })
                 <br><br>
                 <p class="center-text"><b>Password:</b></p>
                 @Html.EditorFor(model => model.Password,
-                      new { htmlAttributes = new { @class = "login-input", placeholder = "Password" } })
+                      new { htmlAttributes = new { @class = "login-input", @placeholder = "Password" } })
                 <br><br>
                 @Html.ValidationMessage("LoginError", new { @class = "text-error" })
                 <button type="submit" runat="server" class="login-button">Login</button>

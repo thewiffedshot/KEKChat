@@ -8,13 +8,70 @@
     <link href="~/Content/Chat.css" rel="stylesheet" type="text/css" />
 }
 
+@section SideBar{
+    <script>
+        $(document).ready(function () {
+            var activeTab = $(".side-tab-left");
+            var otherTab = $(".side-tab-right");
+
+            activeTab.css("border-bottom", "0");
+            otherTab.css("border-bottom", "2px solid");
+
+            var activeContent = $(".people");
+            var otherContent = $(".memes");
+
+            activeContent.css("display", "block");
+            otherContent.css("display", "none");
+
+            activeTab.css("border-bottom", "none");
+            console.log("ready");
+
+            $(".side-tab").click(function (event) {
+                if (this === otherTab.get(0)) {
+                    activeContent.css("display", "none");
+                    otherContent.css("display", "block");
+
+                    var temp = activeTab;
+                    activeTab = otherTab;
+                    otherTab = temp;
+
+                    activeTab.css({ "border-bottom" : "0", "background-color" : "#FFC90E" });
+                    otherTab.css({ "border-bottom": "2px solid", "background-color": "#EFB900" });
+
+                    var tempC = activeContent;
+                    activeContent = otherContent;
+                    otherContent = tempC;
+                }
+            }
+            );
+        });
+    </script>
+
+    <div class="row m-0">
+        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link">
+            People
+        </div>
+        <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link">
+            Memes
+        </div>
+    </div>
+    <div class="row m-0">
+        <div class="people">
+            People
+        </div>
+        <div class="memes">
+            Memes
+        </div>
+    </div>
+}
+
 <div class="chat" id="chatView">
     
 </div>
 
 <div class="chatbox bg-success" id="chatBox">
     <form class="bg-success" style="height:100%;" id="MainForm">
-        <textarea class ="chat-input" autofocus="" id="textArea"></textarea>
+        <textarea class ="chat-input" autofocus="" id="textArea" maxlength="1000"></textarea>
         <button type="submit" runat="server" class="message-button btn btn-primary p-0" id="sendButton">Send</button>
     </form>
 </div>

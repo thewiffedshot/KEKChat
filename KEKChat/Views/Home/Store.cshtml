@@ -1,5 +1,7 @@
 ﻿@model KEKChat.Models.MemeModel
 @{
+    /**/
+
     ViewBag.Title = "Store";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
@@ -9,11 +11,60 @@
 
 }
 
+@section SideBar{
+    <script>
+        $(document).ready(function () {
+            var activeTab = $(".side-tab-left");
+            var otherTab = $(".side-tab-right");
+
+            activeTab.css("border-bottom", "0");
+            otherTab.css("border-bottom", "2px solid");
+
+            var activeContent = $(".people");
+            var otherContent = $(".memes");
+
+            activeContent.css("display", "block");
+            otherContent.css("display", "none");
+
+            activeTab.css("border-bottom", "none");
+            console.log("ready");
+
+            $(".side-tab").click(function (event) {
+                if (this === otherTab.get(0)) {
+                    activeContent.css("display", "none");
+                    otherContent.css("display", "block");
+
+                    var temp = activeTab;
+                    activeTab = otherTab;
+                    otherTab = temp;
+
+                    activeTab.css({ "border-bottom" : "0", "background-color" : "#FFC90E" });
+                    otherTab.css({ "border-bottom": "2px solid", "background-color": "#EFB900" });
+
+                    var tempC = activeContent;
+                    activeContent = otherContent;
+                    otherContent = tempC;
+                }
+            }
+            );
+        });
+    </script>
+
+    <div class="row m-0">
+        <div class="col-6 p-1 m-0 text-center side-tab side-tab-left">
+            People
+        </div>
+        <div class="col-6 p-1 m-0 text-center side-tab side-tab-right">
+            Memes
+        </div>
+    </div>
+}
+
 <div class="store-page-catalog align-content-center pt-3">
     @foreach (var meme in Model.Memes)
     {
         <div class="card mb-lg-5 mb-3 p-lg-3 w-85 align-self-center bg-darker p-1">
-            <img src="~/@meme.ImagePath.Replace('\\', '/')" class="card-img-top"/>
+            <img src="~/@meme.ImagePath.Replace('\\', '/')" class="card-img-top" />
             @using (Html.BeginForm("BuyMeme", "Home", FormMethod.Post, new { @class = "card-footer" }))
             {
                 <div class="row">
@@ -26,8 +77,8 @@
                         @meme.Price KEKs
                     </div>
                     <div class="col-4 d-flex flex-wrap align-content-center p-0 pt-2 h-100 w-100">
-                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "col-12 p-1 h-100"} })
-                            <button type="submit" class="btn btn-success h-100 w-100 mt-1" name="buy" value="@meme.ID"><div class="form-text">BUY</div></button>
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "col-12 p-1 h-100", @min = "0", @step = "1" } })
+                        <button type="submit" class="btn btn-success h-100 w-100 mt-1" name="buy" value="@meme.ID"><div class="form-text">BUY</div></button>
                     </div>
                 </div>
             }
