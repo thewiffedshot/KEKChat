@@ -19,8 +19,6 @@ namespace KEKChat.Controllers
         {
             if(User.Identity.IsAuthenticated && UserExists(User.Identity.Name))
             {
-                UpdateUserStatus(true, User.Identity.Name);
-
                 return RedirectToAction("Chat", "Home");
             }
 
@@ -43,20 +41,16 @@ namespace KEKChat.Controllers
         {
             Session["currency"] = null;
 
-            UpdateUserStatus(false, User.Identity.Name);
-
             FormsAuthentication.SignOut();
 
             return RedirectToAction("Login");
         }
 
-        public ActionResult UpdateUserStatus(bool isOnline, string username)
+        public ActionResult Heartbeat(string username)
         {
             using (UsersDB db = new UsersDB())
             {
-                db.Users
-                  .Where(u => u.Username == username)
-                  .Single().IsOnline = isOnline;
+                db.Users.Where(u => u.Username == username).SingleOrDefault().LastOnline = DateTime.Now;
 
                 db.SaveChanges();
             }
@@ -77,8 +71,6 @@ namespace KEKChat.Controllers
                 if (user != null && PasswordHash.ValidatePassword(model.Password, user.PasswordHash, user.HashSalt, user.HashIterations))
                 {
                     FormsAuthentication.SetAuthCookie(user.Username, false);
-
-                    UpdateUserStatus(true, user.Username);
 
                     Session["currency"] = user.Currency;
                     return RedirectToAction("Chat", "Home");

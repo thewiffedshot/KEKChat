@@ -20,16 +20,18 @@
 </head>
 <body>
     <script>
-        $(window).on("beforeunload", function () {
+        function heartbeat() {
             $.ajax(
             {
-                url: "@Url.Action("UpdateUserStatus", "Account")",
+                url: "@Url.Action("Heartbeat", "Account")",
                 data: { 'isOnline' : false, "username" : "@User.Identity.Name" },
                 type: 'POST',
                 dataType: 'html'
             }
             );
-        });
+        }
+
+        window.setInterval("heartbeat()", 5000);
 
         $(document).ready(function () {
             let vh = window.innerHeight * 0.01;
@@ -45,7 +47,7 @@
             $(".main-parent").height($(window).height() - $(".nav").outerHeight());
         }).resize();
     </script>
-    <ul class="nav navbar nav-pills nav-justified bg-success p-1">
+    <ul class="nav navbar nav-pills nav-justified bg-amazonite p-1">
         <li class="nav-item">
             @Html.ActionLink("Home", "Home", null, new { @class = "nav-link text-light" })
         </li>
@@ -57,17 +59,17 @@
         </li>
         <li class="navbar-text nav-item">
             <ul class="navbar-nav flex-row ml-md-auto d-md-flex">
-                <li class="username nav-item m-1">@User.Identity.Name</li>
-                <li class="nav-item m-1">@Html.ActionLink("Sign out", "SignOut", "Account", null, new { @class = "signout" })</li>
-                <li class="keks nav-item  m-1">@Html.Raw(Session["currency"]) KEKs</li>
+                <li class="username text-soap nav-item m-1">@User.Identity.Name</li>
+                <li class="nav-item m-1">@Html.ActionLink("Sign out", "SignOut", "Account", null, new { @class = "signout text-soap" })</li>
+                <li class="keks text-pastelyellow nav-item  m-1">@Html.Raw(Session["currency"]) KEKs</li>
             </ul>
         </li>
     </ul>
     <div class="main-parent row m-0">
-        <div class="main-left col-9 col-xl-10 p-0">
+        <div class="main-left col-9 col-xl-10 p-0 bg-soap">
             @RenderBody()
         </div>
-        <div class="main-right col-3 col-xl-2 p-0">
+        <div class="main-right bg-pastelyellow col-3 col-xl-2 p-0">
             @RenderSection("SideBar")
         </div>
     </div>

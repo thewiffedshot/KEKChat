@@ -35,8 +35,8 @@
                     activeTab = otherTab;
                     otherTab = temp;
 
-                    activeTab.css({ "border-bottom" : "0", "background-color" : "#FFC90E" });
-                    otherTab.css({ "border-bottom": "2px solid", "background-color": "#EFB900" });
+                    activeTab.css({ "border-bottom": "0", "background-color": "#FFFD83" });
+                    otherTab.css({ "border-bottom": "2px solid", "background-color": "#EFED73" });
 
                     var tempC = activeContent;
                     activeContent = otherContent;
@@ -82,14 +82,14 @@
     </div>
 }
 
-<div class="chat" id="chatView">
+<div class="chat bg-soap" id="chatView">
     
 </div>
 
-<div class="chatbox bg-success" id="chatBox">
-    <form class="bg-success" style="height:100%;" id="MainForm">
-        <textarea class ="chat-input" autofocus="" id="textArea" maxlength="1000"></textarea>
-        <button type="submit" runat="server" class="message-button btn btn-primary p-0" id="sendButton">Send</button>
+<div class="chatbox bg-amazonite" id="chatBox">
+    <form class="bg-amazonite" style="height:100%;" id="MainForm">
+        <textarea class ="chat-input bg-soap" autofocus="" id="textArea" maxlength="1000"></textarea>
+        <button type="submit" runat="server" class="message-button btn bg-bleu p-0" id="sendButton">Send</button>
     </form>
 </div>
 
