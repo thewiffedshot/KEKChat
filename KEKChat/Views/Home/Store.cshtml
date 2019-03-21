@@ -63,7 +63,7 @@
 <div class="store-page-catalog align-content-center pt-3">
     @foreach (var meme in Model.Memes)
     {
-        <div class="card mb-lg-5 mb-3 p-lg-3 w-85 align-self-center bg-amazonite p-1">
+        <div class="card mb-lg-5 mb-3 p-lg-3 w-85 align-self-center bg-card-soap p-1">
             <img src="~/@meme.ImagePath.Replace('\\', '/')" class="card-img-top" />
             @using (Html.BeginForm("BuyMeme", "Home", FormMethod.Post, new { @class = "card-footer" }))
             {
