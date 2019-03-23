@@ -14,8 +14,6 @@ namespace KEKChat.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        readonly uint userTimeoutInterval = 15; // In seconds.
-
         public ActionResult Chat()
         {
             UpdateUserCurrencyLabel();
@@ -56,6 +54,7 @@ namespace KEKChat.Controllers
             {
                 memes = db.MemeStash
                           .Where(meme => meme.VendorAmount > 0)
+                          .OrderBy(meme => meme.ID)
                           .ToList();
 
             }
@@ -96,18 +95,15 @@ namespace KEKChat.Controllers
         public ActionResult GetPeople()
         {
             List<User> people = new List<User>(0);
-            List<bool> peopleStatus = new List<bool>(0);
 
             using (UsersDB db = new UsersDB())
             {
-                people = db.Users                        
+                people = db.Users
+                           .OrderBy(u => u.Username)
                            .ToList();
-
-                foreach (var user in people)
-                    peopleStatus.Add((DateTime.Now - user.LastOnline).TotalSeconds <= userTimeoutInterval);
             }
 
-            return PartialView("_PeopleList", new PeopleListModel(people, peopleStatus));
+            return PartialView("_PeopleList", new PeopleListModel(people, DateTime.Now));
         }
 
         [HttpPost]

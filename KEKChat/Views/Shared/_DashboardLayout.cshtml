@@ -33,11 +33,19 @@
 
         window.setInterval("heartbeat()", 5000);
 
+        function sidebarsHeightResponse() {
+            $(".content-row").height($(".main-right").height() - $(".tab-row").height());
+
+            console.log("content h:" + $(".people").height());
+        }
+
         $(document).ready(function () {
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
 
             $(".main-parent").height($(window).height() - $(".nav").outerHeight());
+
+            sidebarsHeightResponse();
         }).resize();
 
         $(window).resize(function () {
@@ -45,6 +53,8 @@
             document.documentElement.style.setProperty('--vh', `${vh}px`);
 
             $(".main-parent").height($(window).height() - $(".nav").outerHeight());
+
+            sidebarsHeightResponse();
         }).resize();
     </script>
     <ul class="nav navbar nav-pills nav-justified bg-amazonite p-1">

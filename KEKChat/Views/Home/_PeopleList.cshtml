@@ -1,14 +1,11 @@
 ﻿@model KEKChat.Models.PeopleListModel
 
 @{
-    int index = 0;
-
-    foreach (KEKChat.Models.User user in Model.UsersCollection)
+    foreach (KEKChat.Models.PeopleModel user in Model.People)
     {
-        string dotState = Model.UsersOnlineStatus[index++] ? "text-success" : "text-danger";
-        <div class="person-name m-2">
+        string dotState = user.Online ? "text-success" : "text-danger";
+        <div class="person-name m-1 justify-content-center">
             <b>@Html.Raw(user.Username)</b> <b class="@dotState h2">&#9679;</b>
         </div>
     }
-
 }

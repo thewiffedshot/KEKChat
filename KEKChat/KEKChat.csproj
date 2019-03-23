@@ -180,6 +180,7 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\MessageTextModel.cs" />
     <Compile Include="Models\PeopleListModel.cs" />
+    <Compile Include="Models\PeopleModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

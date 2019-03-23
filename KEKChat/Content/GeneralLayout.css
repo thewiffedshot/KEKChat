@@ -104,9 +104,39 @@ a.signout:hover {
     max-width: 85% !important;
 }
 
+.memes {
+    width: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.people {
+    width: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media only screen and (max-width: 442px) {
+    body {
+        font-size: 0.9em;
+    }
+}
+
 @media only screen and (max-width: 375px) {
     body {
         font-size: 0.85em;
+    }
+}
+
+@media only screen and (max-width: 372px) {
+    body {
+        font-size: 0.8em;
+    }
+}
+
+@media only screen and (max-width: 338px) {
+    body {
+        font-size: 0.7em;
     }
 }
 

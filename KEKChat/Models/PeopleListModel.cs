@@ -7,21 +7,35 @@ namespace KEKChat.Models
 {
     public class PeopleListModel
     {
-        public List<User> UsersCollection { get; private set; } = new List<User>(0);
-        public List<bool> UsersOnlineStatus { get; private set; } = new List<bool>(0);
+        public static readonly uint userTimeoutInterval = 15; // In seconds.
+
+        public List<PeopleModel> People { get; private set; } = new List<PeopleModel>(0);
 
         public PeopleListModel()
         {
 
         }
 
-        public PeopleListModel(List<User> users, List<bool> usersStatus)
+        public PeopleListModel(List<User> users, DateTime current)
         {
-            UsersCollection = users;
-            UsersOnlineStatus = usersStatus;
+            foreach (User user in users)
+                People.Add(new PeopleModel(user.Username, (current - user.LastOnline).TotalSeconds <= userTimeoutInterval));
 
-            UsersCollection.OrderBy(u => u.LastOnline);
-            UsersOnlineStatus.OrderByDescending(u => u.ToString());
+            var people = People
+                         .Where(p => p.Online)
+                         .OrderBy(p => p.Username)
+                         .Select(p => p)
+                         .ToList();
+
+            var offline = People
+                          .Where(p => !p.Online)
+                          .OrderBy(p => p.Username)
+                          .Select(p => p)
+                          .ToList();
+
+            var list = people.Concat(offline).ToList();
+
+            People = list;
         }
     }
 }
