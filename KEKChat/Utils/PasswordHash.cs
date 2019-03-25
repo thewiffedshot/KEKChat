@@ -27,6 +27,8 @@ namespace KEKChat.Utils
 
         public static bool ValidatePassword(string password, string passhash, string _salt, string _iterations)
         {
+            if (password == null) password = "";
+
             int iterations = Int32.Parse(_iterations);
             byte[] salt = Convert.FromBase64String(_salt);
             byte[] hash = Convert.FromBase64String(passhash);
@@ -44,7 +46,7 @@ namespace KEKChat.Utils
         }
 
         private static byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
-        {
+        {           
             Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, salt);
             pbkdf2.IterationCount = iterations;
             return pbkdf2.GetBytes(outputBytes);

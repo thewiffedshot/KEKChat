@@ -21,11 +21,12 @@ namespace KEKChat.Models
         public MemeModel(List<MemeEntry> collection)
         {
             Memes = collection;
+            Quantity = 1;
         }
 
         public MemeModel()
         {
-
+            Quantity = 1;
         }
     }
 }
