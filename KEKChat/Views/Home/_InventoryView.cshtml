@@ -1,0 +1,24 @@
+﻿@model KEKChat.Models.InventoryModel
+
+@{
+    for (int i = 0; i < Model.InventoryList.Count; i++)
+    {
+        @Html.Raw(i % 3 == 0 ? "<div class=\"row col-12 p-1 justify-content-center align-content-center\">" : "")
+        <div class="card col-12 col-sm-6 bg-card-soap p-0">
+            <img src="~/@Model.InventoryList[i].MemeEntry.ImagePath.Replace('\\', '/')" class="card-img" />
+            <div class="card-footer h-100">
+                <div class="row">
+                    <div class="col-sm-12 col-6">
+                        Name: <br>
+                        @Model.InventoryList[i].AssetName
+                    </div>
+                    <div class="col-sm-12 col-6">
+                        Amount: <br>
+                        @Model.InventoryList[i].Amount
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Raw(i % 3 == 2 ? "</div>" : "")
+    }
+}

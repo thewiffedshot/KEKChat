@@ -106,45 +106,66 @@ namespace KEKChat.Controllers
             return PartialView("_PeopleList", new PeopleListModel(people, DateTime.Now));
         }
 
+        public ActionResult GetInventory()
+        {
+            List<MemeAsset> list = new List<MemeAsset>(0);
+
+            using (UsersDB db = new UsersDB())
+            {
+                int ownerID = db.Users
+                                .Where(u => u.Username == User.Identity.Name)
+                                .Select(u => u.ID)
+                                .SingleOrDefault();
+
+                list = db.MemeOwners
+                         .Where(mo => mo.UserID == ownerID && mo.Amount > 0)
+                         .ToList();
+            }
+
+            return PartialView("_InventoryView", new InventoryModel(list));
+        }
+
         [HttpPost]
         public ActionResult BuyMeme(MemeModel meme, string buy)
         {
             int memeID = int.Parse(buy);
 
-            using(TransactionScope scope = new TransactionScope())
+            if (ModelState.IsValid)
             {
-                using (UsersDB db = new UsersDB())
+                using (TransactionScope scope = new TransactionScope())
                 {
-                    User user = db.Users
-                                  .Where(u => u.Username == User.Identity.Name)
-                                  .SingleOrDefault();
-
-                    decimal userCurrency = user.Currency;
-
-                    MemeEntry currentMeme = db.MemeStash
-                                       .Where(u => u.ID == memeID)
-                                       .SingleOrDefault();
-
-                    decimal memePrice = currentMeme.Price;
-
-                    decimal totalPrice = memePrice * meme.Quantity;
-
-                    if (userCurrency >= totalPrice && currentMeme.VendorAmount >= meme.Quantity && meme.Quantity > 0)
+                    using (UsersDB db = new UsersDB())
                     {
+                        User user = db.Users
+                                      .Where(u => u.Username == User.Identity.Name)
+                                      .SingleOrDefault();
 
-                        user.Currency -= totalPrice;
-                        currentMeme.VendorAmount -= meme.Quantity;
+                        decimal userCurrency = user.Currency;
 
-                        MemeOwner owner = new MemeOwner(user, currentMeme, meme.Quantity);
+                        MemeEntry currentMeme = db.MemeStash
+                                           .Where(u => u.ID == memeID)
+                                           .SingleOrDefault();
 
-                        db.MemeOwners.Add(owner);
-                        db.SaveChanges();
+                        decimal memePrice = currentMeme.Price;
+
+                        decimal totalPrice = memePrice * meme.Quantity;
+
+                        if (userCurrency >= totalPrice && currentMeme.VendorAmount >= meme.Quantity && meme.Quantity > 0)
+                        {
+
+                            user.Currency -= totalPrice;
+                            currentMeme.VendorAmount -= meme.Quantity;
+
+                            MemeAsset asset = new MemeAsset(user, currentMeme, meme.Quantity, meme.AssetName);
+
+                            db.MemeOwners.Add(asset);
+                            db.SaveChanges();
+                        }
                     }
-                }
 
-                scope.Complete();
+                    scope.Complete();
+                }
             }
-            
 
             //TODO
             return StoreInit();

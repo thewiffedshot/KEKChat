@@ -45,17 +45,56 @@
                     activeContent = otherContent;
                     otherContent = tempC;
                 }
+                loadInventory();
             }
             );
+
+            loadInventory();
+            loadPeople();
         });
+
+        function loadInventory() {
+            $.ajax(
+            {
+                url: "@Url.Action("GetInventory", "Home")",
+                type: 'GET',
+                dataType: 'html',
+                success: function (result) {
+                        $(".memes").html(result);
+                }
+            }
+            );
+        }
+
+        function loadPeople() {
+            $.ajax(
+            {
+                url: "@Url.Action("GetPeople", "Home")",
+                type: 'GET',
+                dataType: 'html',
+                success: function (result) {
+                        $(".people").html(result);
+                },
+                error: function () { alert("error"); }
+            }
+            );
+        }
+
+        window.setInterval("loadPeople()", 5000);
     </script>
 
-    <div class="row m-0">
-        <div class="col-6 p-1 m-0 text-center side-tab side-tab-left text-oceanblue">
+    <div class="row tab-row m-0">
+        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link text-oceanblue" id="peopleList">
             People
         </div>
-        <div class="col-6 p-1 m-0 text-center side-tab side-tab-right text-oceanblue">
+        <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link text-oceanblue">
             Memes
+        </div>
+    </div>
+    <div class="row content-row m-0">
+        <div class="people h-100">
+        </div>
+        <div class="memes h-100">
         </div>
     </div>
 }
@@ -68,17 +107,19 @@
             @using (Html.BeginForm("BuyMeme", "Home", FormMethod.Post, new { @class = "card-footer" }))
             {
                 <div class="row">
-                    <div class="col-4">
-                        Stock:<br />
+                    <div class="col-4 m-0 p-0">
+                        Stock: <br>
                         @meme.VendorAmount
                     </div>
-                    <div class="col-4">
-                        Price:<br />
+                    <div class="col-4 m-0 p-0">
+                        Price: <br>
                         @meme.Price KEKs
                     </div>
                     <div class="col-4 d-flex flex-wrap align-content-center p-0 pt-2 h-100 w-100">
-                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "col-12 p-1 h-100", @min = "0", @step = "1" } })
+                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "col-12 p-1 h-50", @min = "1", @step = "1" } })
+                        @Html.EditorFor(model => model.AssetName, new { htmlAttributes = new { @class = "col-12 p-1 h-50", @placeholder = "Name your meme" } })
                         <button type="submit" class="btn bg-bleu h-100 w-100 mt-1" name="buy" value="@meme.ID"><div class="form-text">BUY</div></button>
+                        @Html.ValidationMessage("MemeModel", new { @class = "text-error" })
                     </div>
                 </div>
             }

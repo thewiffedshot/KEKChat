@@ -173,8 +173,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\MemeOwner.cs" />
+    <Compile Include="Models\MemeAsset.cs" />
     <Compile Include="Models\MemeEntry.cs" />
     <Compile Include="Models\MemeModel.cs" />
     <Compile Include="Models\Message.cs" />
@@ -279,6 +280,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\_ChatView.cshtml" />
     <Content Include="Views\Home\_PeopleList.cshtml" />
+    <Content Include="Views\Home\_InventoryView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
