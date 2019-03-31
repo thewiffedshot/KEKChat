@@ -11,11 +11,11 @@ namespace KEKChat.Models
         [Required, DataType(DataType.MultilineText)]
         public string Text { get; set; }
 
-        public List<Message> MessageCollection { get; set; }
+        public List<MessageModel> MessageCollection { get; set; } = new List<MessageModel>(0);
 
         public MessageTextModel() { }
 
-        public MessageTextModel(List<Message> collection)
+        public MessageTextModel(List<MessageModel> collection)
         {
             MessageCollection = collection;
         }

@@ -70,8 +70,8 @@ namespace KEKChat.Controllers
                 using (UsersDB db = new UsersDB())
                 {
                     var user = db.Users
-                                    .Where(u => u.Username == User.Identity.Name)
-                                    .SingleOrDefault();
+                                 .Where(u => u.Username == User.Identity.Name)
+                                 .SingleOrDefault();
                     db.Messages.Add(new Message(msg, user));
                     db.SaveChanges();
                 }
@@ -80,13 +80,36 @@ namespace KEKChat.Controllers
             return GetMessages();
         }
 
+        [HttpPost]
+        public ActionResult SendMeme(string memeID)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                var user = db.Users
+                             .Where(u => u.Username == User.Identity.Name)
+                             .SingleOrDefault();
+
+                db.Messages.Add(new Message(int.Parse(memeID), user));
+
+                
+
+                db.SaveChanges();
+            }
+
+            return GetMessages();
+        }
+
         public ActionResult GetMessages()
         {
-            MessageTextModel msg = new MessageTextModel();
+            MessageTextModel msg;
 
             using (UsersDB db = new UsersDB())
             {
-                msg = new MessageTextModel(db.Messages.ToList());
+                var query = from messages in db.Messages
+                            from memes in db.MemeStash.Where(m => m.ID == messages.MemeID).DefaultIfEmpty()
+                            select new MessageModel { Username = messages.Username, Text = messages.Text, Date = messages.Date, ImageSource = memes.ImagePath };
+
+                msg = new MessageTextModel(query.ToList());
             }
 
             return PartialView("_ChatView", msg);

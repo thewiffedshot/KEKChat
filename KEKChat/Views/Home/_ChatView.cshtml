@@ -1,18 +1,28 @@
 ﻿@model KEKChat.Models.MessageTextModel
 
 @{
-    foreach (KEKChat.Models.Message message in Model.MessageCollection)
+    foreach (KEKChat.Models.MessageModel message in Model.MessageCollection)
     {
         string[] messageBlock = message.Text.Split(new char[] { '\n' });
 
         <div class="message-header text-amazonite">
             <b>@Html.Raw(message.Username + " " + (message.Date.DayOfYear == DateTime.Now.Date.DayOfYear ? message.Date.ToString("HH:mm") : message.Date.ToString("dd/MM/yyyy HH:mm")))</b>
         </div>
-        foreach (string line in messageBlock)
+
+        if (message.ImageSource != null && message.ImageSource != "")
         {
             <div class="message text-oceanblue">
-                @Html.Raw(line)
+                <img src="~/@message.ImageSource.Replace('\\', '/')"/>
             </div>
         }
+        else
+        {
+            foreach (string line in messageBlock)
+            {
+                <div class="message text-oceanblue">
+                    @Html.Raw(line)
+                </div>
+                }
+            }
+        }
     }
-}

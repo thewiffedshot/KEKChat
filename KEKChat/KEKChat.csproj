@@ -179,6 +179,7 @@
     <Compile Include="Models\MemeEntry.cs" />
     <Compile Include="Models\MemeModel.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\MessageTextModel.cs" />
     <Compile Include="Models\PeopleListModel.cs" />
     <Compile Include="Models\PeopleModel.cs" />

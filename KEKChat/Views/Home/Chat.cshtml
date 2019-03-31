@@ -45,8 +45,50 @@
             }
             );
 
+            loadInventory();
             loadPeople();
         });
+
+        $(".card").click(
+            function (event) {
+                $.ajax(
+                {
+                    url: "@Url.Action("SendMeme", "Home")",
+                    data: { 'memeID': event.currentTarget.data('val') },
+                    type: 'POST',
+                    dataType: 'html',
+                    success: function (result)
+                             {
+                                $('#chatView').html(result);
+                                $('#textArea').val("");
+
+                                if (document.getElementById("chatView").childElementCount > messageCount) {
+                                    var element = document.getElementById("chatView");
+                                    element.scrollTop = element.scrollHeight;
+                                }
+
+                                messageCount = document.getElementById("chatView").childElementCount;
+                    },
+                    error: function (result) {
+                        alert("error");
+                    }
+                }
+                );
+            }
+        );
+
+        function loadInventory() {
+            $.ajax(
+            {
+                url: "@Url.Action("GetInventory", "Home")",
+                type: 'GET',
+                dataType: 'html',
+                success: function (result) {
+                        $(".memes").html(result);
+                }
+            }
+            );
+        }
 
         function loadPeople() {
             $.ajax(

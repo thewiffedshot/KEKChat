@@ -1,10 +1,40 @@
 ﻿@model KEKChat.Models.InventoryModel
 
 @{
+<script>
+        $(".card, .col-sm-5").click(
+            function (event) {
+                $.ajax(
+                {
+                    url: "@Url.Action("SendMeme", "Home")",
+                    data: { 'memeID': event.currentTarget.data('val') },
+                    type: 'POST',
+                    dataType: 'html',
+                    success: function (result)
+                             {
+                                $('#chatView').html(result);
+                                $('#textArea').val("");
+
+                                if (document.getElementById("chatView").childElementCount > messageCount) {
+                                    var element = document.getElementById("chatView");
+                                    element.scrollTop = element.scrollHeight;
+                                }
+
+                                messageCount = document.getElementById("chatView").childElementCount;
+                    },
+                    error: function (result) {
+                        alert("error");
+                    }
+                }
+                );
+            }
+        );
+</script>
+
     <div class="row col-12 p-0 m-0 justify-content-center align-content-center">
     @foreach (var asset in Model.InventoryList)
     {
-        <div class="card col-12 col-sm-5 bg-card-soap m-1">
+        <div class="card col-12 col-sm-5 bg-card-soap m-1" data-val="@asset.MemeEntry.ImagePath">
             <img src="~/@asset.MemeEntry.ImagePath.Replace('\\', '/')" class="card-img" />
             <div class="card-footer h-100">
                 <div class="row">

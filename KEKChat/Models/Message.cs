@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KEKChat.Contexts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,11 +23,31 @@ namespace KEKChat.Models
         [ForeignKey("User")]
         public int UserID { get; set; }
 
+        public MemeEntry Meme { get; set; }
+        
+        [ForeignKey("Meme")]
+        public int? MemeID { get; set; }
+
         public string Username { get; set; }
 
         public Message(string message, User user)
         {
             Text = message;
+            User = user;
+            UserID = user.ID;
+            Username = user.Username;
+            MemeID = null;
+        }
+
+        public Message(int img, User user)
+        {
+            MemeID = img;
+
+            using (UsersDB db = new UsersDB())
+            {
+                Meme = db.MemeStash.Where(m => m.ID == MemeID).SingleOrDefault();
+            }
+
             User = user;
             UserID = user.ID;
             Username = user.Username;
