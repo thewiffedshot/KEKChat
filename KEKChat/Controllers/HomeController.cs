@@ -83,17 +83,29 @@ namespace KEKChat.Controllers
         [HttpPost]
         public ActionResult SendMeme(string memeID)
         {
-            using (UsersDB db = new UsersDB())
+            int MemeID = int.Parse(memeID);
+
+            using (TransactionScope scope = new TransactionScope())
             {
-                var user = db.Users
-                             .Where(u => u.Username == User.Identity.Name)
-                             .SingleOrDefault();
 
-                db.Messages.Add(new Message(int.Parse(memeID), user));
+                using (UsersDB db = new UsersDB())
+                {
+                    var user = db.Users
+                                 .Where(u => u.Username == User.Identity.Name)
+                                 .SingleOrDefault();
 
-                
+                    db.Messages.Add(new Message(MemeID, user));
 
-                db.SaveChanges();
+                    var asset = db.MemeOwners
+                                  .Where(a => a.MemeID == MemeID && a.UserID == user.ID)
+                                  .SingleOrDefault();
+
+                    asset.Amount--;
+
+                    db.SaveChanges();
+                }
+
+                scope.Complete();
             }
 
             return GetMessages();
@@ -181,7 +193,15 @@ namespace KEKChat.Controllers
 
                             MemeAsset asset = new MemeAsset(user, currentMeme, meme.Quantity, meme.AssetName);
 
-                            db.MemeOwners.Add(asset);
+                            var existingAsset = db.MemeOwners.Where(a => a.UserID == user.ID && a.MemeID == memeID).SingleOrDefault();
+
+                            if(existingAsset == null)
+                                db.MemeOwners.Add(asset);
+                            else
+                            {
+                                existingAsset.Amount += meme.Quantity;
+                            }
+
                             db.SaveChanges();
                         }
                     }
