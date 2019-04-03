@@ -1,0 +1,47 @@
+﻿@model KEKChat.Models.MarketplaceInventoryModel
+
+@{
+    <div class="row col-12 p-0 m-0 justify-content-center align-content-center">
+        @foreach (var asset in Model.InventoryList)
+        {
+            <div class="card col-12 col-sm-5 bg-card-soap m-1 text-resize">
+                <img src="~/@asset.MemeEntry.ImagePath.Replace('\\', '/')" class="card-img" />
+                @using (Html.BeginForm("SellMeme", "Home", FormMethod.Post, new { @class = "card-footer h-100 p-0 mb-2" }))
+                {
+                    <div class="row m-0">
+                        <div class="col-lg-6 col-12 p-0">
+                            Name:<br>
+                            @asset.AssetName
+                        </div>
+                        <div class="col-lg-6 col-12 p-0">
+                            Amount: <br>
+                            @asset.Amount
+                        </div>
+                    </div>
+                    <div class="row m-0 border-top border-secondary">
+                        <div class="col-lg-6 col-12 p-0">
+                            <div class="col-12 p-0">
+                                Amount to sell:
+                                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "col-12 p-1", @min = "1", @step = "1" } })
+                            </div>
+                            <div class="col-12 p-0">
+                                For how much:
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-6 p-0">
+                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "col-12 p-1", @min = "1", @step = "1" } })
+                                </div>
+                                <div class="col-6 p-0">
+                                    Keks
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12 p-0 pt-1 pl-1 pr-1">
+                            <button type="submit" class="btn bg-bleu h-100 w-100" name="sell" value="@asset.MemeID"><div class="form-text">Sell</div></button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}

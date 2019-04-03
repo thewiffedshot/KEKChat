@@ -52,7 +52,7 @@
         function loadInventory() {
             $.ajax(
             {
-                url: "@Url.Action("GetInventory", "Home")",
+                url: "@Url.Action("GetInventory", "Home", new { view = "Chat" })",
                 type: 'GET',
                 dataType: 'html',
                 success: function (result) {
