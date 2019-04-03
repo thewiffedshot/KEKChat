@@ -175,6 +175,9 @@
     </Compile>
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MarketplaceEntry.cs" />
+    <Compile Include="Models\MarketplaceInventoryModel.cs" />
+    <Compile Include="Models\MarketplaceModel.cs" />
     <Compile Include="Models\MemeAsset.cs" />
     <Compile Include="Models\MemeEntry.cs" />
     <Compile Include="Models\MemeModel.cs" />
@@ -281,7 +284,10 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\_ChatView.cshtml" />
     <Content Include="Views\Home\_PeopleList.cshtml" />
-    <Content Include="Views\Home\_InventoryView.cshtml" />
+    <Content Include="Views\Home\Inventory\_ChatInventoryView.cshtml" />
+    <Content Include="Views\Home\Marketplace.cshtml" />
+    <Content Include="Views\Home\Inventory\_StoreInventoryView.cshtml" />
+    <Content Include="Views\Home\Inventory\_MarketplaceInventoryView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

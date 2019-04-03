@@ -13,6 +13,7 @@ namespace KEKChat.Contexts
         public DbSet<Message> Messages { get; set; }
         public DbSet<MemeAsset> MemeOwners { get; set; }
         public DbSet<MemeEntry> MemeStash { get; set; }
+        public DbSet<MarketplaceEntry> Marketplace { get; set; }
 
         public UsersDB()
             : base("name=UsersDB")

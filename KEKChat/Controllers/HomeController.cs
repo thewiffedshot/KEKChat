@@ -141,7 +141,7 @@ namespace KEKChat.Controllers
             return PartialView("_PeopleList", new PeopleListModel(people, DateTime.Now));
         }
 
-        public ActionResult GetInventory()
+        public ActionResult GetInventory(string view)
         {
             List<MemeAsset> list = new List<MemeAsset>(0);
 
@@ -156,8 +156,17 @@ namespace KEKChat.Controllers
                          .Where(mo => mo.UserID == ownerID && mo.Amount > 0)
                          .ToList();
             }
-
-            return PartialView("_InventoryView", new InventoryModel(list));
+            switch (view)
+            {
+                case "Chat":
+                    return PartialView("~/Views/Home/Inventory/_ChatInventoryView.cshtml", new InventoryModel(list));
+                case "Store":
+                    return PartialView("~/Views/Home/Inventory/_StoreInventoryView.cshtml", new InventoryModel(list));
+                case "Marketplace":
+                    return PartialView("~/Views/Home/Inventory/_MarketplaceInventoryView.cshtml", new MarketplaceInventoryModel(list));
+                default:
+                    return null;
+            }
         }
 
         [HttpPost]
@@ -193,7 +202,10 @@ namespace KEKChat.Controllers
 
                             MemeAsset asset = new MemeAsset(user, currentMeme, meme.Quantity, meme.AssetName);
 
-                            var existingAsset = db.MemeOwners.Where(a => a.UserID == user.ID && a.MemeID == memeID).SingleOrDefault();
+                            var existingAsset = db.MemeOwners
+                                                  .Where(a => a.UserID == user.ID 
+                                                           && a.MemeID == memeID)
+                                                  .SingleOrDefault();
 
                             if(existingAsset == null)
                                 db.MemeOwners.Add(asset);
@@ -212,6 +224,64 @@ namespace KEKChat.Controllers
 
             //TODO
             return StoreInit();
+        }
+
+        [HttpPost]
+        public ActionResult SellMeme(MarketplaceInventoryModel meme, string sell)
+        {
+            int memeID = int.Parse(sell);
+
+            if (ModelState.IsValid)
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (UsersDB db = new UsersDB())
+                    {
+                        User user = db.Users
+                                      .Where(u => u.Username == User.Identity.Name)
+                                      .SingleOrDefault();
+
+                        MemeAsset currentMeme = db.MemeOwners
+                                           .Where(u => u.MemeID == memeID && u.UserID == user.ID)
+                                           .SingleOrDefault();
+
+                        if(currentMeme.Amount >= meme.Quantity)
+                        {
+                            currentMeme.Amount -= meme.Quantity;
+
+                            var existingMemeForSale = db.Marketplace
+                                                      .Where(a => a.SellerID == user.ID 
+                                                               && a.AssetID == memeID 
+                                                               && a.Price == meme.Price)
+                                                      .SingleOrDefault();
+
+                            if (existingMemeForSale != null)
+                                existingMemeForSale.Quantity += meme.Quantity;
+                            else
+                                db.Marketplace.Add(new MarketplaceEntry(currentMeme, user, meme.Quantity, meme.Price));
+
+                            db.SaveChanges();
+                        }
+                    }
+                }
+            }
+
+
+                        return Marketplace();
+        }
+
+        public ActionResult Marketplace()
+        {
+            UpdateUserCurrencyLabel();
+
+            List<MarketplaceEntry> memes;
+
+            using (UsersDB db = new UsersDB())
+            {
+                memes = db.Marketplace.ToList();
+            }
+
+            return View("Marketplace", new MarketplaceModel(memes));
         }
 
         public void UpdateUserCurrencyLabel()
