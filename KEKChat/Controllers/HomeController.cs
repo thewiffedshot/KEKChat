@@ -143,7 +143,7 @@ namespace KEKChat.Controllers
 
         public ActionResult GetInventory(string view)
         {
-            List<MemeAsset> list = new List<MemeAsset>(0);
+            List<MemeAsset> list;
 
             using (UsersDB db = new UsersDB())
             {
@@ -227,9 +227,8 @@ namespace KEKChat.Controllers
         }
 
         [HttpPost]
-        public ActionResult SellMeme(MarketplaceInventoryModel meme, string sell)
+        public ActionResult SellMeme(MarketplaceInventoryModel meme, int sell)
         {
-            int memeID = int.Parse(sell);
 
             if (ModelState.IsValid)
             {
@@ -242,7 +241,7 @@ namespace KEKChat.Controllers
                                       .SingleOrDefault();
 
                         MemeAsset currentMeme = db.MemeOwners
-                                           .Where(u => u.MemeID == memeID && u.UserID == user.ID)
+                                           .Where(u => u.ID == sell && u.UserID == user.ID)
                                            .SingleOrDefault();
 
                         if(currentMeme.Amount >= meme.Quantity)
@@ -251,7 +250,7 @@ namespace KEKChat.Controllers
 
                             var existingMemeForSale = db.Marketplace
                                                       .Where(a => a.SellerID == user.ID 
-                                                               && a.AssetID == memeID 
+                                                               && a.AssetID == sell 
                                                                && a.Price == meme.Price)
                                                       .SingleOrDefault();
 
