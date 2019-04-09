@@ -75,7 +75,7 @@
             );
         }
 
-        window.setInterval("loadPeople()", 5000);
+        window.setInterval(loadPeople, 5000);
     </script>
 
     <div class="row tab-row m-0">
@@ -135,6 +135,11 @@
        window.setInterval("loadPartialView()", 200);
     });
 
+    $(document).ready(function () {
+
+
+    });
+
     document.getElementById('textArea').addEventListener('keydown', function (event) {
         if (event.which === 13 && event.shiftKey) {
             return false;
@@ -168,7 +173,7 @@
         }
     });
 
-    $("#sendButton").click(function (event) {
+    $("#sendButton").not(".bound-click").addClass("bound-click").click(function (event) {
         event.preventDefault();
             $.ajax(
             {
