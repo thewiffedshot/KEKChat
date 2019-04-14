@@ -175,19 +175,19 @@
     </Compile>
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\MarketplaceEntry.cs" />
+    <Compile Include="Models\Entities\MarketplaceEntry.cs" />
     <Compile Include="Models\MarketplaceInventoryModel.cs" />
     <Compile Include="Models\MarketplaceModel.cs" />
-    <Compile Include="Models\MemeAsset.cs" />
-    <Compile Include="Models\MemeEntry.cs" />
+    <Compile Include="Models\Entities\MemeAsset.cs" />
+    <Compile Include="Models\Entities\MemeEntry.cs" />
     <Compile Include="Models\MemeModel.cs" />
-    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Entities\Message.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\MessageTextModel.cs" />
     <Compile Include="Models\PeopleListModel.cs" />
     <Compile Include="Models\PeopleModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\MemeScraper.cs" />
     <Compile Include="Utils\PasswordHash.cs" />
