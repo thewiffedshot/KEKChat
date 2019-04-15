@@ -10,6 +10,24 @@
 }
 
 @section SideBar{
+    <div class="row tab-row m-0">
+        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link text-oceanblue" id="peopleList">
+            People
+        </div>
+        <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link text-oceanblue">
+            Memes
+        </div>
+    </div>
+    <div class="row content-row m-0">
+        <div class="people h-100">
+        </div>
+        <div class="memes h-100">
+        </div>
+    </div>
+}
+
+@section PartialScript
+{
     <script>
         $(document).ready(function () {
             var activeTab = $(".side-tab-left");
@@ -49,51 +67,34 @@
 
             loadInventory();
             loadPeople();
+
+            window.setInterval("loadPeople()", 5000);
         });
 
         function loadInventory() {
             $.ajax(
-            {
-                url: "@Url.Action("GetInventory", "Home", new { view = "Marketplace" })",
-                type: 'GET',
-                dataType: 'html',
-                success: function (result) {
-                        $(".memes").html(result);
+                {
+                    url: "@Url.Action("GetInventory", "Home", new { view = "Marketplace" })",
+                    type: 'GET',
+                    dataType: 'html'
                 }
-            }
-            );
+            ).always(function (result) {
+                        $(".memes").html(result);
+            });
         }
 
         function loadPeople() {
             $.ajax(
-            {
-                url: "@Url.Action("GetPeople", "Home")",
-                type: 'GET',
-                dataType: 'html',
-                success: function (result) {
+                {
+                    url: "@Url.Action("GetPeople", "Home")",
+                    type: 'GET',
+                    dataType: 'html'
+                }
+            ).always(function (result) {
                         $(".people").html(result);
-                },
-                error: function () { alert("error"); }
-            }
-            );
+            });
         }
-
-        window.setInterval("loadPeople()", 5000);
     </script>
-
-    <div class="row tab-row m-0">
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link text-oceanblue" id="peopleList">
-            People
-        </div>
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link text-oceanblue">
-            Memes
-        </div>
-    </div>
-    <div class="row content-row m-0">
-        <div class="people h-100">
-        </div>
-        <div class="memes h-100">
-        </div>
-    </div>
 }
+
 

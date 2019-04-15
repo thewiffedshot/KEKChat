@@ -8,10 +8,58 @@
 
 @section CustomCss{
     <link href="~/Content/Store.css" rel="stylesheet" type="text/css" />
-
 }
 
 @section SideBar{
+    <div class="row tab-row m-0">
+        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link text-oceanblue" id="peopleList">
+            People
+        </div>
+        <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link text-oceanblue">
+            Memes
+        </div>
+    </div>
+    <div class="row content-row m-0">
+        <div class="people h-100">
+        </div>
+        <div class="memes h-100">
+        </div>
+    </div>
+}
+
+<div class="store-page-catalog align-content-center pt-3">
+    @if (Model != null && Model.Memes != null)
+    {
+        foreach (var meme in Model.Memes)
+        {
+            <div class="card mb-lg-5 mb-3 p-lg-3 w-85 align-self-center bg-card-soap p-1">
+                <img src="~/@meme.ImagePath.Replace('\\', '/')" class="card-img-top" />
+                @using (Html.BeginForm("BuyMeme", "Home", FormMethod.Post, new { @class = "card-footer" }))
+                {
+                    <div class="row">
+                        <div class="col-4 m-0 p-0">
+                            Stock: <br>
+                            @meme.VendorAmount
+                        </div>
+                        <div class="col-4 m-0 p-0">
+                            Price: <br>
+                            @meme.Price KEKs
+                        </div>
+                        <div class="col-4 d-flex flex-wrap align-content-center p-0 pt-2 h-100 w-100">
+                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "col-12 p-1 h-50", @min = "1", @step = "1" } })
+                            @Html.EditorFor(model => model.AssetName, new { htmlAttributes = new { @class = "col-12 p-1 h-50", @placeholder = "Name your meme" } })
+                            <button type="submit" class="btn bg-bleu h-100 w-100 mt-1" name="buy" value="@meme.ID"><div class="form-text">BUY</div></button>
+                            @Html.ValidationMessage("MemeModel", new { @class = "text-error" })
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+
+@section PartialScript
+{
     <script>
         $(document).ready(function () {
             var activeTab = $(".side-tab-left");
@@ -51,81 +99,32 @@
 
             loadInventory();
             loadPeople();
+
+            window.setInterval("loadPeople()", 5000);
         });
 
         function loadInventory() {
             $.ajax(
-            {
-                url: "@Url.Action("GetInventory", "Home", new { view = "Store" })",
-                type: 'GET',
-                dataType: 'html',
-                success: function (result) {
-                        $(".memes").html(result);
+                {
+                    url: "@Url.Action("GetInventory", "Home", new { view = "Store" })",
+                    type: 'GET',
+                    dataType: 'html'
                 }
-            }
-            );
+            ).always(function (result) {
+                        $(".memes").html(result);
+            });
         }
 
         function loadPeople() {
             $.ajax(
-            {
-                url: "@Url.Action("GetPeople", "Home")",
-                type: 'GET',
-                dataType: 'html',
-                success: function (result) {
-                        $(".people").html(result);
-                },
-                error: function () { alert("error"); }
-            }
-            );
-        }
-
-        window.setInterval("loadPeople()", 5000);
-    </script>
-
-    <div class="row tab-row m-0">
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link text-oceanblue" id="peopleList">
-            People
-        </div>
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link text-oceanblue">
-            Memes
-        </div>
-    </div>
-    <div class="row content-row m-0">
-        <div class="people h-100">
-        </div>
-        <div class="memes h-100">
-        </div>
-    </div>
-}
-
-<div class="store-page-catalog align-content-center pt-3">
-    @if (Model.Memes != null)
-    {
-        foreach (var meme in Model.Memes)
-        {
-            <div class="card mb-lg-5 mb-3 p-lg-3 w-85 align-self-center bg-card-soap p-1">
-                <img src="~/@meme.ImagePath.Replace('\\', '/')" class="card-img-top" />
-                @using (Html.BeginForm("BuyMeme", "Home", FormMethod.Post, new { @class = "card-footer" }))
                 {
-                    <div class="row">
-                        <div class="col-4 m-0 p-0">
-                            Stock: <br>
-                            @meme.VendorAmount
-                        </div>
-                        <div class="col-4 m-0 p-0">
-                            Price: <br>
-                            @meme.Price KEKs
-                        </div>
-                        <div class="col-4 d-flex flex-wrap align-content-center p-0 pt-2 h-100 w-100">
-                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "col-12 p-1 h-50", @min = "1", @step = "1" } })
-                            @Html.EditorFor(model => model.AssetName, new { htmlAttributes = new { @class = "col-12 p-1 h-50", @placeholder = "Name your meme" } })
-                            <button type="submit" class="btn bg-bleu h-100 w-100 mt-1" name="buy" value="@meme.ID"><div class="form-text">BUY</div></button>
-                            @Html.ValidationMessage("MemeModel", new { @class = "text-error" })
-                        </div>
-                    </div>
+                    url: "@Url.Action("GetPeople", "Home")",
+                    type: 'GET',
+                    dataType: 'html'
                 }
-            </div>
+            ).always(function (result) {
+                        $(".people").html(result);
+            });
         }
-    }
-</div>
+    </script>
+}

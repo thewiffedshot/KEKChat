@@ -21,11 +21,6 @@ namespace KEKChat.Controllers
             return View("Chat");
         }
 
-        /*public ActionResult SendMessage()
-        {
-            return View("Chat");
-        }*/
-
         public async Task<ActionResult> Home()
         {
             ViewBag.SyncOrAsync = "Asynchronous";
