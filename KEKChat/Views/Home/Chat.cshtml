@@ -81,22 +81,27 @@
         var messageCount = 0;
 
         function loadPartialView() {
+            var lastID = $("#chatView").children().last().attr("id");
+            console.log(lastID);
+            if (lastID == null) lastID = 0;
+
             $.ajax(
                 {
                     url: "@Url.Action("GetMessages", "Home")",
-                    type: 'GET',
-                    dataType: 'html'
+                    type: 'POST',
+                    dataType: 'html',
+                    data: { "lastMessageID": lastID }
                 }
-            ).always(function (result)
-                         {
-                            $('#chatView').html(result);
+            ).done(function (result)
+            {
+                $('#chatView').append(result);
 
-                            if (document.getElementById("chatView").childElementCount > messageCount) {
-                                var element = document.getElementById("chatView");
-                                element.scrollTop = element.scrollHeight;
-                            }
+                if (document.getElementById("chatView").childElementCount > messageCount) {
+                    var element = document.getElementById("chatView");
+                    element.scrollTop = element.scrollHeight;
+                }
 
-                            messageCount = document.getElementById("chatView").childElementCount;
+                messageCount = document.getElementById("chatView").childElementCount;
             });
         }
 
@@ -106,25 +111,29 @@
             }
             else if (event.which === 13) {
                 event.preventDefault();
+                var lastID = $("#chatView").children().last().attr("id");
+                if (lastID == null) lastID = 0;
 
                 $.ajax(
                     {
                         url: "@Url.Action("SendMessage", "Home")",
-                        data: { 'msg' : $('#textArea').val() },
+                        data: {
+                            'msg': $('#textArea').val(),
+                            'lastMessageID': lastID
+                        },
                         type: 'POST',
                         dataType: 'html'
                     }
-                ).always(function (result)
-                             {
-                                $('#chatView').html(result);
-                                $('#textArea').val("");
+                ).done(function (result) {
+                    $('#chatView').append(result);
+                    $('#textArea').val("");
 
-                                if (document.getElementById("chatView").childElementCount > messageCount) {
-                                    var element = document.getElementById("chatView");
-                                    element.scrollTop = element.scrollHeight;
-                                }
+                    if (document.getElementById("chatView").childElementCount > messageCount) {
+                        var element = document.getElementById("chatView");
+                        element.scrollTop = element.scrollHeight;
+                    }
 
-                                messageCount = document.getElementById("chatView").childElementCount;
+                    messageCount = document.getElementById("chatView").childElementCount;
                 });
 
                 return true;
@@ -133,16 +142,23 @@
 
         $("#sendButton").not(".bound-click").addClass("bound-click").click(function (event) {
             event.preventDefault();
+
+            var lastID = $("#chatView").children().last().attr("id");
+            if (lastID == null) lastID = 0;
+
                 $.ajax(
                     {
                         url: "@Url.Action("SendMessage", "Home")",
-                        data: { 'msg' : $('#textArea').val() },
+                        data: {
+                            'msg': $('#textArea').val(),
+                            'lastMessageID': lastID
+                        },
                         type: 'POST',
                         dataType: 'html'
                     }
-                ).always(function (result)
+                ).done(function (result)
                              {
-                                $('#chatView').html(result);
+                                $('#chatView').append(result);
                                 $('#textArea').val("");
 
                                 if (document.getElementById("chatView").childElementCount > messageCount) {

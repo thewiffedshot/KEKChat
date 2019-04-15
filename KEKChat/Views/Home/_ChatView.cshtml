@@ -3,28 +3,30 @@
 @{
     foreach (KEKChat.Models.MessageModel message in Model.MessageCollection)
     {
-        <div class="message-header text-amazonite">
-            <b>@Html.Raw(message.Username + " " + (message.Date.DayOfYear == DateTime.Now.Date.DayOfYear ? message.Date.ToString("HH:mm") : message.Date.ToString("dd/MM/yyyy HH:mm")))</b>
-        </div>
-
-        if (message.ImageSource != null && message.ImageSource != "")
-        {
-            <div id="">
-                <img src="~/@message.ImageSource.Replace('\\', '/')" class="meme"/>
+        <div id="@message.ID">
+            <div class="message-header text-amazonite">
+                <b>@Html.Raw(message.Username + " " + (message.Date.DayOfYear == DateTime.Now.Date.DayOfYear ? message.Date.ToString("HH:mm") : message.Date.ToString("dd/MM/yyyy HH:mm")))</b>
             </div>
-            <br>
-        }
-        else
-        {
-            string[] messageBlock = message.Text.Split(new char[] { '\n' });
 
-            foreach (string line in messageBlock)
+            @if (message.ImageSource != null && message.ImageSource != "")
             {
-                <div class="message text-oceanblue">
-                    @Html.Raw(line)
+                <div id="">
+                    <img src="~/@message.ImageSource.Replace('\\', '/')" class="meme"/>
                 </div>
+                <br>
+            }
+            else
+            {
+                string[] messageBlock = message.Text.Split(new char[] { '\n' });
+
+                foreach (string line in messageBlock)
+                {
+                    <div class="message text-oceanblue">
+                        @Html.Raw(line)
+                    </div>
                 }
             }
             <br>
-        }
+        </div>
     }
+}

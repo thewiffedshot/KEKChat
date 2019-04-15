@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 
-namespace KEKChat.Utils
+namespace KEKChat.CoreAPI.Utils
 {
     public class PasswordHash
     {

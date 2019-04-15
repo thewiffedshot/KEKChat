@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using KEKChat.Models;
-using System.Data.Sql;
-using System.Security.Cryptography;
-using KEKChat.Utils;
+using KEKChat.CoreAPI.Utils;
 using KEKChat.Contexts;
 
 namespace KEKChat.Controllers
@@ -17,24 +12,12 @@ namespace KEKChat.Controllers
         // GET: Account
         public ActionResult Login()
         {
-            if(User.Identity.IsAuthenticated && UserExists(User.Identity.Name))
+            if (User.Identity.IsAuthenticated && CoreAPI.Account.UserExists(User.Identity.Name))
             {
                 return RedirectToAction("Chat", "Home");
             }
 
             return View();
-        }
-
-        private bool UserExists(string name)
-        {
-            using (UsersDB db = new UsersDB())
-            {
-                var user = db.Users.Where(u => u.Username == name).SingleOrDefault();
-
-                if (user != null)
-                    return true;
-            }
-            return false;
         }
 
         public ActionResult SignOut()
@@ -46,41 +29,22 @@ namespace KEKChat.Controllers
             return RedirectToAction("Login");
         }
 
-        public ActionResult Heartbeat(string username)
-        {
-            using (UsersDB db = new UsersDB())
-            {
-                db.Users.Where(u => u.Username == username).SingleOrDefault().LastOnline = DateTime.Now;
-
-                db.SaveChanges();
-            }
-
-            return null;
-        }
-
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
-
-            using (UsersDB db = new UsersDB())
+            if (CoreAPI.Account.Authenticate(model.Username, model.Password))
             {
-                var user = db.Users
-                                .Where(u => u.Username == model.Username)
-                                .SingleOrDefault();
+                FormsAuthentication.SetAuthCookie(model.Username, false);
+                Session["currency"] = CoreAPI.Session.GetUserCurrency(model.Username);
 
-                if (user != null && PasswordHash.ValidatePassword(model.Password, user.PasswordHash, user.HashSalt, user.HashIterations))
-                {
-                    FormsAuthentication.SetAuthCookie(user.Username, false);
+                return RedirectToAction("Chat", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("LoginError", "Invalid username and/or password.");
 
-                    Session["currency"] = user.Currency;
-                    return RedirectToAction("Chat", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("LoginError", "Invalid username and/or password.");
-                    return View();
-                }
-            } 
+                return View();
+            }
         }
 
         public ActionResult Register()
@@ -93,28 +57,14 @@ namespace KEKChat.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (UsersDB db = new UsersDB())
+                if (CoreAPI.Account.Register(model.Username, model.Password))
                 {
-                    var user = db.Users
-                                 .Where(n => n.Username == model.Username) 
-                                 .SingleOrDefault();
-
-                    if (user == null)
-                    {
-                        string[] hashes = PasswordHash.CreateHash(model.Password);
-
-                        db.Users.Add(new User(model.Username, hashes[0], hashes[1], hashes[2]));
-                        db.SaveChanges();
-                        db.Dispose();
-
-                        return RedirectToAction("Login");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("RegError", "User already taken.");
-                        return View();
-                    }
-                }    
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    ModelState.AddModelError("RegError", "User already taken.");
+                }
             }
 
             return View();

@@ -52,8 +52,8 @@
         function heartbeat() {
             $.ajax(
             {
-                url: "@Url.Action("Heartbeat", "Account")",
-                data: { 'isOnline' : false, "username" : "@User.Identity.Name" },
+                url: "@Url.Action("Heartbeat", "Home")",
+                data: { 'isOnline': false },
                 type: 'POST',
                 dataType: 'html'
             }
