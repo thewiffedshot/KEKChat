@@ -47,19 +47,19 @@ namespace KEKChat.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendMessage(string msg, int lastMessageID)
+        public ActionResult SendMessage(string msg)
         {
             CoreAPI.Chat.SendMessage(msg, User.Identity.Name);
 
-            return GetMessages(lastMessageID);
+            return null;
         }
 
         [HttpPost]
-        public ActionResult SendMeme(string memeID, int lastMessageID)
+        public ActionResult SendMeme(string memeID)
         {
             CoreAPI.Chat.SendMeme(memeID, User.Identity.Name);
 
-            return GetMessages(lastMessageID);
+            return null;
         }
 
         public ActionResult GetMessages(int lastMessageID)

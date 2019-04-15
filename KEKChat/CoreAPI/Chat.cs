@@ -32,6 +32,7 @@ namespace KEKChat.CoreAPI
                 var query = from messages in db.Messages
                             where messages.ID > lastMessageID
                             from memes in db.MemeStash.Where(m => m.ID == messages.MemeID).DefaultIfEmpty()
+                            orderby messages.ID
                             select new MessageModel { Username = messages.Username, Text = messages.Text, Date = messages.Date, ImageSource = memes.ImagePath, ID = messages.ID };
 
                 return new MessageTextModel(query.ToList());

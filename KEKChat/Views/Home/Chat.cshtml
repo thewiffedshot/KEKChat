@@ -49,8 +49,7 @@
             loadInventory();
             loadPeople();
             loadPartialView();
-
-            window.setInterval("loadPartialView()", 200);
+            //window.setInterval(loadPartialView, 200);
             window.setInterval(loadPeople, 5000);
         });
 
@@ -82,7 +81,7 @@
 
         function loadPartialView() {
             var lastID = $("#chatView").children().last().attr("id");
-            console.log(lastID);
+            //console.log(lastID);
             if (lastID == null) lastID = 0;
 
             $.ajax(
@@ -102,6 +101,8 @@
                 }
 
                 messageCount = document.getElementById("chatView").childElementCount;
+
+                setTimeout(loadPartialView(), 0);
             });
         }
 
@@ -118,22 +119,14 @@
                     {
                         url: "@Url.Action("SendMessage", "Home")",
                         data: {
-                            'msg': $('#textArea').val(),
-                            'lastMessageID': lastID
+                            'msg': $('#textArea').val()
                         },
                         type: 'POST',
                         dataType: 'html'
                     }
-                ).done(function (result) {
-                    $('#chatView').append(result);
+                ).done(function ()
+                {
                     $('#textArea').val("");
-
-                    if (document.getElementById("chatView").childElementCount > messageCount) {
-                        var element = document.getElementById("chatView");
-                        element.scrollTop = element.scrollHeight;
-                    }
-
-                    messageCount = document.getElementById("chatView").childElementCount;
                 });
 
                 return true;
@@ -150,25 +143,14 @@
                     {
                         url: "@Url.Action("SendMessage", "Home")",
                         data: {
-                            'msg': $('#textArea').val(),
-                            'lastMessageID': lastID
+                            'msg': $('#textArea').val()
                         },
                         type: 'POST',
                         dataType: 'html'
                     }
-                ).done(function (result)
-                             {
-                                $('#chatView').append(result);
-                                $('#textArea').val("");
-
-                                if (document.getElementById("chatView").childElementCount > messageCount) {
-                                    var element = document.getElementById("chatView");
-                                    element.scrollTop = element.scrollHeight;
-                                }
-
-                                messageCount = document.getElementById("chatView").childElementCount;
-                }).fail(function () {
-                    alert("error");
+                ).done(function ()
+                {
+                    $('#textArea').val("");
                 });
             }
         );

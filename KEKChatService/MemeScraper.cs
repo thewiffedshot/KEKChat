@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using RedditSharp;
 using RedditSharp.Things;
 using KEKChat.Models;
@@ -86,7 +85,7 @@ namespace KEKChatService
                                   .Where(m => m.ImagePath == meme.ImagePath)
                                   .ToList();
 
-                    if (memes.Count == 0)
+                    if (memes == null)
                     {
                         db.MemeStash.Add(meme);
                         db.SaveChanges();
