@@ -1,0 +1,12 @@
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChat\bin\ApplicationInsights.config
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChat\bin\KEKChatService.exe.config
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChat\bin\KEKChatService.exe
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChat\bin\KEKChatService.pdb
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChatService\obj\Debug\KEKChatService.csprojAssemblyReference.cache
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChatService\obj\Debug\KEKChatService.csproj.CoreCompileInputs.cache
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChatService\obj\Debug\KEKChatService.csproj.CopyComplete
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChatService\obj\Debug\KEKChatService.pdb
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChatService\obj\Debug\KEKChatService.ProjectInstaller.resources
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChatService\obj\Debug\KEKChatService.csproj.GenerateResource.cache
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChatService\obj\Debug\KEKChatService.KEKChatService.resources

@@ -21,15 +21,9 @@ namespace KEKChat.Controllers
             return View("Chat");
         }
 
-        public async Task<ActionResult> Home()
+        public ActionResult Home()
         {
-            ViewBag.SyncOrAsync = "Asynchronous";
-
-            string savepath = Server.MapPath("~") + "Memes\\";
-
-            MemeScraper scraper = new MemeScraper(savepath, new string[] { "me_irl", "memes" }, 10);
-
-            await scraper.GetMemesFromSubsAsync();
+            // TODO: Make this a tester method.
 
             return RedirectToAction("Chat");
         }
