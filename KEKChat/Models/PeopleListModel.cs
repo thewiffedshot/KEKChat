@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using KEKCore.Entities;
 
 namespace KEKChat.Models
 {
@@ -16,8 +17,10 @@ namespace KEKChat.Models
 
         }
 
-        public PeopleListModel(List<User> users, DateTime current)
+        public PeopleListModel(IEnumerable<User> users)
         {
+            DateTime current = DateTime.Now;
+
             foreach (User user in users)
                 People.Add(new PeopleModel(user.Username, (current - user.LastOnline).TotalSeconds <= userTimeoutInterval));
 

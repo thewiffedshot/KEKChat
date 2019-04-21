@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Security;
 using KEKChat.Models;
-using KEKChat.CoreAPI.Utils;
+using KEKCore.Utils;
 using KEKChat.Contexts;
 
 namespace KEKChat.Controllers
@@ -12,7 +12,7 @@ namespace KEKChat.Controllers
         // GET: Account
         public ActionResult Login()
         {
-            if (User.Identity.IsAuthenticated && CoreAPI.Account.UserExists(User.Identity.Name))
+            if (User.Identity.IsAuthenticated && KEKCore.Account.UserExists(User.Identity.Name))
             {
                 return RedirectToAction("Chat", "Home");
             }
@@ -32,10 +32,10 @@ namespace KEKChat.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
-            if (CoreAPI.Account.Authenticate(model.Username, model.Password))
+            if (KEKCore.Account.Authenticate(model.Username, model.Password))
             {
                 FormsAuthentication.SetAuthCookie(model.Username, false);
-                Session["currency"] = CoreAPI.Session.GetUserCurrency(model.Username);
+                Session["currency"] = KEKCore.Session.GetUserCurrency(model.Username);
 
                 return RedirectToAction("Chat", "Home");
             }
@@ -57,7 +57,7 @@ namespace KEKChat.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (CoreAPI.Account.Register(model.Username, model.Password))
+                if (KEKCore.Account.Register(model.Username, model.Password))
                 {
                     return RedirectToAction("Login");
                 }

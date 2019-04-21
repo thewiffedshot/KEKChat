@@ -1,14 +1,14 @@
-﻿@model KEKChat.Models.MessageTextModel
+﻿@model IEnumerable<KEKChat.Models.MessageModel>
 
 @{
-    foreach (KEKChat.Models.MessageModel message in Model.MessageCollection)
+    foreach (KEKChat.Models.MessageModel message in Model)
     {
         <div id="@message.ID">
             <div class="message-header text-amazonite">
                 <b>@Html.Raw(message.Username + " " + (message.Date.DayOfYear == DateTime.Now.Date.DayOfYear ? message.Date.ToString("HH:mm") : message.Date.ToString("dd/MM/yyyy HH:mm")))</b>
             </div>
 
-            @if (message.ImageSource != null && message.ImageSource != "")
+            @if (!string.IsNullOrEmpty(message.ImageSource))
             {
                 <div>
                     <img src="~/@message.ImageSource.Replace('\\', '/')" class="meme"/>

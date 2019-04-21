@@ -1,4 +1,3 @@
-C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChat\bin\ApplicationInsights.config
 C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChat\bin\KEKChatService.exe.config
 C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChat\bin\KEKChatService.exe
 C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKChat\bin\KEKChatService.pdb

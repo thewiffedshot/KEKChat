@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using RedditSharp;
 using RedditSharp.Things;
-using KEKChat.Models;
+using KEKCore.Entities;
 using System.Threading.Tasks;
-using KEKChat.Contexts;
+using KEKCore.Contexts;
 
 namespace KEKChatService
 {

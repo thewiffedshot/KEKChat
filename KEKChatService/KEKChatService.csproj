@@ -90,18 +90,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KEKChat\KEKChat.csproj">
-      <Project>{cc5ab942-0293-4d2d-adb3-4008bdf6df74}</Project>
-      <Name>KEKChat</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KEKChatService.resx">
       <DependentUpon>KEKChatService.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KEKCore\KEKCore.csproj">
+      <Project>{778856ec-bf83-4889-a770-e4b35157423e}</Project>
+      <Name>KEKCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

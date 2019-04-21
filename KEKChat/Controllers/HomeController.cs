@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Transactions;
-using KEKChat.CoreAPI;
+using KEKCore;
 
 namespace KEKChat.Controllers
 {
@@ -35,13 +35,13 @@ namespace KEKChat.Controllers
         {
             UpdateUserCurrencyLabel();
 
-            return View("Store", CoreAPI.Store.GetStoreEntries());
+            return View("Store", KEKCore.Store.GetStoreEntries().Select(meme => new MemeModel(meme)));
         }
         
         [HttpPost]
         public ActionResult Heartbeat()
         {
-            CoreAPI.Account.SendHeartbeat(User.Identity.Name);
+            KEKCore.Account.SendHeartbeat(User.Identity.Name);
 
             return null;
         }
@@ -49,7 +49,7 @@ namespace KEKChat.Controllers
         [HttpPost]
         public ActionResult SendMessage(string msg)
         {
-            CoreAPI.Chat.SendMessage(msg, User.Identity.Name);
+            KEKCore.Chat.SendMessage(msg, User.Identity.Name);
 
             return null;
         }
@@ -57,24 +57,32 @@ namespace KEKChat.Controllers
         [HttpPost]
         public ActionResult SendMeme(string memeID)
         {
-            CoreAPI.Chat.SendMeme(memeID, User.Identity.Name);
+            KEKCore.Chat.SendMeme(memeID, User.Identity.Name);
 
             return null;
         }
 
         public ActionResult GetMessages(int lastMessageID)
         {
-            return PartialView("_ChatView", CoreAPI.Chat.GetMessages(lastMessageID));
+            return PartialView("_ChatView", 
+                KEKCore.Chat.GetMessages(lastMessageID)
+                            .Select(m => 
+                                new MessageModel { Username = m.Username,
+                                                   Date = m.Date,
+                                                   ID = m.ID,
+                                                   ImageSource = m.Meme != null ? m.Meme.ImagePath : null,
+                                                   Text = m.Text }
+                                ));
         }
 
         public ActionResult GetPeople()
         {
-            return PartialView("_PeopleList", CoreAPI.Session.GetPeopleListModel());
+            return PartialView("_PeopleList", KEKCore.Session.GetPeopleListModel());
         }
 
         public ActionResult GetInventory(string view)
         {
-            List<MemeAsset> list = CoreAPI.Session.GetInventoryList(User.Identity.Name);
+            var list = KEKCore.Session.GetInventoryList(User.Identity.Name);
             
             switch (view)
             {
@@ -94,7 +102,7 @@ namespace KEKChat.Controllers
         {
             if (ModelState.IsValid)
             {
-                CoreAPI.Store.BuyMeme(meme, buy, User.Identity.Name);
+                KEKCore.Store.BuyMeme(meme.AssetName, meme.Quantity, buy, User.Identity.Name);
             }
 
             return StoreInit();
@@ -105,7 +113,7 @@ namespace KEKChat.Controllers
         {
             if (ModelState.IsValid)
             {
-                CoreAPI.Marketplace.SellMeme(meme, sell, User.Identity.Name);
+                KEKCore.Marketplace.SellMeme(meme.Quantity, meme.Price, sell, User.Identity.Name);
             }
 
             return Marketplace();
@@ -115,12 +123,12 @@ namespace KEKChat.Controllers
         {
             UpdateUserCurrencyLabel();
 
-            return View("Marketplace", CoreAPI.Marketplace.GetMarketplaceModel());
+            return View("Marketplace", KEKCore.Marketplace.GetMarketplaceEntries());
         }
 
         public void UpdateUserCurrencyLabel()
         {
-            Session["currency"] = CoreAPI.Session.GetUserCurrency(User.Identity.Name);
+            Session["currency"] = KEKCore.Session.GetUserCurrency(User.Identity.Name);
         }
     }
 }
