@@ -24,6 +24,7 @@ namespace KEKCore.Contexts
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("public");
+            modelBuilder.Entity<MemeEntry>().HasIndex(u => u.ImagePath).IsUnique();
             base.OnModelCreating(modelBuilder);
         }
     }

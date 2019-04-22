@@ -45,7 +45,7 @@ namespace KEKCore.Entities
 
             using (UsersDB db = new UsersDB())
             {
-                Meme = db.MemeStash.Where(m => m.ID == MemeID).SingleOrDefault();
+                Meme = db.MemeStash.Where(m => m.ID == MemeID).Single(); ;
             }
 
             User = user;

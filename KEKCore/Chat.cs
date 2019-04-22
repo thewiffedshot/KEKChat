@@ -53,6 +53,7 @@ namespace KEKCore
                         db.Messages.Add(new Message(MemeID, user));
 
                         var asset = db.MemeOwners
+                                      .Include(a => a.MemeEntry)
                                       .Where(a => a.MemeID == MemeID && a.UserID == user.ID)
                                       .SingleOrDefault();
 

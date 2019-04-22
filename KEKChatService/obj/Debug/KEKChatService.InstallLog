@@ -1,0 +1,177 @@
+﻿Installing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Rolling back assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+An exception occurred during the Rollback phase of the System.ServiceProcess.ServiceProcessInstaller installer.
+System.NullReferenceException: Object reference not set to an instance of an object.
+An exception occurred during the Rollback phase of the installation. This exception will be ignored and the rollback will continue. However, the machine might not fully revert to its initial state after the rollback is complete.
+Installing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Rolling back assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Installing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Rolling back assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Uninstalling assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Removing EventLog source KEKChatService.
+Warning: The source KEKChatService is not registered on the local machine.
+Service KEKChatService is being removed from the system...
+An exception occurred during the uninstallation of the System.ServiceProcess.ServiceInstaller installer.
+System.ComponentModel.Win32Exception: The specified service does not exist as an installed service
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Installing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Rolling back assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Installing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Rolling back assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Installing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Rolling back assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Installing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Installing service KEKChatService...
+Service KEKChatService has been successfully installed.
+Creating EventLog source KEKChatService in log Application...
+Committing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Uninstalling assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Removing EventLog source KEKChatService.
+Service KEKChatService is being removed from the system...
+Service KEKChatService was successfully removed from the system.
+Installing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Installing service KEKChatService...
+Service KEKChatService has been successfully installed.
+Creating EventLog source KEKChatService in log Application...
+Committing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Uninstalling assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Removing EventLog source KEKChatService.
+An exception occurred during the uninstallation of the System.Diagnostics.EventLogInstaller installer.
+System.Security.SecurityException: Requested registry access is not allowed.
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Uninstalling assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Removing EventLog source KEKChatService.
+An exception occurred during the uninstallation of the System.Diagnostics.EventLogInstaller installer.
+System.Security.SecurityException: Requested registry access is not allowed.
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Uninstalling assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Removing EventLog source KEKChatService.
+An exception occurred during the uninstallation of the System.Diagnostics.EventLogInstaller installer.
+System.Security.SecurityException: Requested registry access is not allowed.
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Uninstalling assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Removing EventLog source KEKChatService.
+Service KEKChatService is being removed from the system...
+Service KEKChatService was successfully removed from the system.
+Installing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Installing service KEKChatService...
+Service KEKChatService has been successfully installed.
+Creating EventLog source KEKChatService in log Application...
+Committing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Uninstalling assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Removing EventLog source KEKChatService.
+Service KEKChatService is being removed from the system...
+Service KEKChatService was successfully removed from the system.
+Installing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
+Installing service KEKChatService...
+Service KEKChatService has been successfully installed.
+Creating EventLog source KEKChatService in log Application...
+Committing assembly 'G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.InstallLog
+   assemblypath = G:\source\repos\KEKChat\KEKChatService\obj\Debug\KEKChatService.exe
