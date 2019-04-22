@@ -66,18 +66,23 @@ namespace KEKChat.Controllers
         {
             return PartialView("_ChatView", 
                 KEKCore.Chat.GetMessages(lastMessageID)
-                            .Select(m => 
-                                new MessageModel { Username = m.Username,
-                                                   Date = m.Date,
-                                                   ID = m.ID,
-                                                   ImageSource = m.Meme != null ? m.Meme.ImagePath : null,
-                                                   Text = m.Text }
-                                ));
+                            .Select(m =>
+                                new MessageModel
+                                {
+                                    ID = m.ID,
+                                    Username = m.Username,
+                                    Date = m.Date,
+                                    ImageSource = m.Meme != null ? m.Meme.ImagePath : null,
+                                    Text = m.Text
+                                }));
         }
 
         public ActionResult GetPeople()
         {
-            return PartialView("_PeopleList", KEKCore.Session.GetPeopleListModel());
+            return PartialView("_PeopleList", KEKCore.Session.GetPeopleList()
+                                                             .Select(u => new PeopleModel(u.Username, u.LastOnline))
+                                                             .OrderByDescending(u => u.Online)
+                                                             .ThenBy(u => u.Username));
         }
 
         public ActionResult GetInventory(string view)

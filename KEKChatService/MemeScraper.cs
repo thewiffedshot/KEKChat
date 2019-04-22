@@ -85,7 +85,7 @@ namespace KEKChatService
                                   .Where(m => m.ImagePath == meme.ImagePath)
                                   .ToList();
 
-                    if (memes == null)
+                    if (memes != null)
                     {
                         db.MemeStash.Add(meme);
                         db.SaveChanges();

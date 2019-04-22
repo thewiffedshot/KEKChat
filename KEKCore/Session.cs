@@ -9,7 +9,7 @@ namespace KEKCore
 {
     public static class Session
     {
-        public static IEnumerable<User> GetPeopleListModel()
+        public static IEnumerable<User> GetPeopleList()
         {
             using (UsersDB db = new UsersDB())
             {

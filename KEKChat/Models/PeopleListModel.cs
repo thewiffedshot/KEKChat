@@ -8,7 +8,7 @@ namespace KEKChat.Models
 {
     public class PeopleListModel
     {
-        public static readonly uint userTimeoutInterval = 15; // In seconds.
+        
 
         public List<PeopleModel> People { get; private set; } = new List<PeopleModel>(0);
 
@@ -20,9 +20,6 @@ namespace KEKChat.Models
         public PeopleListModel(IEnumerable<User> users)
         {
             DateTime current = DateTime.Now;
-
-            foreach (User user in users)
-                People.Add(new PeopleModel(user.Username, (current - user.LastOnline).TotalSeconds <= userTimeoutInterval));
 
             var people = People
                          .Where(p => p.Online)
