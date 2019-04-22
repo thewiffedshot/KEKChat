@@ -179,7 +179,6 @@
     <Compile Include="Models\MarketplaceModel.cs" />
     <Compile Include="Models\MemeModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
-    <Compile Include="Models\PeopleListModel.cs" />
     <Compile Include="Models\PeopleModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
