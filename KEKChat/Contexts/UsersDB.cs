@@ -1,4 +1,4 @@
-﻿using KEKChat.Models;
+﻿using KEKCore.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

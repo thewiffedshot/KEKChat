@@ -1,15 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using KEKCore.Entities;
+using KEKCore.Contexts;
+
 namespace KEKChat.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.Linq;
-    using KEKChat.Contexts;
-
     public class MarketplaceInventoryModel
     {
-
-        public List<MemeAsset> InventoryList { get; set; } = new List<MemeAsset>(0);
+        public IEnumerable<MemeAsset> InventoryList { get; set; } = new List<MemeAsset>(0);
         public int Quantity { get; set; } = 1;
         public int Price { get; set; } = 1;
 
@@ -18,7 +18,7 @@ namespace KEKChat.Models
 
         }
 
-        public MarketplaceInventoryModel(List<MemeAsset> list)
+        public MarketplaceInventoryModel(IEnumerable<MemeAsset> list)
         {
             using (UsersDB db = new UsersDB())
             {

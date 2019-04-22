@@ -14,5 +14,7 @@ namespace KEKChat.Models
         public string Username { get; set; }
 
         public string ImageSource { get; set; } = "";
+
+        public int ID { get; set; }
     }
 }

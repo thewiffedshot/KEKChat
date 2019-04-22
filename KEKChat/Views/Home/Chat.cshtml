@@ -1,5 +1,4 @@
-﻿@model KEKChat.Models.MessageTextModel
-@{
+﻿@{
     ViewBag.Title = "KEKChat";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
@@ -11,6 +10,8 @@
 @section PartialScript
 {
     <script>
+        var polling = false;
+
         $(document).ready(function () {
             var activeTab = $(".side-tab-left");
             var otherTab = $(".side-tab-right");
@@ -50,7 +51,7 @@
             loadPeople();
             loadPartialView();
 
-            window.setInterval("loadPartialView()", 200);
+            window.setInterval(loadPartialView, 200);
             window.setInterval(loadPeople, 5000);
         });
 
@@ -81,23 +82,31 @@
         var messageCount = 0;
 
         function loadPartialView() {
-            $.ajax(
-                {
-                    url: "@Url.Action("GetMessages", "Home")",
-                    type: 'GET',
-                    dataType: 'html'
-                }
-            ).always(function (result)
-                         {
-                            $('#chatView').html(result);
+            if (!polling) {
+                polling = true;
 
-                            if (document.getElementById("chatView").childElementCount > messageCount) {
-                                var element = document.getElementById("chatView");
-                                element.scrollTop = element.scrollHeight;
-                            }
+                var lastID = $("#chatView").children().last().attr("id");
+                //console.log(lastID);
+                if (lastID == null) lastID = 0;
 
-                            messageCount = document.getElementById("chatView").childElementCount;
-            });
+                $.ajax(
+                    {
+                        url: "@Url.Action("GetMessages", "Home")",
+                        type: 'POST',
+                        dataType: 'html',
+                        data: { "lastMessageID": lastID }
+                    }
+                ).done(function (result) {
+                    $('#chatView').append(result);
+
+                    if (document.getElementById("chatView").childElementCount > messageCount) {
+                        var element = document.getElementById("chatView");
+                        element.scrollTop = element.scrollHeight;
+                    }
+
+                    messageCount = document.getElementById("chatView").childElementCount;
+                }).always(function () { polling = false; });
+            }
         }
 
         document.getElementById('textArea').addEventListener('keydown', function (event) {
@@ -106,25 +115,21 @@
             }
             else if (event.which === 13) {
                 event.preventDefault();
+                var lastID = $("#chatView").children().last().attr("id");
+                if (lastID == null) lastID = 0;
 
                 $.ajax(
                     {
                         url: "@Url.Action("SendMessage", "Home")",
-                        data: { 'msg' : $('#textArea').val() },
+                        data: {
+                            'msg': $('#textArea').val()
+                        },
                         type: 'POST',
                         dataType: 'html'
                     }
-                ).always(function (result)
-                             {
-                                $('#chatView').html(result);
-                                $('#textArea').val("");
-
-                                if (document.getElementById("chatView").childElementCount > messageCount) {
-                                    var element = document.getElementById("chatView");
-                                    element.scrollTop = element.scrollHeight;
-                                }
-
-                                messageCount = document.getElementById("chatView").childElementCount;
+                ).done(function ()
+                {
+                    $('#textArea').val("");
                 });
 
                 return true;
@@ -133,26 +138,22 @@
 
         $("#sendButton").not(".bound-click").addClass("bound-click").click(function (event) {
             event.preventDefault();
+
+            var lastID = $("#chatView").children().last().attr("id");
+            if (lastID == null) lastID = 0;
+
                 $.ajax(
                     {
                         url: "@Url.Action("SendMessage", "Home")",
-                        data: { 'msg' : $('#textArea').val() },
+                        data: {
+                            'msg': $('#textArea').val()
+                        },
                         type: 'POST',
                         dataType: 'html'
                     }
-                ).always(function (result)
-                             {
-                                $('#chatView').html(result);
-                                $('#textArea').val("");
-
-                                if (document.getElementById("chatView").childElementCount > messageCount) {
-                                    var element = document.getElementById("chatView");
-                                    element.scrollTop = element.scrollHeight;
-                                }
-
-                                messageCount = document.getElementById("chatView").childElementCount;
-                }).fail(function () {
-                    alert("error");
+                ).done(function ()
+                {
+                    $('#textArea').val("");
                 });
             }
         );
