@@ -17,6 +17,8 @@ namespace KEKCore.Entities
         public int VendorAmount { get; set; }
         public string Subreddit { get; set; }
 
+        public IEnumerable<Message> Messages { get; set; }
+
         public MemeEntry(string path, decimal price, int vendorAmount, string sub)
         {
             ImagePath = path;

@@ -2,6 +2,7 @@
 using KEKCore.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -29,6 +30,7 @@ namespace KEKCore
                                 .SingleOrDefault();
 
                 return db.MemeOwners
+                         .Include(mo => mo.MemeEntry)
                          .Where(mo => mo.UserID == ownerID && mo.Amount > 0)
                          .ToList();
             }

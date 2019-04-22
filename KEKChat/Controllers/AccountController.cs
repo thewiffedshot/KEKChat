@@ -3,7 +3,6 @@ using System.Web.Mvc;
 using System.Web.Security;
 using KEKChat.Models;
 using KEKCore.Utils;
-using KEKChat.Contexts;
 
 namespace KEKChat.Controllers
 {

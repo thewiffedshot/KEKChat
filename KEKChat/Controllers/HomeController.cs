@@ -1,5 +1,4 @@
-﻿using KEKChat.Contexts;
-using KEKChat.Models;
+﻿using KEKChat.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,11 +91,11 @@ namespace KEKChat.Controllers
             switch (view)
             {
                 case "Chat":
-                    return PartialView("~/Views/Home/Inventory/_ChatInventoryView.cshtml", new InventoryModel(list));
+                    return PartialView("~/Views/Home/Inventory/_ChatInventoryView.cshtml", list.Select(i => new InventoryModel(i)));
                 case "Store":
-                    return PartialView("~/Views/Home/Inventory/_StoreInventoryView.cshtml", new InventoryModel(list));
+                    return PartialView("~/Views/Home/Inventory/_StoreInventoryView.cshtml", list.Select(i => new InventoryModel(i)));
                 case "Marketplace":
-                    return PartialView("~/Views/Home/Inventory/_MarketplaceInventoryView.cshtml", new MarketplaceInventoryModel(list));
+                    return PartialView("~/Views/Home/Inventory/_MarketplaceInventoryView.cshtml", list.Select(i => new MarketplaceInventoryModel(i)));
                 default:
                     return null;
             }
@@ -128,7 +127,18 @@ namespace KEKChat.Controllers
         {
             UpdateUserCurrencyLabel();
 
-            return View("Marketplace", KEKCore.Marketplace.GetMarketplaceEntries());
+            return View("Marketplace", KEKCore.Marketplace.GetMarketplaceEntries()
+                                                          .Select(u => new MarketplaceModel(u)));
+        }
+
+        public ActionResult TradeMeme(MarketplaceModel meme, int buy)
+        {
+            if (ModelState.IsValid)
+            {
+                KEKCore.Marketplace.TradeMeme(meme.Quantity, buy, User.Identity.Name);
+            }
+
+            return StoreInit();
         }
 
         public void UpdateUserCurrencyLabel()

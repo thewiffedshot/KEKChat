@@ -98,3 +98,33 @@
 }
 
 
+<div class="store-page-catalog align-content-center pt-3">
+    @if (Model != null)
+    {
+        foreach (var meme in Model)
+        {
+            <div class="card mb-lg-5 mb-3 p-lg-3 w-85 align-self-center bg-card-soap p-1">
+                <div class="card-header">@meme.Meme.MemeAsset.AssetName</div>
+                <img src="~/@meme.Meme.MemeAsset.MemeEntry.ImagePath.Replace('\\', '/')" class="card-img-top" />
+                @using (Html.BeginForm("TradeMeme", "Home", FormMethod.Post, new { @class = "card-footer" }))
+                {
+                    <div class="row">
+                        <div class="col-4 m-0 p-0">
+                            Stock: <br>
+                            @meme.Meme.Quantity
+                        </div>
+                        <div class="col-4 m-0 p-0">
+                            Price: <br>
+                            @meme.Meme.Price KEKs
+                        </div>
+                        <div class="col-4 d-flex flex-wrap align-content-center p-0 pt-2 h-100 w-100">
+                            @Html.EditorFor(model => meme.Quantity, new { htmlAttributes = new { @class = "col-12 p-1 h-50", @min = "1", @step = "1" } })
+                            <button type="submit" class="btn bg-bleu h-100 w-100 mt-1" name="buy" value="@meme.Meme.ID"><div class="form-text">BUY</div></button>
+                            @Html.ValidationMessage("MemeModel", new { @class = "text-error" })
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
