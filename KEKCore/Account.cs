@@ -61,7 +61,11 @@ namespace KEKCore
                 {
                     string[] hashes = PasswordHash.CreateHash(password);
 
-                    db.Users.Add(new User(username, hashes[0], hashes[1], hashes[2]));
+                    db.Users.Add(new User { Username = username,
+                                            PasswordHash = hashes[0],
+                                            HashSalt = hashes[1],
+                                            HashIterations = hashes[2]
+                    });
                     db.SaveChanges();
 
                     return true;
