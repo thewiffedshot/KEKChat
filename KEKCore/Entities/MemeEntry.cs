@@ -19,17 +19,6 @@ namespace KEKCore.Entities
 
         public IEnumerable<Message> Messages { get; set; }
 
-        public MemeEntry(string path, decimal price, int vendorAmount, string sub)
-        {
-            ImagePath = path;
-            Price = price;
-            VendorAmount = vendorAmount;
-            Subreddit = sub;
-        }
-
-        public MemeEntry()
-        {
-
-        }
+        public MemeEntry() { }
     }
 }

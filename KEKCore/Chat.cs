@@ -19,7 +19,10 @@ namespace KEKCore
                     var user = db.Users
                                     .Where(u => u.Username == username)
                                     .SingleOrDefault();
-                    db.Messages.Add(new Message(msg, user));
+                    db.Messages.Add(new Message { UserID = user.ID,
+                                                  Text = msg,
+                                                  Username = user.Username
+                    });
                     db.SaveChanges();
                 }
             }
@@ -36,10 +39,8 @@ namespace KEKCore
             }
         }
 
-        public static void SendMeme(string memeID, string username)
+        public static void SendMeme(int memeID, string username)
         {
-            int MemeID = int.Parse(memeID);
-
             using (UsersDB db = new UsersDB())
             {
                 using (var trans = db.Database.BeginTransaction())
@@ -50,11 +51,12 @@ namespace KEKCore
                                     .Where(u => u.Username == username)
                                     .SingleOrDefault();
 
-                        db.Messages.Add(new Message(MemeID, user));
+                        db.Messages.Add(new Message { MemeID = memeID,
+                                                      UserID = user.ID });
 
                         var asset = db.MemeOwners
                                       .Include(a => a.MemeEntry)
-                                      .Where(a => a.MemeID == MemeID && a.UserID == user.ID)
+                                      .Where(a => a.MemeID == memeID && a.UserID == user.ID)
                                       .SingleOrDefault();
 
                         asset.Amount--;

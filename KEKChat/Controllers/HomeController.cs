@@ -54,7 +54,7 @@ namespace KEKChat.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendMeme(string memeID)
+        public ActionResult SendMeme(int memeID)
         {
             KEKCore.Chat.SendMeme(memeID, User.Identity.Name);
 

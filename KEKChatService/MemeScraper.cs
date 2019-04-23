@@ -77,7 +77,11 @@ namespace KEKChatService
                 decimal price = basePrice * Math.Min(post.Upvotes, 10000) * 1e-2m;
                 int batch = 50;
 
-                var meme = new MemeEntry("Memes\\" + fileName, price, batch, post.Subreddit.Name);
+                var meme = new MemeEntry { ImagePath = "Memes\\" + fileName,
+                                           Price = price,
+                                           VendorAmount = batch,
+                                           Subreddit = post.Subreddit.Name
+                };
 
                 using (UsersDB db = new UsersDB())
                 {

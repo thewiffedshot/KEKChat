@@ -27,27 +27,6 @@ namespace KEKCore.Entities
 
         public string AssetName { get; set; } = null;
 
-        public MemeAsset(User user, MemeEntry meme, int amount, string name)
-        {
-            if (name == null || name == "")
-                name = "meme_" + meme.ID;
-
-            User = user;
-
-            UserID = User.ID;
-
-            MemeEntry = meme;
-
-            MemeID = meme.ID;
-
-            Amount = amount;
-
-            AssetName = name;
-        }
-
-        public MemeAsset()
-        {
-
-        }
+        public MemeAsset() { }
     }
 }

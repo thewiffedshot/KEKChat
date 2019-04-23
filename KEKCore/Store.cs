@@ -49,7 +49,11 @@ namespace KEKCore
                             user.Currency -= totalPrice;
                             currentMeme.VendorAmount -= memeQuantity;
 
-                            MemeAsset asset = new MemeAsset(user, currentMeme, memeQuantity, memeAssetName);
+                            MemeAsset asset = new MemeAsset { UserID = user.ID,
+                                                              MemeID = currentMeme.ID,
+                                                              Amount = memeQuantity,
+                                                              AssetName = string.IsNullOrEmpty(memeAssetName) ? "meme_" + currentMeme.ID : memeAssetName
+                            };
 
                             var existingAsset = db.MemeOwners
                                                   .Where(a => a.UserID == user.ID

@@ -24,17 +24,6 @@ namespace KEKCore.Entities
         public int Quantity { get; set; }
         public decimal Price { get; set; }
 
-
-        public MarketplaceEntry(MemeAsset asset, User Seller, int quantity, decimal price)
-        {
-            MemeAsset = asset;
-            AssetID = MemeAsset.ID;
-            User = Seller;
-            SellerID = User.ID;
-            Quantity = quantity;
-            Price = price;
-        }
-
         public MarketplaceEntry() { }
     }
 }

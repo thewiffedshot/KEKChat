@@ -39,7 +39,11 @@ namespace KEKCore
                             if (existingMemeForSale != null)
                                 existingMemeForSale.Quantity += memeQuantity;
                             else
-                                db.Marketplace.Add(new MarketplaceEntry(currentMeme, user, memeQuantity, memePrice));
+                                db.Marketplace.Add(new MarketplaceEntry { AssetID = currentMeme.ID,
+                                                                          SellerID = user.ID,
+                                                                          Quantity = memeQuantity,
+                                                                          Price = memePrice
+                                });
 
                             db.SaveChanges();
                             trans.Commit();
@@ -89,7 +93,12 @@ namespace KEKCore
 
                             marketEntry.Quantity -= quantity;
 
-                            MemeAsset asset = new MemeAsset(buyer, marketEntry.MemeAsset.MemeEntry, quantity, marketEntry.MemeAsset.AssetName);
+                            MemeAsset asset = new MemeAsset { UserID = buyer.ID,
+                                                              MemeID = marketEntry.MemeAsset.MemeEntry.ID,
+                                                              Amount = quantity,
+                                                              AssetName = marketEntry.MemeAsset.AssetName
+
+                            };
 
                             var existingAsset = db.MemeOwners
                                                   .Where(a => a.UserID == buyer.ID

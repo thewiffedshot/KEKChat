@@ -25,17 +25,6 @@ namespace KEKCore.Entities
 
         public DateTime LastOnline { get; set; }
 
-        public User(string name, string passhash, string salt, string iterations)
-        {
-            Username = name;
-            PasswordHash = passhash;
-            HashSalt = salt;
-            HashIterations = iterations;
-        }
-
-        public User()
-        {
-
-        }
+        public User() { }
     }
 }
