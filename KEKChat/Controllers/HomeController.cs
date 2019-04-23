@@ -25,12 +25,7 @@ namespace KEKChat.Controllers
             return RedirectToAction("Chat");
         }
 
-        public ActionResult Store(MemeModel meme)
-        {
-            return View();
-        }
-
-        public ActionResult StoreInit()
+        public ActionResult Store()
         {
             UpdateUserCurrencyLabel();
 
@@ -109,7 +104,7 @@ namespace KEKChat.Controllers
                 KEKCore.Store.BuyMeme(meme.AssetName, meme.Quantity, buy, User.Identity.Name);
             }
 
-            return StoreInit();
+            return this.Store();
         }
 
         [HttpPost]
@@ -138,7 +133,7 @@ namespace KEKChat.Controllers
                 KEKCore.Marketplace.TradeMeme(meme.Quantity, buy, User.Identity.Name);
             }
 
-            return StoreInit();
+            return Marketplace();
         }
 
         public void UpdateUserCurrencyLabel()

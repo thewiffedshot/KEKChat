@@ -41,8 +41,7 @@ namespace KEKCore
             using (UsersDB db = new UsersDB())
             {
                 return db.Users
-                         .Where(u => u.Username == username)
-                         .SingleOrDefault()
+                         .SingleOrDefault(u => u.Username == username)
                          .Currency;
             }
         }

@@ -19,22 +19,21 @@ namespace KEKCore
                     try
                     {
                         User user = db.Users
-                                      .Where(u => u.Username == username)
-                                      .SingleOrDefault();
+                                      .SingleOrDefault(u => u.Username == username);
 
                         MemeAsset currentMeme = db.MemeOwners
-                                           .Where(u => u.ID == assetID && u.UserID == user.ID)
-                                           .SingleOrDefault();
+                                           .SingleOrDefault(u => u.ID == assetID 
+                                                              && u.UserID == user.ID);
 
                         if (currentMeme.Amount >= memeQuantity && memeQuantity > 0)
                         {
                             currentMeme.Amount -= memeQuantity;
 
                             var existingMemeForSale = db.Marketplace
-                                                      .Where(a => a.SellerID == user.ID
-                                                               && a.AssetID == assetID
-                                                               && a.Price == memePrice)
-                                                      .SingleOrDefault();
+                                            .SingleOrDefault(
+                                                          a => a.SellerID == user.ID
+                                                            && a.AssetID == assetID
+                                                            && a.Price == memePrice);
 
                             if (existingMemeForSale != null)
                                 existingMemeForSale.Quantity += memeQuantity;
@@ -73,11 +72,11 @@ namespace KEKCore
                 {
                     try
                     {
-                        MarketplaceEntry marketEntry = db.Marketplace.Where(m => m.ID == marketEntryID).SingleOrDefault();
+                        MarketplaceEntry marketEntry = db.Marketplace.Include(u => u.MemeAsset.MemeEntry)
+                                                                     .Include(u => u.User)
+                                                                     .SingleOrDefault(m => m.ID == marketEntryID);
 
-                        User buyer = db.Users
-                                      .Where(u => u.Username == username)
-                                      .SingleOrDefault();
+                        User buyer = db.Users.SingleOrDefault(u => u.Username == username);
 
                         User owner = marketEntry.User;
 
@@ -91,8 +90,6 @@ namespace KEKCore
                             buyer.Currency -= totalPrice;
                             owner.Currency += totalPrice;
 
-                            marketEntry.Quantity -= quantity;
-
                             MemeAsset asset = new MemeAsset { UserID = buyer.ID,
                                                               MemeID = marketEntry.MemeAsset.MemeEntry.ID,
                                                               Amount = quantity,
@@ -100,10 +97,9 @@ namespace KEKCore
 
                             };
 
-                            var existingAsset = db.MemeOwners
-                                                  .Where(a => a.UserID == buyer.ID
-                                                           && a.MemeID == marketEntry.MemeAsset.ID)
-                                                  .SingleOrDefault();
+                            MemeAsset existingAsset = db.MemeOwners
+                                                  .SingleOrDefault(a => a.UserID == buyer.ID
+                                                                        && a.MemeID == marketEntry.MemeAsset.MemeID);
 
                             if (existingAsset == null)
                                 db.MemeOwners.Add(asset);
@@ -111,6 +107,11 @@ namespace KEKCore
                             {
                                 existingAsset.Amount += quantity;
                             }
+
+                            if (marketEntry.Quantity > quantity)
+                                marketEntry.Quantity -= quantity;
+                            else
+                                db.Marketplace.Remove(marketEntry);
 
                             db.SaveChanges();
                             trans.Commit();
