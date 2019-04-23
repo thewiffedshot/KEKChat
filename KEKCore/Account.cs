@@ -14,7 +14,7 @@ namespace KEKCore
         {
             using (UsersDB db = new UsersDB())
             {
-                var user = db.Users.Where(u => u.Username == username).SingleOrDefault();
+                User user = db.Users.SingleOrDefault(u => u.Username == username);
 
                 if (user != null)
                     return true;
@@ -26,7 +26,7 @@ namespace KEKCore
         {
             using (UsersDB db = new UsersDB())
             {
-                db.Users.Where(u => u.Username == username).SingleOrDefault().LastOnline = DateTime.Now;
+                db.Users.SingleOrDefault(u => u.Username == username).LastOnline = DateTime.Now;
 
                 db.SaveChanges();
             }
@@ -36,16 +36,10 @@ namespace KEKCore
         {
             using (UsersDB db = new UsersDB())
             {
-                var user = db.Users
-                             .Where(u => u.Username == username)
-                             .SingleOrDefault();
+                User user = db.Users
+                             .SingleOrDefault(u => u.Username == username);
 
-                if (user != null && PasswordHash.ValidatePassword(password, user.PasswordHash, user.HashSalt, user.HashIterations))
-                {
-                    return true;
-                }
-
-                return false;
+                return user != null && PasswordHash.ValidatePassword(password, user.PasswordHash, user.HashSalt, user.HashIterations);
             }
         }
 
@@ -53,9 +47,8 @@ namespace KEKCore
         {
             using (UsersDB db = new UsersDB())
             {
-                var user = db.Users
-                                .Where(n => n.Username == username)
-                                .SingleOrDefault();
+                User user = db.Users
+                                .SingleOrDefault(n => n.Username == username);
 
                 if (user == null)
                 {

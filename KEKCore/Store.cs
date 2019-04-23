@@ -30,14 +30,12 @@ namespace KEKCore
                     try
                     {
                         User user = db.Users
-                                      .Where(u => u.Username == username)
-                                      .SingleOrDefault();
+                                      .SingleOrDefault(u => u.Username == username);
 
                         decimal userCurrency = user.Currency;
 
                         MemeEntry currentMeme = db.MemeStash
-                                           .Where(u => u.ID == memeID)
-                                           .SingleOrDefault();
+                                           .SingleOrDefault(u => u.ID == memeID);
 
                         decimal memePrice = currentMeme.Price;
 
@@ -56,9 +54,9 @@ namespace KEKCore
                             };
 
                             var existingAsset = db.MemeOwners
-                                                  .Where(a => a.UserID == user.ID
-                                                           && a.MemeID == memeID)
-                                                  .SingleOrDefault();
+                                                  .SingleOrDefault(
+                                                      a => a.UserID == user.ID
+                                                        && a.MemeID == memeID);
 
                             if (existingAsset == null)
                                 db.MemeOwners.Add(asset);

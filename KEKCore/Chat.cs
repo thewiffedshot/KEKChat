@@ -12,19 +12,17 @@ namespace KEKCore
     {
         public static void SendMessage(string msg, string username)
         {
-            if (msg != null && msg != "" && msg.Count(c => c == ' ') != msg.Length && msg.Count(c => c == '\n') != msg.Length)
+            if (string.IsNullOrEmpty(msg) || msg.Count(c => c == ' ') == msg.Length
+                                          || msg.Count(c => c == '\n') == msg.Length) return;
+            using (UsersDB db = new UsersDB())
             {
-                using (UsersDB db = new UsersDB())
-                {
-                    var user = db.Users
-                                    .Where(u => u.Username == username)
-                                    .SingleOrDefault();
-                    db.Messages.Add(new Message { UserID = user.ID,
-                                                  Text = msg,
-                                                  Username = user.Username
-                    });
-                    db.SaveChanges();
-                }
+                User user = db.Users.SingleOrDefault(u => u.Username == username);
+
+                db.Messages.Add(new Message { UserID = user.ID,
+                                                    Text = msg,
+                                                    Username = user.Username
+                                                });
+                db.SaveChanges();
             }
         }
 
@@ -47,17 +45,17 @@ namespace KEKCore
                 {
                     try
                     {
-                        var user = db.Users
-                                    .Where(u => u.Username == username)
-                                    .SingleOrDefault();
+                        User user = db.Users.SingleOrDefault(u => u.Username == username);
 
-                        db.Messages.Add(new Message { MemeID = memeID,
-                                                      UserID = user.ID });
+                        db.Messages.Add(new Message {
+                                                MemeID = memeID,
+                                                UserID = user.ID,
+                                                Username = username
+                        });
 
-                        var asset = db.MemeOwners
+                        MemeAsset asset = db.MemeOwners
                                       .Include(a => a.MemeEntry)
-                                      .Where(a => a.MemeID == memeID && a.UserID == user.ID)
-                                      .SingleOrDefault();
+                                      .SingleOrDefault(a => a.MemeID == memeID && a.UserID == user.ID);
 
                         asset.Amount--;
 
