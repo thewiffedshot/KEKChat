@@ -76,15 +76,15 @@ namespace KEKCore
             }
         }
 
-        public static IQueryable<Transaction> GetTransactions(string username)
+        public static List<Transaction> GetTransactions(string username)
         {
             using (UsersDB db = new UsersDB())
             {
                 return db.Transactions
-                         .Include(t => t.Buyer)
-                         .Include(t => t.Seller)
-                         .Where(t => t.Buyer.Username == username ||
-                                     t.Seller.Username == username).ToList().AsQueryable();
+                    .Include(t => t.Buyer)
+                    .Include(t => t.Seller)
+                    .Where(t => t.Buyer.Username == username ||
+                                t.Seller.Username == username).ToList();
             }
         }
     }

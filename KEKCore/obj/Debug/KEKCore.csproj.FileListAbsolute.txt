@@ -39,7 +39,6 @@ G:\source\repos\KEKChat\KEKCore\bin\Debug\fi\Npgsql.resources.dll
 G:\source\repos\KEKChat\KEKCore\bin\Debug\fr\Npgsql.resources.dll
 G:\source\repos\KEKChat\KEKCore\bin\Debug\ja\Npgsql.resources.dll
 G:\source\repos\KEKChat\KEKCore\bin\Debug\zh-CN\Npgsql.resources.dll
-G:\source\repos\KEKChat\KEKCore\obj\Debug\KEKCore.csprojAssemblyReference.cache
 G:\source\repos\KEKChat\KEKCore\obj\Debug\KEKCore.csproj.CoreCompileInputs.cache
 G:\source\repos\KEKChat\KEKCore\obj\Debug\KEKCore.csproj.CopyComplete
 G:\source\repos\KEKChat\KEKCore\obj\Debug\KEKCore.dll

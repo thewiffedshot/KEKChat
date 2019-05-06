@@ -1,0 +1,29 @@
+@using DevExpress.Web.Internal
+@{
+	var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "Transactions";
+        settings.CallbackRouteValues = new { Controller = "Statistics", Action = "GridViewPartial" };
+
+
+		settings.KeyFieldName = "ID";
+
+		settings.SettingsPager.Visible = true;
+		settings.Settings.ShowGroupPanel = true;
+		settings.Settings.ShowFilterRow = true;
+		settings.SettingsBehavior.AllowSelectByRowClick = false;
+
+		settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+		settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Left;
+		settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+		settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+		settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+                settings.Columns.Add("ID");
+				settings.Columns.Add("Buyer.Username");
+				settings.Columns.Add("SellerName");
+				settings.Columns.Add("Value");
+				settings.Columns.Add("Quantity");
+				settings.Columns.Add("AssetName");
+				settings.Columns.Add("TimeStamp");
+			});
+}
+@grid.Bind(Model).GetHtml()

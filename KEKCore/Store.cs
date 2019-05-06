@@ -64,6 +64,7 @@ namespace KEKCore
                             {
                                 BuyerID = user.ID,
                                 SellerID = null,
+                                SellerName = "STORE",
                                 Value = totalPrice,
                                 AssetName = existingAsset == null ? asset.AssetName : existingAsset.AssetName,
                                 Quantity = memeQuantity,
