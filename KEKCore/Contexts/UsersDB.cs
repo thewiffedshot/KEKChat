@@ -14,6 +14,7 @@ namespace KEKCore.Contexts
         public DbSet<MemeAsset> MemeOwners { get; set; }
         public DbSet<MemeEntry> MemeStash { get; set; }
         public DbSet<MarketplaceEntry> Marketplace { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         public UsersDB()
             : base("name=UsersDB")

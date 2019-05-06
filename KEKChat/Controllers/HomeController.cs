@@ -69,7 +69,7 @@ namespace KEKChat.Controllers
                                 new MessageModel
                                 {
                                     ID = m.ID,
-                                    Username = m.Username,
+                                    Username = m.User.Username,
                                     Date = m.Date,
                                     ImageSource = m.Meme != null ? m.Meme.ImagePath : null,
                                     Text = m.Text

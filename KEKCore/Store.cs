@@ -60,6 +60,16 @@ namespace KEKCore
                                                            && a.MemeID == memeID)
                                                   .SingleOrDefault();
 
+                            db.Transactions.Add(new Transaction
+                            {
+                                BuyerID = user.ID,
+                                SellerID = null,
+                                Value = totalPrice,
+                                AssetName = existingAsset == null ? asset.AssetName : existingAsset.AssetName,
+                                Quantity = memeQuantity,
+                                TimeStamp = DateTime.Now
+                            });
+
                             if (existingAsset == null)
                                 db.MemeOwners.Add(asset);
                             else

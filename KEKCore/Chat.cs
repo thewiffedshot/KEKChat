@@ -20,8 +20,7 @@ namespace KEKCore
                                     .Where(u => u.Username == username)
                                     .SingleOrDefault();
                     db.Messages.Add(new Message { UserID = user.ID,
-                                                  Text = msg,
-                                                  Username = user.Username
+                                                  Text = msg
                     });
                     db.SaveChanges();
                 }
@@ -34,6 +33,7 @@ namespace KEKCore
             {
                 return db.Messages
                          .Where(m => m.ID > lastMessageID)
+                         .Include(m => m.User)
                          .Include(m => m.Meme)
                          .ToList();
             }
@@ -52,7 +52,8 @@ namespace KEKCore
                                     .SingleOrDefault();
 
                         db.Messages.Add(new Message { MemeID = memeID,
-                                                      UserID = user.ID });
+                                                      UserID = user.ID
+                        });
 
                         var asset = db.MemeOwners
                                       .Include(a => a.MemeEntry)

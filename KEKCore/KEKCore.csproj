@@ -66,6 +66,7 @@
     <Compile Include="Entities\MemeAsset.cs" />
     <Compile Include="Entities\MemeEntry.cs" />
     <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Marketplace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

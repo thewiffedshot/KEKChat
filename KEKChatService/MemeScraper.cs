@@ -73,9 +73,14 @@ namespace KEKChatService
 
                 await client.DownloadFileTaskAsync(post.Url, SavePath + fileName);
 
-                decimal basePrice = 10;
-                decimal price = basePrice * Math.Min(post.Upvotes, 10000) * 1e-2m;
+                decimal price = post.Score * 1e-2m;
+
+                price *= (decimal)Math.Pow(1.10, post.Gilded);
+
                 int batch = 50;
+
+                if (post.NSFW)
+                    return;
 
                 var meme = new MemeEntry { ImagePath = "Memes\\" + fileName,
                                            Price = price,

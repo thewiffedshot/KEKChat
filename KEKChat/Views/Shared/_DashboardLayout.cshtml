@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/DevExtremeBundle")
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
     <script src="~/Scripts/jquery-3.0.0.min.js" type="text/javascript"></script>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/GeneralLayout.css" rel="stylesheet" type="text/css" />
@@ -19,20 +21,20 @@
 <body>
     <ul class="nav navbar nav-pills nav-justified bg-amazonite p-1">
         <li class="nav-item">
-            @Html.ActionLink("Home", "Home", null, new { @class = "nav-link text-light" })
+            @Html.ActionLink("Home", "Home", "Home", null, new { @class = "nav-link text-light" })
         </li>
         <li class="nav-item">
-            @Html.ActionLink("Chat", "Chat", null, new { @class = "nav-link  text-light" })
+            @Html.ActionLink("Chat", "Chat", "Home", null, new { @class = "nav-link  text-light" })
         </li>
         <li class="nav-item active">
-            @Html.ActionLink("Store", "StoreInit", null, new { @class = "nav-link  text-light" })
+            @Html.ActionLink("Store", "StoreInit", "Home", null, new { @class = "nav-link  text-light" })
         </li>
         <li class="nav-item active">
-            @Html.ActionLink("Marketplace", "Marketplace", null, new { @class = "nav-link  text-light" })
+            @Html.ActionLink("Marketplace", "Marketplace", "Home", null, new { @class = "nav-link  text-light" })
         </li>
         <li class="navbar-text nav-item">
             <ul class="navbar-nav flex-row ml-md-auto d-md-flex">
-                <li class="username text-soap nav-item m-1">@User.Identity.Name</li>
+                <li class="username text-soap nav-item m-1">@Html.ActionLink(User.Identity.Name, "Dashboard", "Statistics", null, new { @class = "signout text-soap" })</li>
                 <li class="nav-item m-1">@Html.ActionLink("Sign out", "SignOut", "Account", null, new { @class = "signout text-soap" })</li>
                 <li class="keks text-pastelyellow nav-item  m-1">@Html.Raw(Session["currency"]) KEKs</li>
             </ul>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using KEKCore.Utils;
 using KEKCore.Entities;
+using System.Data.Entity;
 
 namespace KEKCore
 {
@@ -72,6 +73,18 @@ namespace KEKCore
                 }
 
                 return false;
+            }
+        }
+
+        public static IQueryable<Transaction> GetTransactions(string username)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Transactions
+                         .Include(t => t.Buyer)
+                         .Include(t => t.Seller)
+                         .Where(t => t.Buyer.Username == username ||
+                                     t.Seller.Username == username).ToList().AsQueryable();
             }
         }
     }
