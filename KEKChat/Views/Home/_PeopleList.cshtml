@@ -1,0 +1,11 @@
+﻿@model IEnumerable<KEKChat.Models.PeopleModel>
+
+@{
+    foreach (KEKChat.Models.PeopleModel user in Model)
+    {
+        string dotState = user.Online ? "text-success" : "text-danger";
+        <div class="person-name m-1 justify-content-center">
+            <b>@Html.Raw(user.Username)</b> <b class="@dotState h2">&#9679;</b>
+        </div>
+    }
+}

@@ -2,9 +2,7 @@
     width: 100%;
     height: calc(100% - 75px);
     overflow-y: scroll;
-
     -webkit-overflow-scrolling: touch;
-
     -ms-word-break: break-all;
     word-break: break-all;
     /* Non standard for webkit */
@@ -13,6 +11,8 @@
     -moz-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
+
+    scrollbar-3dlight-color: #F6ECFF !important;
 }
 
 .chatbox {
@@ -58,6 +58,15 @@
     -moz-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
+}
+
+.meme {
+    height: auto;
+    max-height: 70vh;
+    max-width: 90%;
+    object-fit: scale-down;
+    margin-left: 1vw;
+    margin-top: 0.5vw;
 }
 
 @media only screen and (max-width: 374px) {

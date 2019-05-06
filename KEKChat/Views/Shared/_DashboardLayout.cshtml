@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -11,20 +10,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <script src="~/Scripts/jquery-3.0.0.js" type="text/javascript"></script>
+    @Styles.Render("~/Content/DevExtremeBundle")
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
+    <script src="~/Scripts/jquery-3.0.0.min.js" type="text/javascript"></script>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/GeneralLayout.css" rel="stylesheet" type="text/css" />
     @RenderSection("CustomCss", false)
     <link rel="icon" type="image/png" href="~/pepe.png" />
 </head>
 <body>
+    <ul class="nav navbar nav-pills nav-justified bg-amazonite p-1">
+        <li class="nav-item">
+            @Html.ActionLink("Home", "Home", "Home", null, new { @class = "nav-link text-light" })
+        </li>
+        <li class="nav-item">
+            @Html.ActionLink("Chat", "Chat", "Home", null, new { @class = "nav-link  text-light" })
+        </li>
+        <li class="nav-item active">
+            @Html.ActionLink("Store", "StoreInit", "Home", null, new { @class = "nav-link  text-light" })
+        </li>
+        <li class="nav-item active">
+            @Html.ActionLink("Marketplace", "Marketplace", "Home", null, new { @class = "nav-link  text-light" })
+        </li>
+        <li class="navbar-text nav-item">
+            <ul class="navbar-nav flex-row ml-md-auto d-md-flex">
+                <li class="username text-soap nav-item m-1">@Html.ActionLink(User.Identity.Name, "Dashboard", "Statistics", null, new { @class = "signout text-soap" })</li>
+                <li class="nav-item m-1">@Html.ActionLink("Sign out", "SignOut", "Account", null, new { @class = "signout text-soap" })</li>
+                <li class="keks text-pastelyellow nav-item  m-1">@Html.Raw(Session["currency"]) KEKs</li>
+            </ul>
+        </li>
+    </ul>
+    <div class="main-parent row m-0">
+        <div class="main-left col-7 col-xl-8 p-0 bg-soap">
+            @RenderBody()
+        </div>
+        <div class="main-right bg-pastelyellow col-5 col-xl-4 p-0">
+            @RenderSection("SideBar")
+        </div>
+    </div>
+
     <script>
+        function heartbeat() {
+            $.ajax(
+            {
+                url: "@Url.Action("Heartbeat", "Home")",
+                data: { 'isOnline': false },
+                type: 'POST',
+                dataType: 'html'
+            }
+            );
+        }
+
+        window.setInterval("heartbeat()", 5000);
+
+        function sidebarsHeightResponse() {
+            $(".content-row").height($(".main-right").height() - $(".tab-row").height());
+
+            console.log("content h:" + $(".people").height());
+        }
+
         $(document).ready(function () {
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
-
+            
             $(".main-parent").height($(window).height() - $(".nav").outerHeight());
+
+            sidebarsHeightResponse();
         }).resize();
 
         $(window).resize(function () {
@@ -32,32 +83,11 @@
             document.documentElement.style.setProperty('--vh', `${vh}px`);
 
             $(".main-parent").height($(window).height() - $(".nav").outerHeight());
+
+            sidebarsHeightResponse();
         }).resize();
     </script>
-    <ul class="nav navbar nav-pills nav-justified bg-success p-1">
-        <li class="nav-item">
-            @Html.ActionLink("Home", "Home", null, new { @class = "nav-link text-light" })
-        </li>
-        <li class="nav-item">
-            @Html.ActionLink("Chat", "Chat", null, new { @class = "nav-link  text-light" })
-        </li>
-        <li class="nav-item active">
-            @Html.ActionLink("Store", "StoreInit", null, new { @class = "nav-link  text-light" })
-        </li>
-        <li class="navbar-text nav-item">
-            <ul class="navbar-nav flex-row ml-md-auto d-md-flex">
-                <li class="username nav-item m-1">@User.Identity.Name</li>
-                <li class="nav-item m-1">@Html.ActionLink("Sign out", "SignOut", "Account", null, new { @class = "signout" })</li>
-                <li class="keks nav-item  m-1">@Html.Raw(Session["currency"]) KEKs</li>
-            </ul>
-        </li>
-    </ul>
-    <div class="main-parent row m-0">
-        <div class="main-left col-9 col-xl-10 p-0">
-            @RenderBody()
-        </div>
-        <div class="main-right col-3 col-xl-2 p-0">
-        </div>
-    </div>
+
+    @RenderSection("PartialScript")
 </body>
 </html>
