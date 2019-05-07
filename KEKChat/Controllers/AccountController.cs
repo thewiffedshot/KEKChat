@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using KEKChat.Models;
-using System.Data.Sql;
-using System.Security.Cryptography;
-using KEKChat.Utils;
-using KEKChat.Contexts;
+using KEKCore.Utils;
 
 namespace KEKChat.Controllers
 {
@@ -17,9 +11,9 @@ namespace KEKChat.Controllers
         // GET: Account
         public ActionResult Login()
         {
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated && KEKCore.Account.UserExists(User.Identity.Name))
             {
-                return RedirectToAction("Chat","Home");
+                return RedirectToAction("Chat", "Home");
             }
 
             return View();
@@ -27,8 +21,9 @@ namespace KEKChat.Controllers
 
         public ActionResult SignOut()
         {
-            FormsAuthentication.SignOut();
             Session["currency"] = null;
+
+            FormsAuthentication.SignOut();
 
             return RedirectToAction("Login");
         }
@@ -36,26 +31,19 @@ namespace KEKChat.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
-
-            using (UsersDB db = new UsersDB())
+            if (KEKCore.Account.Authenticate(model.Username, model.Password))
             {
-                var user = db.Users
-                                .Where(u => u.Username == model.Username)
-                                .SingleOrDefault();
+                FormsAuthentication.SetAuthCookie(model.Username, false);
+                Session["currency"] = KEKCore.Session.GetUserCurrency(model.Username);
 
-                if (user != null && PasswordHash.ValidatePassword(model.Password, user.PasswordHash, user.HashSalt, user.HashIterations))
-                {
-                    FormsAuthentication.SetAuthCookie(user.Username, false);
+                return RedirectToAction("Chat", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("LoginError", "Invalid username and/or password.");
 
-                    Session["currency"] = user.Currency;
-                    return RedirectToAction("Chat", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("LoginError", "Invalid username and/or password.");
-                    return View();
-                }
-            } 
+                return View();
+            }
         }
 
         public ActionResult Register()
@@ -68,28 +56,14 @@ namespace KEKChat.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (UsersDB db = new UsersDB())
+                if (KEKCore.Account.Register(model.Username, model.Password))
                 {
-                    var user = db.Users
-                                 .Where(n => n.Username == model.Username) 
-                                 .SingleOrDefault();
-
-                    if (user == null)
-                    {
-                        string[] hashes = PasswordHash.CreateHash(model.Password);
-
-                        db.Users.Add(new User(model.Username, hashes[0], hashes[1], hashes[2]));
-                        db.SaveChanges();
-                        db.Dispose();
-
-                        return RedirectToAction("Login");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("RegError", "User already taken.");
-                        return View();
-                    }
-                }    
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    ModelState.AddModelError("RegError", "User already taken.");
+                }
             }
 
             return View();
