@@ -71,9 +71,12 @@ namespace KEKCore
             {
                 using (var trans = db.Database.BeginTransaction())
                 {
-                    try
+                    //try
                     {
-                        MarketplaceEntry marketEntry = db.Marketplace.Where(m => m.ID == marketEntryID).SingleOrDefault();
+                        MarketplaceEntry marketEntry = db.Marketplace.Where(m => m.ID == marketEntryID)
+                                                                     .Include(m => m.MemeAsset.MemeEntry)
+                                                                     .Include(m => m.User)
+                                                                     .SingleOrDefault();
 
                         User buyer = db.Users
                                       .Where(u => u.Username == username)
@@ -116,10 +119,10 @@ namespace KEKCore
                             trans.Commit();
                         }
                     }
-                    catch
+                    /*catch (Exception e)
                     {
                         trans.Rollback();
-                    }
+                    }*/
                 }
             }
         }

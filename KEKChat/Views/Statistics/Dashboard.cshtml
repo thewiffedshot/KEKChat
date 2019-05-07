@@ -184,34 +184,4 @@
 
 @Html.Action("GridViewPartial")
 
-@(
-        Html.DevExtreme().DataGrid()
-            .ID("dataGrid")
-            .DataSource(Model)
-        .Columns(columns =>
-        {
-            columns.Add().DataField("ID").
-            DataType(GridColumnDataType.Number);
-
-            columns.Add().DataField("BuyerName")
-            .DataType(GridColumnDataType.String);
-
-            columns.Add().DataField("SellerName")
-            .DataType(GridColumnDataType.String);
-
-            columns.Add().DataField("AssetName")
-            .DataType(GridColumnDataType.String);
-
-            columns.Add().DataField("Value")
-            .DataType(GridColumnDataType.Number)
-            .Format(Format.Currency);
-
-            columns.Add().DataField("Quantity")
-            .DataType(GridColumnDataType.Number);
-
-            columns.Add().DataField("TimeStamp")
-            .DataType(GridColumnDataType.DateTime);
-        }
-    ))
-
 
