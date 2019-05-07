@@ -27,7 +27,5 @@ namespace KEKCore.Entities
 
         [ForeignKey("Meme")]
         public int? MemeID { get; set; } = null;
-
-        public Message() { }
     }
 }

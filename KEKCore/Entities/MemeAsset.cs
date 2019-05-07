@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace KEKCore.Entities
 {
@@ -26,7 +22,5 @@ namespace KEKCore.Entities
         public int Amount { get; set; }
 
         public string AssetName { get; set; } = null;
-
-        public MemeAsset() { }
     }
 }

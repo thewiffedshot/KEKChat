@@ -30,6 +30,11 @@ namespace KEKCore.Entities
 
         public int Quantity { get; set; }
 
+        public MemeEntry Meme { get; set; }
+
+        [ForeignKey("Meme")]
+        public int MemeID { get; set; }
+
         public string AssetName { get; set; }
 
         public DateTime TimeStamp { get; set; } 

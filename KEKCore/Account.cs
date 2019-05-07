@@ -1,11 +1,11 @@
-﻿using KEKCore.Contexts;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using KEKCore.Utils;
-using KEKCore.Entities;
 using System.Data.Entity;
+using System.Linq;
+
+using KEKCore.Contexts;
+using KEKCore.Entities;
+using KEKCore.Utils;
 
 namespace KEKCore
 {
@@ -15,7 +15,7 @@ namespace KEKCore
         {
             using (UsersDB db = new UsersDB())
             {
-                var user = db.Users.Where(u => u.Username == username).SingleOrDefault();
+                var user = db.Users.SingleOrDefault(u => u.Username == username);
 
                 if (user != null)
                     return true;
@@ -27,7 +27,7 @@ namespace KEKCore
         {
             using (UsersDB db = new UsersDB())
             {
-                db.Users.Where(u => u.Username == username).SingleOrDefault().LastOnline = DateTime.Now;
+                db.Users.Single(u => u.Username == username).LastOnline = DateTime.Now;
 
                 db.SaveChanges();
             }
@@ -38,11 +38,18 @@ namespace KEKCore
             using (UsersDB db = new UsersDB())
             {
                 var user = db.Users
-                             .Where(u => u.Username == username)
-                             .SingleOrDefault();
+                             .SingleOrDefault(u => u.Username == username);
 
-                if (user != null && PasswordHash.ValidatePassword(password, user.PasswordHash, user.HashSalt, user.HashIterations))
+                if (user != null && PasswordHash.ValidatePassword(
+                        password,
+                        user.PasswordHash,
+                        user.HashSalt,
+                        user.HashIterations))
                 {
+                    user.Currency += 1000;
+
+                    db.SaveChanges();
+
                     return true;
                 }
 
@@ -54,9 +61,8 @@ namespace KEKCore
         {
             using (UsersDB db = new UsersDB())
             {
-                var user = db.Users
-                                .Where(n => n.Username == username)
-                                .SingleOrDefault();
+                User user = db.Users
+                                .SingleOrDefault(n => n.Username == username);
 
                 if (user == null)
                 {
@@ -83,6 +89,7 @@ namespace KEKCore
                 return db.Transactions
                     .Include(t => t.Buyer)
                     .Include(t => t.Seller)
+                    .Include(t => t.Meme)
                     .Where(t => t.Buyer.Username == username ||
                                 t.Seller.Username == username).ToList();
             }

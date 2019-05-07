@@ -79,13 +79,15 @@ namespace KEKChatService
 
                 int batch = 50;
 
-                if (post.NSFW)
-                    return;
+                //if (post.NSFW)
+                //    return;
 
                 var meme = new MemeEntry { ImagePath = "Memes\\" + fileName,
                                            Price = price,
                                            VendorAmount = batch,
-                                           Subreddit = post.Subreddit.Name
+                                           Subreddit = post.Subreddit.Name,
+                                           GoldCount = post.Gilded,
+                                           NSFW = post.NSFW
                 };
 
                 using (UsersDB db = new UsersDB())
