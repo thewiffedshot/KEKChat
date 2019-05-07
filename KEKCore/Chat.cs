@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web.Script.Serialization;
+
 using KEKCore.Contexts;
 using KEKCore.Entities;
-using System.Data.Entity;
 
 namespace KEKCore
 {
@@ -12,13 +11,13 @@ namespace KEKCore
     {
         public static void SendMessage(string msg, string username)
         {
-            if (msg != null && msg != "" && msg.Count(c => c == ' ') != msg.Length && msg.Count(c => c == '\n') != msg.Length)
+            if (!string.IsNullOrEmpty(msg) && msg.Count(c => c == ' ') != msg.Length
+                                           && msg.Count(c => c == '\n') != msg.Length)
             {
                 using (UsersDB db = new UsersDB())
                 {
-                    var user = db.Users
-                                    .Where(u => u.Username == username)
-                                    .SingleOrDefault();
+                    User user = db.Users
+                                    .Single(u => u.Username == username);
                     db.Messages.Add(new Message { UserID = user.ID,
                                                   Text = msg
                     });
@@ -27,38 +26,36 @@ namespace KEKCore
             }
         }
 
-        public static IEnumerable<Message> GetMessages(int lastMessageID)
+        public static IEnumerable<Message> GetMessages(int lastMessageId)
         {
             using (UsersDB db = new UsersDB())
             {
                 return db.Messages
-                         .Where(m => m.ID > lastMessageID)
+                         .Where(m => m.ID > lastMessageId)
                          .Include(m => m.User)
                          .Include(m => m.Meme)
                          .ToList();
             }
         }
 
-        public static void SendMeme(int memeID, string username)
+        public static void SendMeme(int memeId, string username)
         {
             using (UsersDB db = new UsersDB())
             {
-                using (var trans = db.Database.BeginTransaction())
+                using (DbContextTransaction trans = db.Database.BeginTransaction())
                 {
                     try
                     {
-                        var user = db.Users
-                                    .Where(u => u.Username == username)
-                                    .SingleOrDefault();
+                        User user = db.Users
+                                    .SingleOrDefault(u => u.Username == username);
 
-                        db.Messages.Add(new Message { MemeID = memeID,
+                        db.Messages.Add(new Message { MemeID = memeId,
                                                       UserID = user.ID
                         });
 
-                        var asset = db.MemeOwners
+                        MemeAsset asset = db.MemeOwners
                                       .Include(a => a.MemeEntry)
-                                      .Where(a => a.MemeID == memeID && a.UserID == user.ID)
-                                      .SingleOrDefault();
+                                      .Single(a => a.MemeID == memeId && a.UserID == user.ID);
 
                         asset.Amount--;
 

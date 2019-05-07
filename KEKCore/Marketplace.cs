@@ -1,40 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Data.Entity;
+using System.Linq;
+
 using KEKCore.Contexts;
 using KEKCore.Entities;
 
 namespace KEKCore
 {
+
+
     public static class Marketplace
     {
         public static void SellMeme(int memeQuantity, decimal memePrice, int assetID, string username)
         {
             using (UsersDB db = new UsersDB())
             {
-                using (var trans = db.Database.BeginTransaction())
+                using (DbContextTransaction trans = db.Database.BeginTransaction())
                 {
                     try
                     {
                         User user = db.Users
-                                      .Where(u => u.Username == username)
-                                      .SingleOrDefault();
+                                      .Single(u => u.Username == username);
 
                         MemeAsset currentMeme = db.MemeOwners
-                                           .Where(u => u.ID == assetID && u.UserID == user.ID)
-                                           .SingleOrDefault();
+                                           .Single(u => u.ID == assetID && u.UserID == user.ID);
 
                         if (currentMeme.Amount >= memeQuantity && memeQuantity > 0)
                         {
                             currentMeme.Amount -= memeQuantity;
 
-                            var existingMemeForSale = db.Marketplace
-                                                      .Where(a => a.SellerID == user.ID
+                            MarketplaceEntry existingMemeForSale = db.Marketplace
+                                                      .SingleOrDefault(
+                                                          a => a.SellerID == user.ID
                                                                && a.AssetID == assetID
-                                                               && a.Price == memePrice)
-                                                      .SingleOrDefault();
+                                                               && a.Price == memePrice);
 
                             if (existingMemeForSale != null)
                                 existingMemeForSale.Quantity += memeQuantity;
@@ -65,22 +65,21 @@ namespace KEKCore
             }
         }
 
-        public static void TradeMeme(int quantity, int marketEntryID, string username)
+        public static void TradeMeme(int quantity, int marketEntryId, string username)
         {
             using (UsersDB db = new UsersDB())
             {
-                using (var trans = db.Database.BeginTransaction())
+                using (DbContextTransaction trans = db.Database.BeginTransaction())
                 {
-                    //try
+                    try
                     {
-                        MarketplaceEntry marketEntry = db.Marketplace.Where(m => m.ID == marketEntryID)
+                        MarketplaceEntry marketEntry = db.Marketplace.Where(m => m.ID == marketEntryId)
                                                                      .Include(m => m.MemeAsset.MemeEntry)
                                                                      .Include(m => m.User)
-                                                                     .SingleOrDefault();
+                                                                     .Single();
 
                         User buyer = db.Users
-                                      .Where(u => u.Username == username)
-                                      .SingleOrDefault();
+                                      .Single(u => u.Username == username);
 
                         User owner = marketEntry.User;
 
@@ -103,10 +102,22 @@ namespace KEKCore
 
                             };
 
-                            var existingAsset = db.MemeOwners
-                                                  .Where(a => a.UserID == buyer.ID
-                                                           && a.MemeID == marketEntry.MemeAsset.ID)
-                                                  .SingleOrDefault();
+                            MemeAsset existingAsset = db.MemeOwners
+                                                  .SingleOrDefault(
+                                                      a => a.UserID == buyer.ID
+                                                           && a.MemeID == marketEntry.MemeAsset.ID);
+
+                            db.Transactions.Add(new Transaction
+                                                    {
+                                                        BuyerID = buyer.ID,
+                                                        SellerID = owner.ID,
+                                                        SellerName = owner.Username,
+                                                        Value = memePrice,
+                                                        AssetName = existingAsset == null ? asset.AssetName : existingAsset.AssetName,
+                                                        Quantity = quantity,
+                                                        TimeStamp = DateTime.Now,
+                                                        MemeID = marketEntry.MemeAsset.MemeEntry.ID
+                            });
 
                             if (existingAsset == null)
                                 db.MemeOwners.Add(asset);
@@ -119,10 +130,10 @@ namespace KEKCore
                             trans.Commit();
                         }
                     }
-                    /*catch (Exception e)
+                    catch
                     {
                         trans.Rollback();
-                    }*/
+                    }
                 }
             }
         }

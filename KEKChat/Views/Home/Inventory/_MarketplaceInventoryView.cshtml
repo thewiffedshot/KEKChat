@@ -22,14 +22,14 @@
                         <div class="col-lg-6 col-12 p-0">
                             <div class="col-12 p-0">
                                 Amount to sell:
-                                @Html.TextBoxFor(model => Model.ElementAt(i).Quantity, new { htmlAttributes = new { @class = "col-12 p-1", @min = "1", @step = "1" } })
+                                @Html.EditorFor(model => Model.ElementAt(i).Quantity, new { htmlAttributes = new { @class = "col-12 p-1", @min = "1", @step = "1", @max = Model.ElementAt(i).Meme.Amount} })
                             </div>
                             <div class="col-12 p-0">
                                 For how much:
                             </div>
                             <div class="row m-0">
                                 <div class="col-6 p-0">
-                                    @Html.TextBoxFor(model => Model.ElementAt(i).Price, new { htmlAttributes = new { @class = "col-12 p-1", @min = "1"} })
+                                    @Html.EditorFor(model => Model.ElementAt(i).Price, new { htmlAttributes = new { @class = "col-12 p-1", @min = "1"} })
                                 </div>
                                 <div class="col-6 p-0">
                                     Keks

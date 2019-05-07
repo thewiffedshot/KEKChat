@@ -6,8 +6,6 @@
 
 @section CustomCss{
     <link href="~/Content/Chat.css" rel="stylesheet" type="text/css" />
-    
-
 }
 
 @section PartialScript
@@ -61,7 +59,7 @@
         function loadInventory() {
             $.ajax(
                 {
-                    url: "@Url.Action("GetInventory", "Home", new { view = "Chat" })",
+                    url: "@Url.Action("GetInventory", "Home", new { view = "Dashboard" })",
                     type: 'GET',
                     dataType: 'html'
                 }
@@ -81,85 +79,6 @@
                         $(".people").html(result);
             });
         }
-
-        var messageCount = 0;
-
-        function loadPartialView() {
-            if (!polling) {
-                polling = true;
-
-                var lastID = $("#chatView").children().last().attr("id");
-                //console.log(lastID);
-                if (lastID == null) lastID = 0;
-
-                $.ajax(
-                    {
-                        url: "@Url.Action("GetMessages", "Home")",
-                        type: 'POST',
-                        dataType: 'html',
-                        data: { "lastMessageID": lastID }
-                    }
-                ).done(function (result) {
-                    $('#chatView').append(result);
-
-                    if (document.getElementById("chatView").childElementCount > messageCount) {
-                        var element = document.getElementById("chatView");
-                        element.scrollTop = element.scrollHeight;
-                    }
-
-                    messageCount = document.getElementById("chatView").childElementCount;
-                }).always(function () { polling = false; });
-            }
-        }
-
-        document.getElementById('textArea').addEventListener('keydown', function (event) {
-            if (event.which === 13 && event.shiftKey) {
-                return false;
-            }
-            else if (event.which === 13) {
-                event.preventDefault();
-                var lastID = $("#chatView").children().last().attr("id");
-                if (lastID == null) lastID = 0;
-
-                $.ajax(
-                    {
-                        url: "@Url.Action("SendMessage", "Home")",
-                        data: {
-                            'msg': $('#textArea').val()
-                        },
-                        type: 'POST',
-                        dataType: 'html'
-                    }
-                ).done(function ()
-                {
-                    $('#textArea').val("");
-                });
-
-                return true;
-            }
-        });
-
-        $("#sendButton").not(".bound-click").addClass("bound-click").click(function (event) {
-            event.preventDefault();
-
-            var lastID = $("#chatView").children().last().attr("id");
-            if (lastID == null) lastID = 0;
-
-                $.ajax(
-                    {
-                        url: "@Url.Action("SendMessage", "Home")",
-                        data: {
-                            'msg': $('#textArea').val()
-                        },
-                        type: 'POST',
-                        dataType: 'html'
-                    }
-                ).done(function ()
-                {
-                    $('#textArea').val("");
-                });
-            }
-        );
     </script>
 }
 
@@ -181,7 +100,8 @@
     </div>
 }
 
-
-@Html.Action("GridViewPartial")
+<div class="mx-auto mw-100" style="width: max-content; width: -moz-max-content">
+    @Html.Action("GridViewPartial", "Statistics")
+</div>
 
 

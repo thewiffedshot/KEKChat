@@ -1,37 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Web;
 
 namespace KEKCore.Utils
 {
     public class PasswordHash
     {
-        public const int SALT_BYTE_SIZE = 24;
-        public const int HASH_BYTE_SIZE = 24;
-        public const int PBKDF2_ITERATIONS = 1000;
+        public const int SaltByteSize = 24;
+        public const int HashByteSize = 24;
+        public const int Pbkdf2Iterations = 1000;
 
         public static string[] CreateHash(string password)
         {
-            RNGCryptoServiceProvider csprng = new RNGCryptoServiceProvider();
-            byte[] salt = new byte[SALT_BYTE_SIZE];
-            csprng.GetBytes(salt);
+            RNGCryptoServiceProvider csPrng = new RNGCryptoServiceProvider();
+            byte[] salt = new byte[SaltByteSize];
+            csPrng.GetBytes(salt);
 
-            byte[] hash = PBKDF2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
+            byte[] hash = PBKDF2(password, salt, Pbkdf2Iterations, HashByteSize);
 
             return new string[] { Convert.ToBase64String(hash),
                                   Convert.ToBase64String(salt),
-                                  PBKDF2_ITERATIONS.ToString() };
+                                  Pbkdf2Iterations.ToString() };
         }
 
-        public static bool ValidatePassword(string password, string passhash, string _salt, string _iterations)
+        public static bool ValidatePassword(string password, string passHash, string _salt, string _iterations)
         {
-            if (password == null) password = "";
+            if (password == null) password = string.Empty;
 
-            int iterations = Int32.Parse(_iterations);
+            int iterations = int.Parse(_iterations);
             byte[] salt = Convert.FromBase64String(_salt);
-            byte[] hash = Convert.FromBase64String(passhash);
+            byte[] hash = Convert.FromBase64String(passHash);
 
             byte[] testHash = PBKDF2(password, salt, iterations, hash.Length);
             return SlowEquals(hash, testHash);

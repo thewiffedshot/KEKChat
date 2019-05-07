@@ -34,7 +34,7 @@ namespace KEKChat.Controllers
         {
             UpdateUserCurrencyLabel();
 
-            return View("Store", KEKCore.Store.GetStoreEntries().Select(meme => new MemeModel(meme)));
+            return View("Store", KEKCore.Store.GetStoreEntries(User.Identity.Name).Select(meme => new MemeModel(meme)));
         }
         
         [HttpPost]
@@ -71,7 +71,7 @@ namespace KEKChat.Controllers
                                     ID = m.ID,
                                     Username = m.User.Username,
                                     Date = m.Date,
-                                    ImageSource = m.Meme != null ? m.Meme.ImagePath : null,
+                                    ImageSource = m.Meme?.ImagePath,
                                     Text = m.Text
                                 }));
         }
@@ -93,6 +93,8 @@ namespace KEKChat.Controllers
                 case "Chat":
                     return PartialView("~/Views/Home/Inventory/_ChatInventoryView.cshtml", list.Select(i => new InventoryModel(i)));
                 case "Store":
+                    return PartialView("~/Views/Home/Inventory/_StoreInventoryView.cshtml", list.Select(i => new InventoryModel(i)));
+                case "Dashboard":
                     return PartialView("~/Views/Home/Inventory/_StoreInventoryView.cshtml", list.Select(i => new InventoryModel(i)));
                 case "Marketplace":
                     return PartialView("~/Views/Home/Inventory/_MarketplaceInventoryView.cshtml", list.Select(i => new MarketplaceInventoryModel(i)));
