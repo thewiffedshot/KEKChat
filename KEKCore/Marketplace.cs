@@ -10,130 +10,148 @@ namespace KEKCore
 {
 
 
-    public static class Marketplace
+    public class Marketplace
     {
-        public static void SellMeme(int memeQuantity, decimal memePrice, int assetID, string username)
+        public UsersDB DBContext { get; private set; }
+
+        public Marketplace()
         {
-            using (UsersDB db = new UsersDB())
+            DBContext = new UsersDB();
+        }
+
+        public Marketplace(UsersDB context)
+        {
+            DBContext = context;
+        }
+
+        public void SellMeme(int memeQuantity, decimal memePrice, int assetID, string username, UsersDB db = null)
+        {
+            if (db == null)
+                db = DBContext;
+
+            using (DbContextTransaction trans = db.Database.BeginTransaction())
             {
-                using (DbContextTransaction trans = db.Database.BeginTransaction())
+                try
                 {
-                    try
+                    User user = db.Users
+                        .Single(u => u.Username == username);
+
+                    MemeAsset currentMeme = db.MemeOwners
+                        .Single(u => u.ID == assetID && u.UserID == user.ID);
+
+                    if (currentMeme.Amount >= memeQuantity && memeQuantity > 0)
                     {
-                        User user = db.Users
-                                      .Single(u => u.Username == username);
+                        currentMeme.Amount -= memeQuantity;
 
-                        MemeAsset currentMeme = db.MemeOwners
-                                           .Single(u => u.ID == assetID && u.UserID == user.ID);
+                        MarketplaceEntry existingMemeForSale = db.Marketplace
+                            .SingleOrDefault(
+                                a => a.SellerID == user.ID
+                                     && a.AssetID == assetID
+                                     && a.Price == memePrice);
 
-                        if (currentMeme.Amount >= memeQuantity && memeQuantity > 0)
-                        {
-                            currentMeme.Amount -= memeQuantity;
+                        if (existingMemeForSale != null)
+                            existingMemeForSale.Quantity += memeQuantity;
+                        else
+                            db.Marketplace.Add(
+                                new MarketplaceEntry
+                                    {
+                                        AssetID = currentMeme.ID,
+                                        SellerID = user.ID,
+                                        Quantity = memeQuantity,
+                                        Price = memePrice
+                                    });
 
-                            MarketplaceEntry existingMemeForSale = db.Marketplace
-                                                      .SingleOrDefault(
-                                                          a => a.SellerID == user.ID
-                                                               && a.AssetID == assetID
-                                                               && a.Price == memePrice);
-
-                            if (existingMemeForSale != null)
-                                existingMemeForSale.Quantity += memeQuantity;
-                            else
-                                db.Marketplace.Add(new MarketplaceEntry { AssetID = currentMeme.ID,
-                                                                          SellerID = user.ID,
-                                                                          Quantity = memeQuantity,
-                                                                          Price = memePrice
-                                });
-
-                            db.SaveChanges();
-                            trans.Commit();
-                        }
+                        db.SaveChanges();
+                        trans.Commit();
                     }
-                    catch
-                    {
-                        trans.Rollback();
-                    }
+                }
+                catch
+                {
+                    trans.Rollback();
                 }
             }
         }
 
-        public static IEnumerable<MarketplaceEntry> GetMarketplaceEntries()
+        public IEnumerable<MarketplaceEntry> GetMarketplaceEntries(UsersDB db = null)
         {
-            using (UsersDB db = new UsersDB())
-            {
-                return db.Marketplace.Include(u => u.MemeAsset.MemeEntry).ToList();
-            }
+            if (db == null)
+                db = DBContext;
+
+            return db.Marketplace.Include(u => u.MemeAsset.MemeEntry).ToList();
         }
 
-        public static void TradeMeme(int quantity, int marketEntryId, string username)
+        public void TradeMeme(int quantity, int marketEntryId, string username, UsersDB db = null)
         {
-            using (UsersDB db = new UsersDB())
+            if (db == null)
+                db = DBContext;
+
+            using (DbContextTransaction trans = db.Database.BeginTransaction())
             {
-                using (DbContextTransaction trans = db.Database.BeginTransaction())
+                try
                 {
-                    try
+                    MarketplaceEntry marketEntry = db.Marketplace.Where(m => m.ID == marketEntryId)
+                        .Include(m => m.MemeAsset.MemeEntry)
+                        .Include(m => m.User)
+                        .Single();
+
+                    User buyer = db.Users
+                        .Single(u => u.Username == username);
+
+                    User owner = marketEntry.User;
+
+                    decimal memePrice = marketEntry.Price;
+
+                    decimal totalPrice = memePrice * quantity;
+
+                    if (buyer.Currency >= totalPrice && marketEntry.Quantity >= quantity && quantity > 0)
                     {
-                        MarketplaceEntry marketEntry = db.Marketplace.Where(m => m.ID == marketEntryId)
-                                                                     .Include(m => m.MemeAsset.MemeEntry)
-                                                                     .Include(m => m.User)
-                                                                     .Single();
 
-                        User buyer = db.Users
-                                      .Single(u => u.Username == username);
+                        buyer.Currency -= totalPrice;
+                        owner.Currency += totalPrice;
 
-                        User owner = marketEntry.User;
+                        marketEntry.Quantity -= quantity;
 
-                        decimal memePrice = marketEntry.Price;
+                        MemeAsset asset = new MemeAsset
+                                              {
+                                                  UserID = buyer.ID,
+                                                  MemeID = marketEntry.MemeAsset.MemeEntry.ID,
+                                                  Amount = quantity,
+                                                  AssetName = marketEntry.MemeAsset.AssetName
 
-                        decimal totalPrice = memePrice * quantity;
+                                              };
 
-                        if (buyer.Currency >= totalPrice && marketEntry.Quantity >= quantity && quantity > 0)
+                        MemeAsset existingAsset = db.MemeOwners
+                            .SingleOrDefault(
+                                a => a.UserID == buyer.ID
+                                     && a.MemeID == marketEntry.MemeAsset.ID);
+
+                        db.Transactions.Add(
+                            new Transaction
+                                {
+                                    BuyerID = buyer.ID,
+                                    SellerID = owner.ID,
+                                    SellerName = owner.Username,
+                                    Value = memePrice,
+                                    AssetName = existingAsset == null ? asset.AssetName : existingAsset.AssetName,
+                                    Quantity = quantity,
+                                    TimeStamp = DateTime.Now,
+                                    MemeID = marketEntry.MemeAsset.MemeEntry.ID
+                                });
+
+                        if (existingAsset == null)
+                            db.MemeOwners.Add(asset);
+                        else
                         {
-
-                            buyer.Currency -= totalPrice;
-                            owner.Currency += totalPrice;
-
-                            marketEntry.Quantity -= quantity;
-
-                            MemeAsset asset = new MemeAsset { UserID = buyer.ID,
-                                                              MemeID = marketEntry.MemeAsset.MemeEntry.ID,
-                                                              Amount = quantity,
-                                                              AssetName = marketEntry.MemeAsset.AssetName
-
-                            };
-
-                            MemeAsset existingAsset = db.MemeOwners
-                                                  .SingleOrDefault(
-                                                      a => a.UserID == buyer.ID
-                                                           && a.MemeID == marketEntry.MemeAsset.ID);
-
-                            db.Transactions.Add(new Transaction
-                                                    {
-                                                        BuyerID = buyer.ID,
-                                                        SellerID = owner.ID,
-                                                        SellerName = owner.Username,
-                                                        Value = memePrice,
-                                                        AssetName = existingAsset == null ? asset.AssetName : existingAsset.AssetName,
-                                                        Quantity = quantity,
-                                                        TimeStamp = DateTime.Now,
-                                                        MemeID = marketEntry.MemeAsset.MemeEntry.ID
-                            });
-
-                            if (existingAsset == null)
-                                db.MemeOwners.Add(asset);
-                            else
-                            {
-                                existingAsset.Amount += quantity;
-                            }
-
-                            db.SaveChanges();
-                            trans.Commit();
+                            existingAsset.Amount += quantity;
                         }
+
+                        db.SaveChanges();
+                        trans.Commit();
                     }
-                    catch
-                    {
-                        trans.Rollback();
-                    }
+                }
+                catch
+                {
+                    trans.Rollback();
                 }
             }
         }

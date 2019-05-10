@@ -9,90 +9,106 @@ using KEKCore.Utils;
 
 namespace KEKCore
 {
-    public static class Account
+    public class Account
     {
-        public static bool UserExists(string username)
-        {
-            using (UsersDB db = new UsersDB())
-            {
-                var user = db.Users.SingleOrDefault(u => u.Username == username);
+        public UsersDB DBContext { get; private set; }
 
-                if (user != null)
-                    return true;
-            }
+        public Account()
+        {
+            DBContext = new UsersDB();
+        }
+
+        public Account(UsersDB context)
+        {
+            DBContext = context;
+        }
+
+        public bool UserExists(string username, UsersDB db = null)
+        {
+            if (db == null)
+                db = DBContext;
+
+            User user = db.Users.SingleOrDefault(u => u.Username == username);
+
+            if (user != null)
+                return true;
             return false;
         }
 
-        public static void SendHeartbeat(string username)
+        public void SendHeartbeat(string username, UsersDB db = null)
         {
-            using (UsersDB db = new UsersDB())
+            if (db == null)
+                db = DBContext;
+
+            db.Users.Single(u => u.Username == username).LastOnline = DateTime.Now;
+
+            db.SaveChanges();
+        }
+
+        public bool Authenticate(string username, string password, UsersDB db = null)
+        {
+            if (db == null)
+                db = DBContext;
+
+            var user = db.Users
+                .SingleOrDefault(u => u.Username == username);
+
+            if (user != null && PasswordHash.ValidatePassword(
+                    password,
+                    user.PasswordHash,
+                    user.HashSalt,
+                    user.HashIterations))
             {
-                db.Users.Single(u => u.Username == username).LastOnline = DateTime.Now;
+                user.Currency += 1000;
 
                 db.SaveChanges();
+
+                return true;
             }
+
+            return false;
         }
 
-        public static bool Authenticate(string username, string password)
+        public bool Register(string username, string password, UsersDB db = null)
         {
-            using (UsersDB db = new UsersDB())
+            if (db == null)
+                db = DBContext;
+
+            User user = db.Users
+                .SingleOrDefault(n => n.Username == username);
+
+            if (user == null)
             {
-                var user = db.Users
-                             .SingleOrDefault(u => u.Username == username);
+                string[] hashes = PasswordHash.CreateHash(password);
 
-                if (user != null && PasswordHash.ValidatePassword(
-                        password,
-                        user.PasswordHash,
-                        user.HashSalt,
-                        user.HashIterations))
-                {
-                    user.Currency += 1000;
+                db.Users.Add(
+                    new User
+                        {
+                            Username = username,
+                            PasswordHash = hashes[0],
+                            HashSalt = hashes[1],
+                            HashIterations = hashes[2]
+                        });
+                db.SaveChanges();
 
-                    db.SaveChanges();
-
-                    return true;
-                }
-
-                return false;
+                return true;
             }
+
+            return false;
         }
 
-        public static bool Register(string username, string password)
+        public List<Transaction> GetTransactions(string username, UsersDB db = null)
         {
-            using (UsersDB db = new UsersDB())
-            {
-                User user = db.Users
-                                .SingleOrDefault(n => n.Username == username);
+            if (db == null)
+                db = DBContext;
 
-                if (user == null)
-                {
-                    string[] hashes = PasswordHash.CreateHash(password);
-
-                    db.Users.Add(new User { Username = username,
-                                            PasswordHash = hashes[0],
-                                            HashSalt = hashes[1],
-                                            HashIterations = hashes[2]
-                    });
-                    db.SaveChanges();
-
-                    return true;
-                }
-
-                return false;
-            }
-        }
-
-        public static List<Transaction> GetTransactions(string username)
-        {
-            using (UsersDB db = new UsersDB())
-            {
-                return db.Transactions
-                    .Include(t => t.Buyer)
-                    .Include(t => t.Seller)
-                    .Include(t => t.Meme)
-                    .Where(t => t.Buyer.Username == username ||
-                                t.Seller.Username == username).ToList();
-            }
+            return db.Transactions
+                .Include(t => t.Buyer)
+                .Include(t => t.Seller)
+                .Include(t => t.Meme)
+                .Where(
+                    t => t.Buyer.Username == username ||
+                         t.Seller.Username == username).ToList();
         }
     }
 }

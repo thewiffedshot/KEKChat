@@ -15,7 +15,7 @@ namespace KEKCore.Entities
         public decimal Price { get; set; }
 
         public int VendorAmount { get; set; }
-
+        
         public string Subreddit { get; set; }
 
         public int GoldCount { get; set; }
