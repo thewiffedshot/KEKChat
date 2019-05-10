@@ -1,17 +1,16 @@
-﻿using DevExpress.Web.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using KEKChat.Models;
-using DevExtreme.AspNet.Mvc;
-using DevExtreme.AspNet.Data;
+﻿using System.Web.Mvc;
+
+using KEKCore.Contexts;
 
 namespace KEKChat.Controllers
 {
+
     public class StatisticsController : Controller
     {
+        private static UsersDB db = new UsersDB();
+
+        private readonly KEKCore.Account account = new KEKCore.Account(db);
+
         public ActionResult Dashboard()
         {
             return View();
@@ -20,7 +19,7 @@ namespace KEKChat.Controllers
         [ValidateInput(false)]
         public ActionResult GridViewPartial()
         {
-            return PartialView("_GridViewPartial", KEKCore.Account.GetTransactions(User.Identity.Name));
+            return PartialView("_GridViewPartial", account.GetTransactions(User.Identity.Name));
         }
     }
 }

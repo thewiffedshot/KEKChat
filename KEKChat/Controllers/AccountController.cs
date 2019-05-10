@@ -4,14 +4,23 @@ using System.Web.Security;
 using KEKChat.Models;
 using KEKCore.Utils;
 
+using KEKChat.Contexts;
+using UsersDB = KEKCore.Contexts.UsersDB;
+
 namespace KEKChat.Controllers
 {
+
     public class AccountController : Controller
     {
+        static UsersDB db = new UsersDB();
+
+        private readonly KEKCore.Account account = new KEKCore.Account(db);
+        private readonly KEKCore.Session session = new KEKCore.Session(db);
+
         // GET: Account
         public ActionResult Login()
         {
-            if (User.Identity.IsAuthenticated && KEKCore.Account.UserExists(User.Identity.Name))
+            if (User.Identity.IsAuthenticated && account.UserExists(User.Identity.Name))
             {
                 return RedirectToAction("Chat", "Home");
             }
@@ -31,10 +40,10 @@ namespace KEKChat.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
-            if (KEKCore.Account.Authenticate(model.Username, model.Password))
+            if (account.Authenticate(model.Username, model.Password))
             {
                 FormsAuthentication.SetAuthCookie(model.Username, false);
-                Session["currency"] = KEKCore.Session.GetUserCurrency(model.Username);
+                Session["currency"] = session.GetUserCurrency(model.Username);
 
                 return RedirectToAction("Chat", "Home");
             }
@@ -56,7 +65,7 @@ namespace KEKChat.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (KEKCore.Account.Register(model.Username, model.Password))
+                if (account.Register(model.Username, model.Password))
                 {
                     return RedirectToAction("Login");
                 }
