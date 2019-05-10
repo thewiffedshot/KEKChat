@@ -25,11 +25,14 @@ namespace KEKCore.Contexts
 
         public DbSet<Transaction> Transactions { get; set; }
 
+        public DbSet<OrderWeight> OrderWeights { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("public");
             modelBuilder.Entity<MemeEntry>().HasIndex(u => u.ImagePath).IsUnique();
+            modelBuilder.Entity<OrderWeight>().HasIndex(u => new { u.MemeID, u.UserID }).IsUnique();
             base.OnModelCreating(modelBuilder);
         }
     }

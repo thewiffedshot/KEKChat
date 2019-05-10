@@ -98,49 +98,29 @@ namespace KEKCore
         {
             if (db == null)
                 db = DBContext;
+            
 
-            const decimal PriceInterval = 100;
-
-            var memes = db.MemeStash
-                .Where(meme => meme.VendorAmount > 0)
+            List<MemeEntry> memes = db.MemeStash
                 .ToList();
 
-            List<Transaction> transactions = db.Transactions
-                .Include(t => t.Buyer)
-                .Where(t => t.Buyer.Username == username)
+            List<OrderWeight> orderWeights = db.OrderWeights
+                .Include(w => w.User)
+                .Where(w => w.User.Username == username)
                 .ToList();
 
-            // If user has not bought memes, show newest first
-            if (transactions.Count == 0)
-                return memes.OrderByDescending(meme => meme.ID).ToList();
+            return OrderMemesByPreferences(memes, orderWeights);
+        }
 
-            // Else, show newest, ordered by most bought price category
-            decimal highestPrice = memes.OrderBy(m => m.Price).Last().Price;
-
-            List<decimal> sortingWeights = Enumerable
-                .Repeat(0m, CalculatePriceRangeIndex(highestPrice, PriceInterval) + 1)
-                .ToList();
-
-            foreach (Transaction trans in transactions)
-            {
-                int index = CalculatePriceRangeIndex(trans.Value, PriceInterval);
-
-                sortingWeights[index] += trans.Value * trans.Quantity;
-            }
+        private static List<MemeEntry> OrderMemesByPreferences(List<MemeEntry> memes, List<OrderWeight> orderWeights)
+        {
+            //List<decimal> weights = orderWeights.Select(u => u.Weight).ToList();
 
             return memes
-                .OrderByDescending(meme => GetMemeWeight(meme.Price, PriceInterval, sortingWeights))
-                .ThenByDescending(meme => meme.ID);
-        }
-
-        private static decimal GetMemeWeight(decimal memePrice, decimal priceInterval, List<decimal> sortingWeights)
-        {
-            return sortingWeights[CalculatePriceRangeIndex(memePrice, priceInterval)];
-        }
-
-        private static int CalculatePriceRangeIndex(decimal price, decimal interval)
-        {
-            return (int)Math.Floor(price / interval);
+                .OrderByDescending(meme => orderWeights.Single(w => w.MemeID == meme.ID).Weight)
+                .ThenByDescending(meme => meme.GoldCount)
+                .ThenByDescending(meme => meme.ID)
+                .Where(meme => meme.VendorAmount > 0)
+                .ToList();
         }
     }
 }

@@ -145,6 +145,9 @@ namespace KEKCore
                             existingAsset.Amount += quantity;
                         }
 
+                        if (marketEntry.Quantity == 0)
+                            db.Marketplace.Remove(marketEntry);
+
                         db.SaveChanges();
                         trans.Commit();
                     }

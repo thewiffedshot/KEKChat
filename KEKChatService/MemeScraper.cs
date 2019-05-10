@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+
+using KEKCore.Contexts;
+using KEKCore.Entities;
+
 using RedditSharp;
 using RedditSharp.Things;
-using KEKCore.Entities;
-using System.Threading.Tasks;
-using KEKCore.Contexts;
 
 namespace KEKChatService
 {

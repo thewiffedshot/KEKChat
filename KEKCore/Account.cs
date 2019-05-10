@@ -89,8 +89,20 @@ namespace KEKCore
                             HashSalt = hashes[1],
                             HashIterations = hashes[2]
                         });
+
+                List<MemeEntry> memes = db.MemeStash.Where(u => u.VendorAmount > 0).ToList();
+
                 db.SaveChanges();
 
+                int userID = db.Users.Single(u => u.Username == username).ID;
+
+                foreach (MemeEntry meme in memes)
+                {
+                    db.OrderWeights.Add(
+                        new OrderWeight() { UserID = userID, MemeID = meme.ID, Weight = 0 });
+                }
+
+                db.SaveChanges();
                 return true;
             }
 
