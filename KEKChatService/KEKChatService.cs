@@ -20,28 +20,42 @@ namespace KEKChatService
             InitializeComponent();
         }
 
-        private Timer _timer;
-        private DateTime _lastRun = DateTime.Now.AddDays(-1);
+        private Timer _timer1;
+        private Timer _timer2;
+        private DateTime _lastRun1 = DateTime.Now.AddDays(-1);
+        private DateTime _lastRun2 = DateTime.Now.AddDays(-1);
 
         protected override void OnStart(string[] args)
         {
-            _timer = new Timer(10 * 60 * 1000); // every 10 minutes
+            _timer1 = new Timer(10 * 60 * 1000); // every 10 minutes
 
-            var handler = new System.Timers.ElapsedEventHandler(timer_Elapsed);
+            ElapsedEventHandler handler1 = new System.Timers.ElapsedEventHandler(timer1_Elapsed);
 
-            _timer.Elapsed += handler;
+            _timer1.Elapsed += handler1;
 
-            handler.Invoke(this, null);
+            // TODO: Find why service timeouts when memes are downloaded for >1 time
+            //handler1.Invoke(_timer1, null);
 
-            _timer.Start();
+            _timer1.Start();
+
+
+            _timer2 = new Timer(10 * 60 * 1000); // every 10 minutes
+
+            ElapsedEventHandler handler2 = new System.Timers.ElapsedEventHandler(timer2_Elapsed);
+
+            _timer2.Elapsed += handler2;
+
+            handler2.Invoke(_timer1, null);
+
+            _timer2.Start();
         }
 
 
-        private async void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private async void timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (_lastRun.Date < DateTime.Now.Date)
+            if (_lastRun1.Date < DateTime.Now.Date)
             {
-                _timer.Stop();
+                _timer1.Stop();
 
                 string savepath = AppDomain.CurrentDomain.BaseDirectory + "..\\Memes\\";
 
@@ -49,8 +63,21 @@ namespace KEKChatService
 
                 await scraper.GetMemesFromSubsAsync();
 
-                _lastRun = DateTime.Now;
-                _timer.Start();
+                _lastRun1 = DateTime.Now;
+                _timer1.Start();
+            }
+        }
+
+        private void timer2_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (DateTime.Now.Date - _lastRun2.Date > TimeSpan.FromHours(2))
+            {
+                _timer2.Stop();
+
+                OrderOrganizer.Organize();
+
+                _lastRun2 = DateTime.Now;
+                _timer2.Start();
             }
         }
 
