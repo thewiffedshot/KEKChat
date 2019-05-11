@@ -23,66 +23,65 @@ namespace KEKCore
             DBContext = context;
         }
 
-        public bool UserExists(string username, UsersDB db = null)
+        public bool UserExists(string username)
         {
-            if (db == null)
-                db = DBContext;
-
-            User user = db.Users.SingleOrDefault(u => u.Username == username);
-
-            if (user != null)
-                return true;
-            return false;
-        }
-
-        public void SendHeartbeat(string username, UsersDB db = null)
-        {
-            if (db == null)
-                db = DBContext;
-
-            db.Users.Single(u => u.Username == username).LastOnline = DateTime.Now;
-
-            db.SaveChanges();
-        }
-
-        public bool Authenticate(string username, string password, UsersDB db = null)
-        {
-            if (db == null)
-                db = DBContext;
-
-            var user = db.Users
-                .SingleOrDefault(u => u.Username == username);
-
-            if (user != null && PasswordHash.ValidatePassword(
-                    password,
-                    user.PasswordHash,
-                    user.HashSalt,
-                    user.HashIterations))
+            using (UsersDB db = new UsersDB())
             {
-                user.Currency += 1000;
+                User user = db.Users.SingleOrDefault(u => u.Username == username);
+
+                if (user != null)
+                    return true;
+                return false;
+            }
+        }
+
+        public void SendHeartbeat(string username)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                db.Users.Single(u => u.Username == username).LastOnline = DateTime.Now;
 
                 db.SaveChanges();
-
-                return true;
             }
-
-            return false;
         }
 
-        public bool Register(string username, string password, UsersDB db = null)
+        public bool Authenticate(string username, string password)
         {
-            if (db == null)
-                db = DBContext;
+            using (UsersDB db = new UsersDB())
+            {
+                var user = db.Users
+                .SingleOrDefault(u => u.Username == username);
 
-            User user = db.Users
+                if (user != null && PasswordHash.ValidatePassword(
+                        password,
+                        user.PasswordHash,
+                        user.HashSalt,
+                        user.HashIterations))
+                {
+                    user.Currency += 1000;
+
+                    db.SaveChanges();
+
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        public bool Register(string username, string password)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                User user = db.Users
                 .SingleOrDefault(n => n.Username == username);
 
-            if (user == null)
-            {
-                string[] hashes = PasswordHash.CreateHash(password);
+                if (user == null)
+                {
+                    string[] hashes = PasswordHash.CreateHash(password);
 
-                db.Users.Add(
-                    new User
+                    db.Users.Add(
+                        new User
                         {
                             Username = username,
                             PasswordHash = hashes[0],
@@ -90,37 +89,38 @@ namespace KEKCore
                             HashIterations = hashes[2]
                         });
 
-                List<MemeEntry> memes = db.MemeStash.Where(u => u.VendorAmount > 0).ToList();
+                    List<MemeEntry> memes = db.MemeStash.Where(u => u.VendorAmount > 0).ToList();
 
-                db.SaveChanges();
+                    db.SaveChanges();
 
-                int userID = db.Users.Single(u => u.Username == username).ID;
+                    int userID = db.Users.Single(u => u.Username == username).ID;
 
-                foreach (MemeEntry meme in memes)
-                {
-                    db.OrderWeights.Add(
-                        new OrderWeight() { UserID = userID, MemeID = meme.ID, Weight = 0 });
+                    foreach (MemeEntry meme in memes)
+                    {
+                        db.OrderWeights.Add(
+                            new OrderWeight() { UserID = userID, MemeID = meme.ID, Weight = 0 });
+                    }
+
+                    db.SaveChanges();
+                    return true;
                 }
 
-                db.SaveChanges();
-                return true;
+                return false;
             }
-
-            return false;
         }
 
-        public List<Transaction> GetTransactions(string username, UsersDB db = null)
+        public List<Transaction> GetTransactions(string username)
         {
-            if (db == null)
-                db = DBContext;
-
-            return db.Transactions
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Transactions
                 .Include(t => t.Buyer)
                 .Include(t => t.Seller)
                 .Include(t => t.Meme)
                 .Where(
                     t => t.Buyer.Username == username ||
                          t.Seller.Username == username).ToList();
+            }
         }
     }
 }

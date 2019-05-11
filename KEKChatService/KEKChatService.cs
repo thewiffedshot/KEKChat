@@ -20,42 +20,62 @@ namespace KEKChatService
             InitializeComponent();
         }
 
-        private Timer _timer1;
-        private Timer _timer2;
-        private DateTime _lastRun1 = DateTime.Now.AddDays(-1);
-        private DateTime _lastRun2 = DateTime.Now.AddDays(-1);
+        private Timer timer1;
+        private Timer timer2;
+        private Timer timer3;
+        private DateTime lastRun1 = DateTime.Now.AddDays(-1);
+        private DateTime lastRun2 = DateTime.Now.AddDays(-1);
+        private DateTime lastRun3 = DateTime.Now.AddDays(-1);
 
         protected override void OnStart(string[] args)
         {
-            _timer1 = new Timer(10 * 60 * 1000); // every 10 minutes
+            timer1 = new Timer(10 * 60 * 1000); // every 10 minutes
 
             ElapsedEventHandler handler1 = new System.Timers.ElapsedEventHandler(timer1_Elapsed);
 
-            _timer1.Elapsed += handler1;
+            timer1.Elapsed += handler1;
 
             // TODO: Find why service timeouts when memes are downloaded for >1 time
-            //handler1.Invoke(_timer1, null);
+            handler1.Invoke(timer1, null);
 
-            _timer1.Start();
+            timer1.Start();
 
+            timer3 = new Timer(2 * 60 * 1000); // every 2 minutes
 
-            _timer2 = new Timer(10 * 60 * 1000); // every 10 minutes
+            ElapsedEventHandler handler3 = new System.Timers.ElapsedEventHandler(timer3_Elapsed);
+
+            timer3.Elapsed += handler3;
+
+            handler3.Invoke(timer3, null);
+
+            timer3.Start();
+
+            timer2 = new Timer(10 * 60 * 1000); // every 10 minutes
 
             ElapsedEventHandler handler2 = new System.Timers.ElapsedEventHandler(timer2_Elapsed);
 
-            _timer2.Elapsed += handler2;
+            timer2.Elapsed += handler2;
 
-            handler2.Invoke(_timer1, null);
+            handler2.Invoke(timer2, null);
 
-            _timer2.Start();
+            timer2.Start();
         }
 
+        private void timer3_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            timer3.Stop();
+
+            DemandElasticity.ReevaluatePrices();
+
+            lastRun3 = DateTime.Now;
+            timer3.Start();
+        }
 
         private async void timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (_lastRun1.Date < DateTime.Now.Date)
+            if (lastRun1.Date < DateTime.Now.Date)
             {
-                _timer1.Stop();
+                timer1.Stop();
 
                 string savepath = AppDomain.CurrentDomain.BaseDirectory + "..\\Memes\\";
 
@@ -63,21 +83,21 @@ namespace KEKChatService
 
                 await scraper.GetMemesFromSubsAsync();
 
-                _lastRun1 = DateTime.Now;
-                _timer1.Start();
+                lastRun1 = DateTime.Now;
+                timer1.Start();
             }
         }
 
         private void timer2_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (DateTime.Now.Date - _lastRun2.Date > TimeSpan.FromHours(2))
+            if (DateTime.Now - lastRun2 > TimeSpan.FromHours(2))
             {
-                _timer2.Stop();
+                timer2.Stop();
 
                 OrderOrganizer.Organize();
 
-                _lastRun2 = DateTime.Now;
-                _timer2.Start();
+                lastRun2 = DateTime.Now;
+                timer2.Start();
             }
         }
 

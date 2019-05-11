@@ -21,40 +21,40 @@ namespace KEKCore
             DBContext = context;
         }
 
-        public IEnumerable<User> GetPeopleList(UsersDB db = null)
+        public IEnumerable<User> GetPeopleList()
         {
-            if (db == null)
-                db = DBContext;
-
-            return db.Users
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Users
                      .OrderBy(u => u.Username)
                      .ToList();
+            }
         }
 
-        public IEnumerable<MemeAsset> GetInventoryList(string username, UsersDB db = null)
+        public IEnumerable<MemeAsset> GetInventoryList(string username)
         {
-            if (db == null)
-                db = DBContext;
-
-            int ownerId = db.Users
+            using (UsersDB db = new UsersDB())
+            {
+                int ownerId = db.Users
                 .Where(u => u.Username == username)
                 .Select(u => u.ID)
                 .SingleOrDefault();
 
-            return db.MemeOwners
-                .Include(mo => mo.MemeEntry)
-                .Where(mo => mo.UserID == ownerId && mo.Amount > 0)
-                .ToList();
+                return db.MemeOwners
+                    .Include(mo => mo.MemeEntry)
+                    .Where(mo => mo.UserID == ownerId && mo.Amount > 0)
+                    .ToList();
+            }
         }
 
-        public decimal GetUserCurrency(string username, UsersDB db = null)
+        public decimal GetUserCurrency(string username)
         {
-            if (db == null)
-                db = DBContext;
-
-            return db.Users
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Users
                 .Single(u => u.Username == username)
                 .Currency;
+            }
         }
     }
 }
