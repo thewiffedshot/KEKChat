@@ -21,50 +21,49 @@ namespace KEKCore
             DBContext = context;
         }
 
-        public void BuyMeme(string memeAssetName, int memeQuantity, int memeID, string username, UsersDB db = null)
+        public void BuyMeme(string memeAssetName, int memeQuantity, int memeID, string username)
         {
-            if (db == null)
-                db = DBContext;
-
-            using (DbContextTransaction trans = db.Database.BeginTransaction())
+            using (UsersDB db = new UsersDB())
             {
-                try
+                using (DbContextTransaction trans = db.Database.BeginTransaction())
                 {
-                    User user = db.Users
-                        .Single(u => u.Username == username);
-
-                    decimal userCurrency = user.Currency;
-
-                    MemeEntry currentMeme = db.MemeStash
-                        .Single(u => u.ID == memeID);
-
-                    decimal memePrice = currentMeme.Price;
-
-                    decimal totalPrice = memePrice * memeQuantity;
-
-                    if (userCurrency >= totalPrice && currentMeme.VendorAmount >= memeQuantity && memeQuantity > 0)
+                    try
                     {
+                        User user = db.Users
+                            .Single(u => u.Username == username);
 
-                        user.Currency -= totalPrice;
-                        currentMeme.VendorAmount -= memeQuantity;
+                        decimal userCurrency = user.Currency;
 
-                        MemeAsset asset = new MemeAsset
-                                              {
-                                                  UserID = user.ID,
-                                                  MemeID = currentMeme.ID,
-                                                  Amount = memeQuantity,
-                                                  AssetName = string.IsNullOrEmpty(memeAssetName)
-                                                                  ? "meme_" + currentMeme.ID
-                                                                  : memeAssetName
-                                              };
+                        MemeEntry currentMeme = db.MemeStash
+                            .Single(u => u.ID == memeID);
 
-                        MemeAsset existingAsset = db.MemeOwners
-                            .SingleOrDefault(
-                                a => a.UserID == user.ID
-                                     && a.MemeID == memeID);
+                        decimal memePrice = currentMeme.Price;
 
-                        db.Transactions.Add(
-                            new Transaction
+                        decimal totalPrice = memePrice * memeQuantity;
+
+                        if (userCurrency >= totalPrice && currentMeme.VendorAmount >= memeQuantity && memeQuantity > 0)
+                        {
+
+                            user.Currency -= totalPrice;
+                            currentMeme.VendorAmount -= memeQuantity;
+
+                            MemeAsset asset = new MemeAsset
+                            {
+                                UserID = user.ID,
+                                MemeID = currentMeme.ID,
+                                Amount = memeQuantity,
+                                AssetName = string.IsNullOrEmpty(memeAssetName)
+                                                                      ? "meme_" + currentMeme.ID
+                                                                      : memeAssetName
+                            };
+
+                            MemeAsset existingAsset = db.MemeOwners
+                                .SingleOrDefault(
+                                    a => a.UserID == user.ID
+                                         && a.MemeID == memeID);
+
+                            db.Transactions.Add(
+                                new Transaction
                                 {
                                     BuyerID = user.ID,
                                     SellerID = null,
@@ -76,51 +75,54 @@ namespace KEKCore
                                     MemeID = memeID
                                 });
 
-                        if (existingAsset == null)
-                            db.MemeOwners.Add(asset);
-                        else
-                        {
-                            existingAsset.Amount += memeQuantity;
-                        }
+                            if (existingAsset == null)
+                                db.MemeOwners.Add(asset);
+                            else
+                            {
+                                existingAsset.Amount += memeQuantity;
+                            }
 
-                        db.SaveChanges();
-                        trans.Commit();
+                            db.SaveChanges();
+                            trans.Commit();
+                        }
                     }
-                }
-                catch
-                {
-                    trans.Rollback();
+                    catch
+                    {
+                        trans.Rollback();
+                    }
                 }
             }
         }
 
-        public IEnumerable<MemeEntry> GetStoreEntries(string username, UsersDB db = null)
+        public IEnumerable<MemeEntry> GetStoreEntries(string username)
         {
-            if (db == null)
-                db = DBContext;
-            
-
-            List<MemeEntry> memes = db.MemeStash
+            using (UsersDB db = new UsersDB())
+            {
+                List<MemeEntry> memes = db.MemeStash
                 .ToList();
 
-            List<OrderWeight> orderWeights = db.OrderWeights
-                .Include(w => w.User)
-                .Where(w => w.User.Username == username)
-                .ToList();
+                List<OrderWeight> orderWeights = db.OrderWeights
+                    .Include(w => w.User)
+                    .Where(w => w.User.Username == username)
+                    .ToList();
 
-            return OrderMemesByPreferences(memes, orderWeights);
+                return OrderMemesByPreferences(memes, orderWeights);
+            }
         }
 
         private static List<MemeEntry> OrderMemesByPreferences(List<MemeEntry> memes, List<OrderWeight> orderWeights)
         {
             //List<decimal> weights = orderWeights.Select(u => u.Weight).ToList();
 
-            return memes
-                .OrderByDescending(meme => orderWeights.Single(w => w.MemeID == meme.ID).Weight)
-                .ThenByDescending(meme => meme.GoldCount)
-                .ThenByDescending(meme => meme.ID)
-                .Where(meme => meme.VendorAmount > 0)
-                .ToList();
+            if (orderWeights.Count > 0 && memes.Count > 0)
+                return memes
+                    .OrderByDescending(meme => orderWeights.Single(w => w.MemeID == meme.ID).Weight)
+                    .ThenByDescending(meme => meme.GoldCount)
+                    .ThenByDescending(meme => meme.ID)
+                    .Where(meme => meme.VendorAmount > 0)
+                    .ToList();
+
+            return memes;
         }
     }
 }

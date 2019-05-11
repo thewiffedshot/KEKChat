@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemandElasticity.cs" />
     <Compile Include="MemeScraper.cs" />
     <Compile Include="OrderOrganizer.cs" />
     <Compile Include="ProjectInstaller.cs">

@@ -21,69 +21,69 @@ namespace KEKCore
             DBContext = context;
         }
 
-        public void SendMessage(string msg, string username, UsersDB db = null)
+        public void SendMessage(string msg, string username)
         {
-            if (db == null)
-                db = DBContext;
-
-            if (!string.IsNullOrEmpty(msg) && msg.Count(c => c == ' ') != msg.Length
-                                           && msg.Count(c => c == '\n') != msg.Length)
+            using (UsersDB db = new UsersDB())
             {
-                User user = db.Users
-                    .Single(u => u.Username == username);
-                db.Messages.Add(
-                    new Message
+                if (!string.IsNullOrEmpty(msg) && msg.Count(c => c == ' ') != msg.Length
+                                               && msg.Count(c => c == '\n') != msg.Length)
+                {
+                    User user = db.Users
+                        .Single(u => u.Username == username);
+                    db.Messages.Add(
+                        new Message
                         {
                             UserID = user.ID,
                             Text = msg
                         });
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
         }
 
-        public IEnumerable<Message> GetMessages(int lastMessageId, UsersDB db = null)
+        public IEnumerable<Message> GetMessages(int lastMessageId)
         {
-            if (db == null)
-                db = DBContext;
-
-            return db.Messages
-                .Where(m => m.ID > lastMessageId)
-                .Include(m => m.User)
-                .Include(m => m.Meme)
-                .ToList();
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Messages
+                    .Where(m => m.ID > lastMessageId)
+                    .Include(m => m.User)
+                    .Include(m => m.Meme)
+                    .ToList();
+            }
         }
 
-        public void SendMeme(int memeId, string username, UsersDB db = null)
+        public void SendMeme(int memeId, string username)
         {
-            if (db == null)
-                db = DBContext;
-
-            using (DbContextTransaction trans = db.Database.BeginTransaction())
+            using (UsersDB db = new UsersDB())
             {
-                try
+                using (DbContextTransaction trans = db.Database.BeginTransaction())
                 {
-                    User user = db.Users
-                        .SingleOrDefault(u => u.Username == username);
+                    try
+                    {
+                        User user = db.Users
+                            .SingleOrDefault(u => u.Username == username);
 
-                    db.Messages.Add(
-                        new Message
+                        db.Messages.Add(
+                            new Message
                             {
                                 MemeID = memeId,
                                 UserID = user.ID
                             });
 
-                    MemeAsset asset = db.MemeOwners
-                        .Include(a => a.MemeEntry)
-                        .Single(a => a.MemeID == memeId && a.UserID == user.ID);
+                        MemeAsset asset = db.MemeOwners
+                            .Include(a => a.MemeEntry)
+                            .Single(a => a.MemeID == memeId && a.UserID == user.ID);
 
-                    asset.Amount--;
+                        asset.Amount--;
 
-                    db.SaveChanges();
-                    trans.Commit();
-                }
-                catch
-                {
-                    trans.Rollback();
+                        db.SaveChanges();
+                        trans.Commit();
+                    }
+                    catch
+                    {
+                        trans.Rollback();
+                    }
                 }
             }
         }
