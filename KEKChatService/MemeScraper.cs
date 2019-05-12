@@ -101,6 +101,9 @@ namespace KEKChatService
                     if (memes.Count == 0)
                     {
                         db.MemeStash.Add(meme);
+
+                        KEKCore.Store.InitializeWeights(meme, db);
+
                         db.SaveChanges();
                     }
                 }

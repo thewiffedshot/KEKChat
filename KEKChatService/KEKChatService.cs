@@ -71,7 +71,7 @@ namespace KEKChatService
             timer3.Start();
         }
 
-        private async void timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (lastRun1.Date < DateTime.Now.Date)
             {
@@ -81,7 +81,7 @@ namespace KEKChatService
 
                 MemeScraper scraper = new MemeScraper(savepath, new string[] { "me_irl", "memes" }, 10);
 
-                await scraper.GetMemesFromSubsAsync();
+                scraper.GetMemesFromSubsAsync();
 
                 lastRun1 = DateTime.Now;
                 timer1.Start();

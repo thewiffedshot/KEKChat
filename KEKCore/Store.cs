@@ -124,5 +124,18 @@ namespace KEKCore
 
             return memes;
         }
+
+        public static void InitializeWeights(MemeEntry meme, UsersDB db)
+        {
+            foreach (User user in db.Users)
+            {
+                db.OrderWeights.Add(new OrderWeight()
+                {
+                    MemeID = meme.ID,
+                    UserID = user.ID,
+                    Weight = 0
+                });
+            }
+        }
     }
 }

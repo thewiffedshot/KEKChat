@@ -30,17 +30,26 @@ namespace KEKChatService
                     if (previousTransactions.Count != 0 && recentTransactions.Count != 0)
                     {
                         decimal currentPrice = recentTransactions.First().Value;
+                        decimal previousPrice = previousTransactions.First().Value;
 
                         int currentDemand = recentTransactions.Sum(t => t.Quantity);
                         int previousDemand = previousTransactions.Sum(t => t.Quantity);
 
-                        decimal deltaDemand = (currentDemand - previousDemand) / previousDemand;
+                        if (previousDemand == currentDemand)
+                            previousDemand = currentDemand + 1;
 
-                        decimal targetDeltaPrice = -deltaDemand;
+                        decimal slope = (previousPrice - currentPrice) / (previousDemand - currentDemand);
 
-                        decimal newPrice = currentPrice + currentPrice * targetDeltaPrice;
+                        if (slope == 0m)
+                            slope = 0.1m;
 
-                        meme.Price = newPrice;
+                        decimal constant = slope * -previousDemand + previousPrice;
+
+                        int quantity = (int)Math.Ceiling(constant / (2 * slope));
+
+                        decimal optimalPrice = constant + slope * quantity;
+
+                        meme.Price = optimalPrice;
                     }
                 }
 

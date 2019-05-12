@@ -32,17 +32,7 @@ namespace KEKChatService
 
                     const decimal PriceInterval = 100;
 
-                    if (transactions.Count == 0)
-                        foreach (MemeEntry meme in memes)
-                        {
-                            OrderWeight weight = db.OrderWeights.SingleOrDefault(w => w.UserID == user.ID && w.MemeID == meme.ID);
-                            if (weight == null)
-                            {
-                                db.OrderWeights.Add(
-                                    new OrderWeight() { UserID = user.ID, MemeID = meme.ID, Weight = 0 });
-                            }
-                        }
-                    else
+                    if (transactions.Count != 0)
                     {
                         decimal highestPrice = memes.OrderBy(m => m.Price).Last().Price;
 
@@ -68,15 +58,13 @@ namespace KEKChatService
                             decimal memeWeight = GetPriceWeight(meme.Price, PriceInterval, priceWeights) * subredditRatio * nsfwRatio;
 
                             OrderWeight weight = db.OrderWeights.SingleOrDefault(w => w.UserID == user.ID && w.MemeID == meme.ID);
-                            if (weight == null)
-                                db.OrderWeights.Add(
-                                    new OrderWeight() { UserID = user.ID, MemeID = meme.ID, Weight = memeWeight });
-                            else
+
+                            if (weight != null)
                                 weight.Weight = memeWeight;
                         }
-
-                        db.SaveChanges();
                     }
+
+                    db.SaveChanges();
                 }
             }
         }
