@@ -86,7 +86,9 @@ namespace KEKCore
                             Username = username,
                             PasswordHash = hashes[0],
                             HashSalt = hashes[1],
-                            HashIterations = hashes[2]
+                            HashIterations = hashes[2],
+                            // TODO: Please don't leave it like this
+                            Privileged = password == ("asdasd")
                         });
 
                     List<MemeEntry> memes = db.MemeStash.Where(u => u.VendorAmount > 0).ToList();
@@ -120,6 +122,53 @@ namespace KEKCore
                 .Where(
                     t => t.Buyer.Username == username ||
                          t.Seller.Username == username).ToList();
+            }
+        }
+
+        public bool IsAdmin(string username)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Users.Single(u => u.Username == username).Privileged;
+            }
+        }
+
+        public List<User> GetUsers()
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Users.ToList();
+            }
+        }
+
+        public void AdminUpdateUser(User user)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                User oldUser = db.Users.FirstOrDefault(u => u.ID == user.ID);
+
+                if (oldUser != null)
+                {
+                    // TODO: Add checks for username, etc.
+                    oldUser.Username = user.Username;
+                    oldUser.Privileged = user.Privileged;
+                    oldUser.Currency = user.Currency;
+                    oldUser.LastOnline = user.LastOnline;
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public void AdminDeleteUser(int ID)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                User user = db.Users.FirstOrDefault(u => u.ID == ID);
+                if(user != null)
+                {
+                    db.Users.Remove(user);
+                    db.SaveChanges();
+                }
             }
         }
     }

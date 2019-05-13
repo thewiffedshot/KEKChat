@@ -396,6 +396,7 @@
     <Content Include="Views\Statistics\Dashboard.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Statistics\_GridViewPartial.cshtml" />
+    <Content Include="Views\Statistics\_AdminPanelPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

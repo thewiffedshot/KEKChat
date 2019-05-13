@@ -1,0 +1,58 @@
+@{
+    void a() { }
+
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "AdminPanel";
+        settings.CallbackRouteValues = new
+        {
+            Controller = "Statistics",
+            Action = "AdminPanelPartial" };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Statistics", Action = "AdminPanelPartialAddNew" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Statistics", Action = "AdminPanelPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Statistics", Action = "AdminPanelPartialDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowEditButton = true;
+
+        settings.KeyFieldName = "ID";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 700;
+
+        settings.Columns.Add("ID").EditFormSettings.Visible = DefaultBoolean.False;
+        settings.Columns.Add("Username");
+        settings.Columns.Add("Privileged").EditFormSettings.Visible = DefaultBoolean.False;
+        settings.Columns.Add("Currency").EditFormSettings.Visible = DefaultBoolean.False;
+        settings.Columns.Add("LastOnline").EditFormSettings.Visible = DefaultBoolean.False;
+
+        // Unbound column password
+        MVCxGridViewColumn column = new MVCxGridViewColumn()
+        {
+            FieldName = "Password",
+            UnboundType = DevExpress.Data.UnboundColumnType.Integer,
+            Visible = false,
+        };
+        column.EditFormSettings.Visible = DefaultBoolean.True;
+        column.EditFormSettings.VisibleIndex = 99;
+        settings.Columns.Add(column);
+
+    });
+    if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

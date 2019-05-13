@@ -18,6 +18,8 @@ namespace KEKCore.Entities
 
         public string HashIterations { get; set; }
 
+        public bool Privileged { get; set; }
+
         public decimal Currency { get; set; } = 5000;
 
         public DateTime LastOnline { get; set; }
