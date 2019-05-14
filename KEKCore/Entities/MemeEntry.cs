@@ -23,5 +23,6 @@ namespace KEKCore.Entities
         public bool NSFW { get; set; }
 
         public IEnumerable<Message> Messages { get; set; }
+        public int InitCount { get; set; }
     }
 }

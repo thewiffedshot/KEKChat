@@ -26,6 +26,7 @@ namespace KEKChatService
         private DateTime lastRun1 = DateTime.Now.AddDays(-1);
         private DateTime lastRun2 = DateTime.Now.AddDays(-1);
         private DateTime lastRun3 = DateTime.Now.AddDays(-1);
+        private int minutes = 1;// every 1 minutes
 
         protected override void OnStart(string[] args)
         {
@@ -40,7 +41,7 @@ namespace KEKChatService
 
             timer1.Start();
 
-            timer3 = new Timer(2 * 60 * 1000); // every 2 minutes
+            timer3 = new Timer(minutes * 60 * 1000); 
 
             ElapsedEventHandler handler3 = new System.Timers.ElapsedEventHandler(timer3_Elapsed);
 
@@ -65,7 +66,7 @@ namespace KEKChatService
         {
             timer3.Stop();
 
-            DemandElasticity.ReevaluatePrices();
+            DemandElasticity.ReevaluatePrices(minutes);
 
             lastRun3 = DateTime.Now;
             timer3.Start();

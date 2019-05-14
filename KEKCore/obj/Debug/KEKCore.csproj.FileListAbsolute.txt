@@ -1,4 +1,3 @@
-C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKCore\obj\Debug\KEKCore.csprojAssemblyReference.cache
 C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKCore\obj\Debug\KEKCore.csproj.CoreCompileInputs.cache
 C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKCore\bin\Debug\KEKCore.dll.config
 C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKCore\bin\Debug\KEKCore.dll
