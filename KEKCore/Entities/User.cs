@@ -20,7 +20,7 @@ namespace KEKCore.Entities
 
         public bool Privileged { get; set; }
 
-        public decimal Currency { get; set; } = 5000;
+        public decimal Currency { get; set; }
 
         public DateTime LastOnline { get; set; }
     }

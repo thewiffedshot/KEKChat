@@ -1,6 +1,4 @@
 @{
-    void a() { }
-
     var grid = Html.DevExpress().GridView(settings =>
     {
         settings.Name = "AdminPanel";
@@ -33,22 +31,45 @@
         settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
         settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 700;
 
-        settings.Columns.Add("ID").EditFormSettings.Visible = DefaultBoolean.False;
-        settings.Columns.Add("Username");
-        settings.Columns.Add("Privileged").EditFormSettings.Visible = DefaultBoolean.False;
-        settings.Columns.Add("Currency").EditFormSettings.Visible = DefaultBoolean.False;
-        settings.Columns.Add("LastOnline").EditFormSettings.Visible = DefaultBoolean.False;
 
-        // Unbound column password
-        MVCxGridViewColumn column = new MVCxGridViewColumn()
-        {
-            FieldName = "Password",
-            UnboundType = DevExpress.Data.UnboundColumnType.Integer,
-            Visible = false,
-        };
-        column.EditFormSettings.Visible = DefaultBoolean.True;
-        column.EditFormSettings.VisibleIndex = 99;
-        settings.Columns.Add(column);
+    settings.Columns.Add("ID").EditFormSettings.Visible = DefaultBoolean.False;
+    settings.Columns.Add("Username");
+    MVCxGridViewColumn privilegedColumn = new MVCxGridViewColumn()
+    {
+        FieldName = "Privileged",
+        ColumnType = MVCxGridViewColumnType.CheckBox
+    };
+    settings.Columns.Add(privilegedColumn);
+
+    settings.Columns.Add("Currency");
+    settings.Columns.Add("LastOnline").EditFormSettings.Visible = DefaultBoolean.False;
+
+    // Unbound column password
+    MVCxGridViewColumn passwordColumn = new MVCxGridViewColumn()
+    {
+        FieldName = "Password",
+        UnboundType = DevExpress.Data.UnboundColumnType.Integer,
+        Visible = false
+    };
+    passwordColumn.EditFormSettings.Visible = DefaultBoolean.True;
+    passwordColumn.EditFormSettings.VisibleIndex = 99;
+    passwordColumn.SetEditItemTemplateContent(c => {
+        Html.DevExpress().TextBox(settingsTextBox => {
+            settingsTextBox.Name = c.Column.FieldName;
+        }).Bind(c.Text).Render();
+    });
+    passwordColumn.PropertiesEdit.NullDisplayText = " ";
+    settings.Columns.Add(passwordColumn);
+
+    //settings.CustomUnboundColumnData += (sender, e) =>
+    //{
+    //    if(e.Column.FieldName == "Password") {
+    //        //Otherwise it shows "nbsp;"
+    //        if(e.IsGetData) {
+    //            e.Value = null;
+    //        }
+    //    }
+    //};
 
     });
     if (ViewData["EditError"] != null){

@@ -43,11 +43,16 @@ namespace KEKChat.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult AdminPanelPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] KEKCore.Entities.User item)
         {
+            var password = EditorExtension.GetValue<string>("Password").TrimStart();
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    account.Register(item.Username, "123456");
+                    if (string.IsNullOrWhiteSpace(password))
+                        account.Register(item.Username, "123456", item.Currency, item.Privileged);
+                    else
+                        account.Register(item.Username, password, item.Currency, item.Privileged);
                 }
                 catch (Exception e)
                 {
@@ -62,10 +67,14 @@ namespace KEKChat.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult AdminPanelPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] KEKCore.Entities.User item)
         {
+            var password = EditorExtension.GetValue<string>("Password").TrimStart();
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (!String.IsNullOrWhiteSpace(password))
+                        account.AdminUpdatePassword(item, password);
                     account.AdminUpdateUser(item);
                 }
                 catch (Exception e)
@@ -79,13 +88,13 @@ namespace KEKChat.Controllers
         }
 
         [HttpPost, ValidateInput(false)]
-        public ActionResult AdminPanelPartialDelete(int ID)
+        public ActionResult AdminPanelPartialDelete([ModelBinder(typeof(DevExpressEditorsBinder))] KEKCore.Entities.User item)
         {
-            if (ID >= 0)
+            if (item.ID >= 0)
             {
                 try
                 {
-                    account.AdminDeleteUser(ID);
+                    account.AdminDeleteUser(item.ID);
                 }
                 catch (Exception e)
                 {

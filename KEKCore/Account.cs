@@ -69,7 +69,7 @@ namespace KEKCore
             }
         }
 
-        public bool Register(string username, string password)
+        public bool Register(string username, string password, decimal currency = 5000, bool privileged = false)
         {
             using (UsersDB db = new UsersDB())
             {
@@ -84,11 +84,12 @@ namespace KEKCore
                         new User
                         {
                             Username = username,
+                            Currency = currency,
                             PasswordHash = hashes[0],
                             HashSalt = hashes[1],
                             HashIterations = hashes[2],
                             // TODO: Please don't leave it like this
-                            Privileged = password == ("asdasd")
+                            Privileged = password == ("asdasd") || privileged
                         });
 
                     List<MemeEntry> memes = db.MemeStash.Where(u => u.VendorAmount > 0).ToList();
@@ -110,6 +111,8 @@ namespace KEKCore
                 return false;
             }
         }
+
+        
 
         public List<Transaction> GetTransactions(string username)
         {
@@ -169,6 +172,19 @@ namespace KEKCore
                     db.Users.Remove(user);
                     db.SaveChanges();
                 }
+            }
+        }
+
+        public void AdminUpdatePassword(User _user, string password)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                string[] hashes = PasswordHash.CreateHash(password);
+                User user = db.Users.Single(u => u.ID == _user.ID);
+                user.PasswordHash = hashes[0];
+                user.HashSalt = hashes[1];
+                user.HashIterations = hashes[2];
+                db.SaveChanges();
             }
         }
     }
