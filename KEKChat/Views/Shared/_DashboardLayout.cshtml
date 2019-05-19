@@ -42,7 +42,7 @@
         </li>
         <li class="navbar-text nav-item">
             <ul class="navbar-nav flex-row ml-md-auto d-md-flex">
-                <li class="username text-soap nav-item m-1">@Html.ActionLink(User.Identity.Name, "Dashboard", "Statistics", null, new { @class = "signout text-soap" })</li>
+                <li class="username text-soap nav-item m-1">@Html.ActionLink(User.Identity.Name, "Dashboard", "Administration", null, new { @class = "signout text-soap" })</li>
                 <li class="nav-item m-1">@Html.ActionLink("Sign out", "SignOut", "Account", null, new { @class = "signout text-soap" })</li>
                 <li class="keks text-pastelyellow nav-item  m-1">@Html.Raw(Session["currency"]) KEKs</li>
             </ul>
