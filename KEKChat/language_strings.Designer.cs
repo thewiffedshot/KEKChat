@@ -70,6 +70,15 @@ namespace KEKChat {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Валута.
+        /// </summary>
+        public static string CurrencyFieldLabel {
+            get {
+                return ResourceManager.GetString("CurrencyFieldLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to И-мейл.
         /// </summary>
         public static string EmailFieldLabel {
@@ -84,6 +93,15 @@ namespace KEKChat {
         public static string EmailInvalidError {
             get {
                 return ResourceManager.GetString("EmailInvalidError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Валутата трябва да е положително число..
+        /// </summary>
+        public static string NegativeCurrencyError {
+            get {
+                return ResourceManager.GetString("NegativeCurrencyError", resourceCulture);
             }
         }
         

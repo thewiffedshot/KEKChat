@@ -70,12 +70,22 @@ namespace KEKChat.Controllers
         {
             User user = account.GetUsers().Where(u => u.ID == id).SingleOrDefault();
 
+            string email = "@";
+
+            if (user.Email != null)
+                email = user.Email;
+
+            string[] splitEmail = email.Split('@');
+
             return View("EditUserView", new EditUserModel
             {
                 UserID = id,
                 Username = user.Username,
-                EmailName = user.Email == null ? "" : user.Email.Split('@')[0],
-                EmailDomain = user.Email == null ? "" : user.Email.Split('@')[1]
+                Email = new EmailInfo {
+                    EmailName = splitEmail[0],
+                    EmailDomain = splitEmail[1]
+                },
+                Currency = user.Currency
             });
         }
 
@@ -124,16 +134,17 @@ namespace KEKChat.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!account.UserExists(userInfo.Username))
+                if (!account.UserExists(userInfo.Username, userInfo.UserID))
                 {
                     User user = new User
                     {
                         ID = userInfo.UserID,
                         Username = userInfo.Username,
-                        Email = userInfo.EmailName + "@" + userInfo.EmailDomain,
+                        Email = userInfo.Email.EmailName + "@" + userInfo.Email.EmailDomain,
                         PasswordHash = "dummy",
                         HashSalt = "dummy",
-                        HashIterations = "dummy"
+                        HashIterations = "dummy",
+                        Currency = userInfo.Currency
                     };
 
                     account.AdminUpdateUser(user);

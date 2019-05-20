@@ -120,11 +120,17 @@
   <data name="ConfirmPasswordFieldLabel" xml:space="preserve">
     <value>Повтори парола</value>
   </data>
+  <data name="CurrencyFieldLabel" xml:space="preserve">
+    <value>Валута</value>
+  </data>
   <data name="EmailFieldLabel" xml:space="preserve">
     <value>И-мейл</value>
   </data>
   <data name="EmailInvalidError" xml:space="preserve">
     <value>И-мейла може да съдържа само (А-Z) (a-z) (0-9) ( . ) ( _ ).</value>
+  </data>
+  <data name="NegativeCurrencyError" xml:space="preserve">
+    <value>Валутата трябва да е положително число.</value>
   </data>
   <data name="PasswordConfirmationError" xml:space="preserve">
     <value>Паролите не съвпадат.</value>

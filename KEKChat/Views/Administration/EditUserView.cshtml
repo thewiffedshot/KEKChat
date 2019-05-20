@@ -104,16 +104,20 @@
     <div class="login-div">
         @using (Html.BeginForm("UpdateUserInfo", "Administration", FormMethod.Post))
         {
-            <br>
+            @Html.HiddenFor(model => model.UserID)
             @Html.LabelFor(model => model.Username)
             <br>
             @Html.EditorFor(model => model.Username)
             @Html.ValidationMessageFor(model => model.Username, null, new { @class = "text-error" })
             <hr>
-            @Html.LabelFor(model => model.EmailName)
+            @Html.LabelFor(model => model.Currency)
             <br>
-            @Html.EditorFor(model => model.EmailName)
-            @Html.ValidationMessageFor(model => model.EmailName, null, new { @class = "text-error" })
+            @Html.EditorFor(model => model.Currency)
+            <hr>
+            @Html.LabelFor(model => model.Email)
+            <br>
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email.EmailName, null, new { @class = "text-error" })
             <hr>
             @Html.LabelFor(model => model.Password)
             <br>
@@ -124,7 +128,7 @@
             <br>
             @Html.EditorFor(model => model.ConfirmPassword)
             @Html.ValidationMessageFor(model => model.ConfirmPassword, null, new { @class = "text-error" })
-            <hr>
+            <br>
             <button type="submit" class="login-button">Edit</button>
         }
     </div>

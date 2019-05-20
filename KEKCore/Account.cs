@@ -23,14 +23,15 @@ namespace KEKCore
             DBContext = context;
         }
 
-        public bool UserExists(string username)
+        public bool UserExists(string username, int userID = -1)
         {
             using (UsersDB db = new UsersDB())
             {
                 User user = db.Users.SingleOrDefault(u => u.Username == username);
 
-                if (user != null)
+                if (user != null && userID != user.ID)
                     return true;
+
                 return false;
             }
         }

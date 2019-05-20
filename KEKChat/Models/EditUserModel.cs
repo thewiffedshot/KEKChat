@@ -16,12 +16,14 @@ namespace KEKChat.Models
         [Display(Name = "UsernameFieldLabel", ResourceType = typeof(language_strings))]
         public string Username { get; set; }
 
-        [RegularExpression("^([a-zA-Z0-9_\\.]+)$", ErrorMessageResourceName = "EmailInvalidError", ErrorMessageResourceType = typeof(language_strings))]
+        
         [Display(Name = "EmailFieldLabel", ResourceType = typeof(language_strings))]
         [UIHint("Email")]
-        public string EmailName { get; set; } = "";
+        public EmailInfo Email { get; set; }
 
-        public string EmailDomain { get; set; }
+        [Range(0.0, double.MaxValue, ErrorMessageResourceName = "NegativeCurrencyError", ErrorMessageResourceType = typeof(language_strings))]
+        [Display(Name = "CurrencyFieldLabel", ResourceType = typeof(language_strings))]
+        public decimal Currency { get; set; }
 
         [Required(ErrorMessageResourceName = "RequiredFieldError", ErrorMessageResourceType = typeof(language_strings))]
         [MinLength(6, ErrorMessageResourceName = "PasswordLengthError", ErrorMessageResourceType = typeof(language_strings))]
@@ -34,5 +36,12 @@ namespace KEKChat.Models
         [DataType(DataType.Password)]
         [Display(Name = "ConfirmPasswordFieldLabel", ResourceType = typeof(language_strings))]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class EmailInfo
+    {
+        [RegularExpression("^([a-zA-Z0-9_\\.]+)$", ErrorMessageResourceName = "EmailInvalidError", ErrorMessageResourceType = typeof(language_strings))]
+        public string EmailName { get; set; }
+        public string EmailDomain { get; set; }
     }
 }
