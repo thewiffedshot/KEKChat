@@ -80,7 +80,7 @@
 
         function CustomButtonClick(s, e, url) {
             var key = s.GetRowKey(e.visibleIndex);
-
+            alert(key);
             if (e.buttonID === "Edit") {
                 window.location.href = url + "/" + key;
             }

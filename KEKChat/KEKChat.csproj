@@ -205,6 +205,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="language_strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>language_strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\EditUserModel.cs" />
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -357,6 +362,7 @@
     <Content Include="Views\Administration\_GridViewPartial.cshtml" />
     <Content Include="Views\Administration\_AdminPanelPartial.cshtml" />
     <Content Include="Views\Administration\EditUserView.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Email.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -391,6 +397,12 @@
       <Project>{778856ec-bf83-4889-a770-e4b35157423e}</Project>
       <Name>KEKCore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="language_strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>language_strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

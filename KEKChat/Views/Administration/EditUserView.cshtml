@@ -6,6 +6,7 @@
 
 @section CustomCss{
     <link href="~/Content/Chat.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/LoginForm.css" rel="stylesheet" type="text/css" />
 }
 
 @section PartialScript
@@ -99,8 +100,34 @@
 }
 
 <div class="form-parent-div">
-    <h3 class="login-title">Edit User Profile</h3>
+    <h3 class="login-title">Edit User</h3>
     <div class="login-div">
-
+        @using (Html.BeginForm("UpdateUserInfo", "Administration", FormMethod.Post))
+        {
+            <br>
+            @Html.LabelFor(model => model.Username)
+            <br>
+            @Html.EditorFor(model => model.Username)
+            @Html.ValidationMessageFor(model => model.Username, null, new { @class = "text-error" })
+            <hr>
+            @Html.LabelFor(model => model.EmailName)
+            <br>
+            @Html.EditorFor(model => model.EmailName)
+            @Html.ValidationMessageFor(model => model.EmailName, null, new { @class = "text-error" })
+            <hr>
+            @Html.LabelFor(model => model.Password)
+            <br>
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-error" })
+            <hr>
+            @Html.LabelFor(model => model.ConfirmPassword)
+            <br>
+            @Html.EditorFor(model => model.ConfirmPassword)
+            @Html.ValidationMessageFor(model => model.ConfirmPassword, null, new { @class = "text-error" })
+            <hr>
+            <button type="submit" class="login-button">Edit</button>
+        }
     </div>
 </div>
+
+

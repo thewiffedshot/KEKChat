@@ -112,7 +112,7 @@ namespace KEKCore
             }
         }
 
-        
+
 
         public List<Transaction> GetTransactions(string username)
         {
@@ -157,6 +157,7 @@ namespace KEKCore
                     oldUser.Privileged = user.Privileged;
                     oldUser.Currency = user.Currency;
                     oldUser.LastOnline = user.LastOnline;
+                    oldUser.Email = user.Email;
                     db.SaveChanges();
                 }
             }
@@ -167,7 +168,7 @@ namespace KEKCore
             using (UsersDB db = new UsersDB())
             {
                 User user = db.Users.FirstOrDefault(u => u.ID == ID);
-                if(user != null)
+                if (user != null)
                 {
                     db.Users.Remove(user);
                     db.SaveChanges();

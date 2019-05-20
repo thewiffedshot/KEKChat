@@ -1,0 +1,11 @@
+﻿@model KEKChat.Models.EditUserModel
+
+@{
+    var options = new SelectListItem[] { new SelectListItem(), new SelectListItem() };
+    options[0].Text = "abv.bg";
+    options[1].Text = "gmail.com";
+    options[0].Value = "abv.bg";
+    options[1].Value = "gmail.com";
+    options[0].Selected = true;
+    @Html.TextBoxFor(model => model.EmailName) <b>@Html.Raw("@")</b> @Html.DropDownListFor(model => model.EmailDomain, options)
+}

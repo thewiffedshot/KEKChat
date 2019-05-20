@@ -66,14 +66,16 @@ namespace KEKChat.Controllers
             return PartialView("_AdminPanelPartial", account.GetUsers());
         }
         
-        public ActionResult EditButtonClick(int userID)
+        public ActionResult EditButtonClick(int id)
         {
-            User user = account.GetUsers().Where(u => u.ID == userID).SingleOrDefault();
+            User user = account.GetUsers().Where(u => u.ID == id).SingleOrDefault();
 
             return View("EditUserView", new EditUserModel
             {
+                UserID = id,
                 Username = user.Username,
-                Email = user.Email
+                EmailName = user.Email == null ? "" : user.Email.Split('@')[0],
+                EmailDomain = user.Email == null ? "" : user.Email.Split('@')[1]
             });
         }
 
@@ -115,6 +117,37 @@ namespace KEKChat.Controllers
                 }
             }
             return PartialView("_AdminPanelPartial", account.GetUsers());
+        }
+
+        [HttpPost]
+        public ActionResult UpdateUserInfo(EditUserModel userInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!account.UserExists(userInfo.Username))
+                {
+                    User user = new User
+                    {
+                        ID = userInfo.UserID,
+                        Username = userInfo.Username,
+                        Email = userInfo.EmailName + "@" + userInfo.EmailDomain,
+                        PasswordHash = "dummy",
+                        HashSalt = "dummy",
+                        HashIterations = "dummy"
+                    };
+
+                    account.AdminUpdateUser(user);
+                    account.AdminUpdatePassword(user, userInfo.Password);
+
+                    return View("Dashboard");
+                }
+                else
+                {
+                    ModelState.AddModelError("UsernameTakenError", language_strings.UsernameTakenError);
+                }
+            }
+
+            return View("EditUserView");
         }
     }
 }

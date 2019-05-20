@@ -43,3 +43,4 @@ G:\source\repos\KEKChat\KEKCore\obj\Debug\KEKCore.csproj.CopyComplete
 G:\source\repos\KEKChat\KEKCore\obj\Debug\KEKCore.dll
 G:\source\repos\KEKChat\KEKCore\obj\Debug\KEKCore.pdb
 G:\source\repos\KEKChat\KEKCore\obj\Debug\KEKCore.csprojAssemblyReference.cache
+C:\Users\SovietDoggo\Documents\GitHub\KEKChat\KEKCore\obj\Debug\KEKCore.csprojAssemblyReference.cache
