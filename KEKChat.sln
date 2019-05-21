@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KEKChatService", "KEKChatSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KEKCore", "KEKCore\KEKCore.csproj", "{778856EC-BF83-4889-A770-E4B35157423E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KEKChatPricingService", "KEKChatPricingService\KEKChatPricingService.csproj", "{BBED9542-1C08-4917-B21C-1715FC6368B7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{778856EC-BF83-4889-A770-E4B35157423E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{778856EC-BF83-4889-A770-E4B35157423E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{778856EC-BF83-4889-A770-E4B35157423E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BBED9542-1C08-4917-B21C-1715FC6368B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BBED9542-1C08-4917-B21C-1715FC6368B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BBED9542-1C08-4917-B21C-1715FC6368B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BBED9542-1C08-4917-B21C-1715FC6368B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

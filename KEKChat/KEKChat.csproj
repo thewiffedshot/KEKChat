@@ -50,26 +50,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v18.2, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Printing.v18.2.Core, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.RichEdit.v18.2.Core, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.RichEdit.v18.2.Export, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.ASPxThemes.v18.2, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.Mvc5.v18.2, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Web.v18.2, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExtreme.AspNet.Data, Version=1.3.0.0, Culture=neutral, PublicKeyToken=982f5dab1439d0f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExtreme.AspNet.Data.1.3.0\lib\net40\DevExtreme.AspNet.Data.dll</HintPath>
+    <Reference Include="DevExpress.Data.v18.2, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DevExpress.Data.v18.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExtreme.AspNet.Mvc, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v18.2.Core, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DevExpress.Printing.v18.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v18.2.Core, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DevExpress.RichEdit.v18.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v18.2.Export, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DevExpress.RichEdit.v18.2.Export.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxThemes.v18.2, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DevExpress.Web.ASPxThemes.v18.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.Mvc5.v18.2, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DevExpress.Web.Mvc5.v18.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.v18.2, Version=18.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\DevExpress.Web.v18.2.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.2.2.7\lib\net45\Mono.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql, Version=2.2.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.2.2.7\lib\net45\Npgsql.dll</HintPath>
@@ -182,16 +196,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\DevExtremeBundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Contexts\UsersDB.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="language_strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>language_strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EditUserModel.cs" />
     <Compile Include="Models\InventoryModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MarketplaceInventoryModel.cs" />
@@ -211,30 +230,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Chat.css" />
-    <Content Include="Content\dx.android5.light.css" />
-    <Content Include="Content\dx.carmine.compact.css" />
-    <Content Include="Content\dx.carmine.css" />
-    <Content Include="Content\dx.common.css" />
-    <Content Include="Content\dx.contrast.compact.css" />
-    <Content Include="Content\dx.contrast.css" />
-    <Content Include="Content\dx.dark.compact.css" />
-    <Content Include="Content\dx.dark.css" />
-    <Content Include="Content\dx.darkmoon.compact.css" />
-    <Content Include="Content\dx.darkmoon.css" />
-    <Content Include="Content\dx.darkviolet.compact.css" />
-    <Content Include="Content\dx.darkviolet.css" />
-    <Content Include="Content\dx.greenmist.compact.css" />
-    <Content Include="Content\dx.greenmist.css" />
-    <Content Include="Content\dx.ios7.default.css" />
-    <Content Include="Content\dx.light.compact.css" />
-    <Content Include="Content\dx.light.css" />
-    <Content Include="Content\dx.softblue.compact.css" />
-    <Content Include="Content\dx.softblue.css" />
-    <Content Include="Content\dx.spa.css" />
-    <Content Include="Content\dx.win10.black.css" />
-    <Content Include="Content\dx.win10.white.css" />
-    <Content Include="Content\dx.win8.black.css" />
-    <Content Include="Content\dx.win8.white.css" />
+    <Content Include="Content\Dashboard.css" />
     <Content Include="Content\GeneralLayout.css" />
     <Content Include="Content\LoginForm.css" />
     <Content Include="Content\Store.css" />
@@ -242,10 +238,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="lib\DevExtreme.AspNet.Data.dll" />
-    <Content Include="lib\DevExtreme.AspNet.Mvc.dll" />
-    <Content Include="Scripts\aspnet\dx.aspnet.data.js" />
-    <Content Include="Scripts\aspnet\dx.aspnet.mvc.js" />
+    <Content Include="lib\DevExpress.Data.v18.2.dll" />
+    <Content Include="lib\DevExpress.Printing.v18.2.Core.dll" />
+    <Content Include="lib\DevExpress.RichEdit.v18.2.Core.dll" />
+    <Content Include="lib\DevExpress.RichEdit.v18.2.Export.dll" />
+    <Content Include="lib\DevExpress.Web.ASPxThemes.v18.2.dll" />
+    <Content Include="lib\DevExpress.Web.Mvc5.v18.2.dll" />
+    <Content Include="lib\DevExpress.Web.v18.2.dll" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -261,16 +260,6 @@
     <Content Include="Scripts\cldr\supplemental.min.js" />
     <Content Include="Scripts\cldr\unresolved.js" />
     <Content Include="Scripts\cldr\unresolved.min.js" />
-    <Content Include="Scripts\dx.all.debug.js" />
-    <Content Include="Scripts\dx.all.js" />
-    <Content Include="Scripts\dx.mobile.debug.js" />
-    <Content Include="Scripts\dx.mobile.js" />
-    <Content Include="Scripts\dx.viz-web.debug.js" />
-    <Content Include="Scripts\dx.viz-web.js" />
-    <Content Include="Scripts\dx.viz.debug.js" />
-    <Content Include="Scripts\dx.viz.js" />
-    <Content Include="Scripts\dx.web.debug.js" />
-    <Content Include="Scripts\dx.web.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -319,27 +308,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jszip.js" />
     <Content Include="Scripts\jszip.min.js" />
-    <Content Include="Scripts\localization\dx.all.de.js" />
-    <Content Include="Scripts\localization\dx.all.ja.js" />
-    <Content Include="Scripts\localization\dx.all.ru.js" />
-    <Content Include="Scripts\localization\dx.messages.cs.js" />
-    <Content Include="Scripts\localization\dx.messages.de.js" />
-    <Content Include="Scripts\localization\dx.messages.en.js" />
-    <Content Include="Scripts\localization\dx.messages.es.js" />
-    <Content Include="Scripts\localization\dx.messages.fi.js" />
-    <Content Include="Scripts\localization\dx.messages.fr.js" />
-    <Content Include="Scripts\localization\dx.messages.it.js" />
-    <Content Include="Scripts\localization\dx.messages.ja.js" />
-    <Content Include="Scripts\localization\dx.messages.pt.js" />
-    <Content Include="Scripts\localization\dx.messages.ru.js" />
-    <Content Include="Scripts\localization\dx.messages.sv.js" />
-    <Content Include="Scripts\localization\dx.messages.zh.js" />
-    <Content Include="Scripts\localization\dx.mobile.de.js" />
-    <Content Include="Scripts\localization\dx.mobile.ja.js" />
-    <Content Include="Scripts\localization\dx.mobile.ru.js" />
-    <Content Include="Scripts\localization\dx.web.de.js" />
-    <Content Include="Scripts\localization\dx.web.ja.js" />
-    <Content Include="Scripts\localization\dx.web.ru.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -357,9 +325,6 @@
     <Content Include="Scripts\vectormap-data\europe.js" />
     <Content Include="Scripts\vectormap-data\usa.js" />
     <Content Include="Scripts\vectormap-data\world.js" />
-    <Content Include="Scripts\vectormap-utils\dx.vectormaputils.debug.js" />
-    <Content Include="Scripts\vectormap-utils\dx.vectormaputils.js" />
-    <Content Include="Scripts\vectormap-utils\dx.vectormaputils.node.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -393,12 +358,18 @@
     <Content Include="Views\Home\Marketplace.cshtml" />
     <Content Include="Views\Home\Inventory\_StoreInventoryView.cshtml" />
     <Content Include="Views\Home\Inventory\_MarketplaceInventoryView.cshtml" />
-    <Content Include="Views\Statistics\Dashboard.cshtml" />
+    <Content Include="Views\Administration\Dashboard.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Statistics\_GridViewPartial.cshtml" />
+    <Content Include="Views\Administration\_GridViewPartial.cshtml" />
+    <Content Include="Views\Administration\_AdminPanelPartial.cshtml" />
+    <Content Include="Views\Administration\EditUserView.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Email.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\aspnet\" />
+    <Folder Include="Scripts\localization\" />
+    <Folder Include="Scripts\vectormap-utils\" />
     <Folder Include="Vendor\" />
   </ItemGroup>
   <ItemGroup>
@@ -427,6 +398,12 @@
       <Project>{778856ec-bf83-4889-a770-e4b35157423e}</Project>
       <Name>KEKCore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="language_strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>language_strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

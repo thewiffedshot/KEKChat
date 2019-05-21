@@ -12,13 +12,17 @@ namespace KEKCore.Entities
 
         public string Username { get; set; }
 
+        public string Email { get; set; }
+
         public string PasswordHash { get; set; }
 
         public string HashSalt { get; set; }
 
         public string HashIterations { get; set; }
 
-        public decimal Currency { get; set; } = 5000;
+        public bool Privileged { get; set; }
+
+        public decimal Currency { get; set; }
 
         public DateTime LastOnline { get; set; }
     }

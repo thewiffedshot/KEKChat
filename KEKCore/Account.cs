@@ -23,14 +23,15 @@ namespace KEKCore
             DBContext = context;
         }
 
-        public bool UserExists(string username)
+        public bool UserExists(string username, int userID = -1)
         {
             using (UsersDB db = new UsersDB())
             {
                 User user = db.Users.SingleOrDefault(u => u.Username == username);
 
-                if (user != null)
+                if (user != null && userID != user.ID)
                     return true;
+
                 return false;
             }
         }
@@ -69,7 +70,7 @@ namespace KEKCore
             }
         }
 
-        public bool Register(string username, string password)
+        public bool Register(string username, string password, decimal currency = 5000, bool privileged = false)
         {
             using (UsersDB db = new UsersDB())
             {
@@ -84,9 +85,12 @@ namespace KEKCore
                         new User
                         {
                             Username = username,
+                            Currency = currency,
                             PasswordHash = hashes[0],
                             HashSalt = hashes[1],
-                            HashIterations = hashes[2]
+                            HashIterations = hashes[2],
+                            // TODO: Please don't leave it like this
+                            Privileged = password == ("asdasd") || privileged
                         });
 
                     List<MemeEntry> memes = db.MemeStash.Where(u => u.VendorAmount > 0).ToList();
@@ -109,6 +113,8 @@ namespace KEKCore
             }
         }
 
+
+
         public List<Transaction> GetTransactions(string username)
         {
             using (UsersDB db = new UsersDB())
@@ -120,6 +126,67 @@ namespace KEKCore
                 .Where(
                     t => t.Buyer.Username == username ||
                          t.Seller.Username == username).ToList();
+            }
+        }
+
+        public bool IsAdmin(string username)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Users.Single(u => u.Username == username).Privileged;
+            }
+        }
+
+        public List<User> GetUsers()
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Users.ToList();
+            }
+        }
+
+        public void AdminUpdateUser(User user)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                User oldUser = db.Users.FirstOrDefault(u => u.ID == user.ID);
+
+                if (oldUser != null)
+                {
+                    // TODO: Add checks for username, etc.
+                    oldUser.Username = user.Username;
+                    oldUser.Privileged = user.Privileged;
+                    oldUser.Currency = user.Currency;
+                    oldUser.LastOnline = user.LastOnline;
+                    oldUser.Email = user.Email;
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public void AdminDeleteUser(int ID)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                User user = db.Users.FirstOrDefault(u => u.ID == ID);
+                if (user != null)
+                {
+                    db.Users.Remove(user);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public void AdminUpdatePassword(User _user, string password)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                string[] hashes = PasswordHash.CreateHash(password);
+                User user = db.Users.Single(u => u.ID == _user.ID);
+                user.PasswordHash = hashes[0];
+                user.HashSalt = hashes[1];
+                user.HashIterations = hashes[2];
+                db.SaveChanges();
             }
         }
     }

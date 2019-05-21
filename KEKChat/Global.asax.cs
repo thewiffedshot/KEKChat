@@ -12,8 +12,6 @@ namespace KEKChat
     {
         protected void Application_Start()
         {
-			DevExtremeBundleConfig.RegisterBundles(BundleTable.Bundles);
-
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

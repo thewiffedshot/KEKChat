@@ -87,6 +87,7 @@ namespace KEKChatService
                 var meme = new MemeEntry { ImagePath = "Memes\\" + fileName,
                                            Price = price,
                                            VendorAmount = batch,
+                                           InitCount = batch,
                                            Subreddit = post.Subreddit.Name,
                                            GoldCount = post.Gilded,
                                            NSFW = post.NSFW
@@ -101,6 +102,9 @@ namespace KEKChatService
                     if (memes.Count == 0)
                     {
                         db.MemeStash.Add(meme);
+
+                        KEKCore.Store.InitializeWeights(meme, db);
+
                         db.SaveChanges();
                     }
                 }
