@@ -10,50 +10,8 @@
 
 @section PartialScript
 {
+    @Html.Partial("_Scripts")
     <script>
-        var polling = false;
-
-        $(document).ready(function () {
-            var activeTab = $(".side-tab-left");
-            var otherTab = $(".side-tab-right");
-
-            activeTab.css("border-bottom", "0");
-            otherTab.css("border-bottom", "2px solid");
-
-            var activeContent = $(".people");
-            var otherContent = $(".memes");
-
-            activeContent.css("display", "block");
-            otherContent.css("display", "none");
-
-            activeTab.css("border-bottom", "none");
-            console.log("ready");
-
-            $(".side-tab").click(function (event) {
-                if (this === otherTab.get(0)) {
-                    activeContent.css("display", "none");
-                    otherContent.css("display", "block");
-
-                    var temp = activeTab;
-                    activeTab = otherTab;
-                    otherTab = temp;
-
-                    activeTab.css({ "border-bottom": "0", "background-color": "#FFFD83" });
-                    otherTab.css({ "border-bottom": "2px solid", "background-color": "#EFED73" });
-
-                    var tempC = activeContent;
-                    activeContent = otherContent;
-                    otherContent = tempC;
-                }
-            }
-            );
-
-            loadInventory();
-            loadPeople();
-
-            window.setInterval(loadPeople, 5000);
-        });
-
         function loadInventory() {
             $.ajax(
                 {
@@ -66,44 +24,13 @@
             });
         }
 
-        function loadPeople() {
-            $.ajax(
-                {
-                    url: "@Url.Action("GetPeople", "Home")",
-                    type: 'GET',
-                    dataType: 'html'
-                }
-            ).always(function (result) {
-                        $(".people").html(result);
-            });
-        }
-
         function CustomButtonClick(s, e, url) {
-            var key = s.GetRowKey(e.visibleIndex);
-            alert(key);
+            var userID = s.GetRowKey(e.visibleIndex);
             if (e.buttonID === "Edit") {
-                window.location.href = url + "/" + key;
+                window.location.href = url + "?" + "UserID=" + userID;
             }
         }
     </script>
-}
-
-@section SideBar
-{
-    <div class="row tab-row m-0">
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link text-oceanblue" id="peopleList">
-            People
-        </div>
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link text-oceanblue">
-            Memes
-        </div>
-    </div>
-    <div class="row content-row m-0">
-        <div class="people h-100">
-        </div>
-        <div class="memes h-100">
-        </div>
-    </div>
 }
 
 <div class="main-view">

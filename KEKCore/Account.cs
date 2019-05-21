@@ -145,6 +145,22 @@ namespace KEKCore
             }
         }
 
+        public User GetUser(int id)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Users.SingleOrDefault(u => u.ID == id);
+            }
+        }
+
+        public User GetUser(string username)
+        {
+            using (UsersDB db = new UsersDB())
+            {
+                return db.Users.SingleOrDefault(u => u.Username == username);
+            }
+        }
+
         public void AdminUpdateUser(User user)
         {
             using (UsersDB db = new UsersDB())

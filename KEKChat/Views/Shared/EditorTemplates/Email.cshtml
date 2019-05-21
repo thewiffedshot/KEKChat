@@ -7,5 +7,5 @@
     options[0].Value = "abv.bg";
     options[1].Value = "gmail.com";
     options[0].Selected = true;
-    @Html.TextBoxFor(model => model.EmailName) <b>@Html.Raw("@")</b> @Html.DropDownListFor(model => model.EmailDomain, options)
+    @Html.TextBoxFor(model => model.EmailName, new { @style = "width: 45%" })<b>@Html.Raw("@")</b>@Html.DropDownListFor(model => model.EmailDomain, options, new { @style = "width: 45%" })
 }

@@ -1,10 +1,13 @@
-﻿using DevExpress.Web.Mvc;
-using System.Web.Mvc;
+﻿using System;
 using System.Linq;
-using KEKCore.Contexts;
-using System;
-using KEKCore.Entities;
+using System.Web.Mvc;
+
+using DevExpress.Web.Mvc;
+
 using KEKChat.Models;
+
+using KEKCore.Contexts;
+using KEKCore.Entities;
 
 namespace KEKChat.Controllers
 {
@@ -18,7 +21,7 @@ namespace KEKChat.Controllers
 
         public ActionResult Dashboard()
         {
-            return View();
+            return View("Dashboard");
         }
 
         [ValidateInput(false)]
@@ -43,7 +46,7 @@ namespace KEKChat.Controllers
         }
 
         [HttpPost, ValidateInput(false)]
-        public ActionResult AdminPanelPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] KEKCore.Entities.User item)
+        public ActionResult AdminPanelPartialAddNew([ModelBinder(typeof(DevExpressEditorsBinder))] User item)
         {
             var password = EditorExtension.GetValue<string>("Password").TrimStart();
 
@@ -51,10 +54,11 @@ namespace KEKChat.Controllers
             {
                 try
                 {
-                    if (string.IsNullOrWhiteSpace(password))
-                        account.Register(item.Username, "123456", item.Currency, item.Privileged);
-                    else
-                        account.Register(item.Username, password, item.Currency, item.Privileged);
+                    account.Register(
+                        item.Username,
+                        string.IsNullOrWhiteSpace(password) ? "123456" : password,
+                        item.Currency,
+                        item.Privileged);
                 }
                 catch (Exception e)
                 {
@@ -66,9 +70,9 @@ namespace KEKChat.Controllers
             return PartialView("_AdminPanelPartial", account.GetUsers());
         }
         
-        public ActionResult EditButtonClick(int id)
+        public ActionResult EditUser(int userID)
         {
-            User user = account.GetUsers().Where(u => u.ID == id).SingleOrDefault();
+            User user = account.GetUser(userID);
 
             string email = "@";
 
@@ -79,27 +83,29 @@ namespace KEKChat.Controllers
 
             return View("EditUserView", new EditUserModel
             {
-                UserID = id,
+                UserID = userID,
                 Username = user.Username,
                 Email = new EmailInfo {
                     EmailName = splitEmail[0],
                     EmailDomain = splitEmail[1]
                 },
+                Privileged = user.Privileged,
                 Currency = user.Currency
             });
         }
 
         [HttpPost, ValidateInput(false)]
-        public ActionResult AdminPanelPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] KEKCore.Entities.User item)
+        public ActionResult AdminPanelPartialUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] User item)
         {
-            var password = EditorExtension.GetValue<string>("Password").TrimStart();
+            string password = EditorExtension.GetValue<string>("Password").TrimStart();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (!String.IsNullOrWhiteSpace(password))
+                    if (!string.IsNullOrWhiteSpace(password))
                         account.AdminUpdatePassword(item, password);
+
                     account.AdminUpdateUser(item);
                 }
                 catch (Exception e)
@@ -109,6 +115,7 @@ namespace KEKChat.Controllers
             }
             else
                 ViewData["EditError"] = "Please, correct all errors.";
+
             return PartialView("_AdminPanelPartial", account.GetUsers());
         }
 
@@ -141,6 +148,7 @@ namespace KEKChat.Controllers
                         ID = userInfo.UserID,
                         Username = userInfo.Username,
                         Email = userInfo.Email.EmailName + "@" + userInfo.Email.EmailDomain,
+                        Privileged = userInfo.Privileged,
                         PasswordHash = "dummy",
                         HashSalt = "dummy",
                         HashIterations = "dummy",
@@ -150,7 +158,7 @@ namespace KEKChat.Controllers
                     account.AdminUpdateUser(user);
                     account.AdminUpdatePassword(user, userInfo.Password);
 
-                    return View("Dashboard");
+                    return Dashboard();
                 }
                 else
                 {
@@ -158,7 +166,7 @@ namespace KEKChat.Controllers
                 }
             }
 
-            return View("EditUserView");
+            return EditUser(userInfo.UserID);
         }
     }
 }

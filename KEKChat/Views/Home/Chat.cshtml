@@ -9,51 +9,13 @@
 
 @section PartialScript
 {
+    @Html.Partial("_Scripts")
     <script>
         var polling = false;
-
-        $(document).ready(function () {
-            var activeTab = $(".side-tab-left");
-            var otherTab = $(".side-tab-right");
-
-            activeTab.css("border-bottom", "0");
-            otherTab.css("border-bottom", "2px solid");
-
-            var activeContent = $(".people");
-            var otherContent = $(".memes");
-
-            activeContent.css("display", "block");
-            otherContent.css("display", "none");
-
-            activeTab.css("border-bottom", "none");
-            console.log("ready");
-
-            $(".side-tab").click(function (event) {
-                if (this === otherTab.get(0)) {
-                    activeContent.css("display", "none");
-                    otherContent.css("display", "block");
-
-                    var temp = activeTab;
-                    activeTab = otherTab;
-                    otherTab = temp;
-
-                    activeTab.css({ "border-bottom": "0", "background-color": "#FFFD83" });
-                    otherTab.css({ "border-bottom": "2px solid", "background-color": "#EFED73" });
-
-                    var tempC = activeContent;
-                    activeContent = otherContent;
-                    otherContent = tempC;
-                }
-            }
-            );
-
-            loadInventory();
-            loadPeople();
             loadPartialView();
 
             window.setInterval(loadPartialView, 200);
             window.setInterval(loadPeople, 5000);
-        });
 
         function loadInventory() {
             $.ajax(
@@ -67,18 +29,6 @@
             });
         }
 
-        function loadPeople() {
-            $.ajax(
-                {
-                    url: "@Url.Action("GetPeople", "Home")",
-                    type: 'GET',
-                    dataType: 'html'
-                }
-            ).always(function (result) {
-                        $(".people").html(result);
-            });
-        }
-
         var messageCount = 0;
 
         function loadPartialView() {
@@ -86,7 +36,6 @@
                 polling = true;
 
                 var lastID = $("#chatView").children().last().attr("id");
-                //console.log(lastID);
                 if (lastID == null) lastID = 0;
 
                 $.ajax(
@@ -115,76 +64,45 @@
             }
             else if (event.which === 13) {
                 event.preventDefault();
-                var lastID = $("#chatView").children().last().attr("id");
-                if (lastID == null) lastID = 0;
-
-                $.ajax(
-                    {
-                        url: "@Url.Action("SendMessage", "Home")",
-                        data: {
-                            'msg': $('#textArea').val()
-                        },
-                        type: 'POST',
-                        dataType: 'html'
-                    }
-                ).done(function ()
-                {
-                    $('#textArea').val("");
-                });
-
+                SendMessage();
                 return true;
             }
         });
 
         $("#sendButton").not(".bound-click").addClass("bound-click").click(function (event) {
             event.preventDefault();
+            SendMessage();
+            }
+        );
 
+        function SendMessage() {
             var lastID = $("#chatView").children().last().attr("id");
             if (lastID == null) lastID = 0;
 
-                $.ajax(
-                    {
-                        url: "@Url.Action("SendMessage", "Home")",
-                        data: {
-                            'msg': $('#textArea').val()
-                        },
-                        type: 'POST',
-                        dataType: 'html'
-                    }
-                ).done(function ()
+            $.ajax(
                 {
-                    $('#textArea').val("");
-                });
-            }
-        );
+                    url: "@Url.Action("SendMessage", "Home")",
+                    data: {
+                        'msg': $('#textArea').val()
+                    },
+                    type: 'POST',
+                    dataType: 'html'
+                }
+            ).done(function ()
+            {
+                $('#textArea').val("");
+            });
+        }
     </script>
 }
 
-@section SideBar{
-
-    <div class="row tab-row m-0">
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link text-oceanblue" id="peopleList">
-            People
-        </div>
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link text-oceanblue">
-            Memes
-        </div>
-    </div>
-    <div class="row content-row m-0">
-        <div class="people h-100">
-        </div>
-        <div class="memes h-100">
-        </div>
-    </div>
-}
-
 <div class="chat bg-soap" id="chatView">
-    
+
 </div>
 
 <div class="chatbox bg-amazonite" id="chatBox">
     <form class="bg-amazonite" style="height:100%;" id="MainForm">
-        <textarea class ="chat-input bg-soap" autofocus="" id="textArea" maxlength="1000"></textarea>
+        <textarea class="chat-input bg-soap" autofocus="" id="textArea" maxlength="1000"></textarea>
         <button type="submit" runat="server" class="message-button btn bg-bleu p-0" id="sendButton">Send</button>
     </form>
 </div>

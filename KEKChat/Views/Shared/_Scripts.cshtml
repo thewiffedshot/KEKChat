@@ -1,0 +1,55 @@
+﻿<script>
+    $(document).ready(function() {
+        var activeTab = $(".side-tab-left");
+        var otherTab = $(".side-tab-right");
+
+        activeTab.css("border-bottom", "0");
+        otherTab.css("border-bottom", "2px solid");
+
+        var activeContent = $(".people");
+        var otherContent = $(".memes");
+
+        activeContent.css("display", "block");
+        otherContent.css("display", "none");
+
+        activeTab.css("border-bottom", "none");
+        console.log("ready");
+
+        $(".side-tab").click(function(event) {
+                if (this === otherTab.get(0)) {
+                    activeContent.css("display", "none");
+                    otherContent.css("display", "block");
+
+                    var temp = activeTab;
+                    activeTab = otherTab;
+                    otherTab = temp;
+
+                    activeTab.css({ "border-bottom": "0", "background-color": "#FFFD83" });
+                    otherTab.css({ "border-bottom": "2px solid", "background-color": "#EFED73" });
+
+                    var tempC = activeContent;
+                    activeContent = otherContent;
+                    otherContent = tempC;
+                }
+                loadInventory();
+            }
+        );
+
+        loadInventory();
+        loadPeople();
+
+        window.setInterval("loadPeople()", 5000);
+    });
+
+    function loadPeople() {
+        $.ajax(
+            {
+                url: "@Url.Action("GetPeople", "Home")",
+                type: 'GET',
+                dataType: 'html'
+            }
+        ).always(function(result) {
+            $(".people").html(result);
+        });
+    }
+</script>

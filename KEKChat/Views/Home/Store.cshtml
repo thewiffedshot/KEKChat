@@ -10,23 +10,6 @@
     <link href="~/Content/Store.css" rel="stylesheet" type="text/css" />
 }
 
-@section SideBar{
-    <div class="row tab-row m-0">
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link text-oceanblue" id="peopleList">
-            People
-        </div>
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link text-oceanblue">
-            Memes
-        </div>
-    </div>
-    <div class="row content-row m-0">
-        <div class="people h-100">
-        </div>
-        <div class="memes h-100">
-        </div>
-    </div>
-}
-
 <div class="store-page-catalog align-content-center pt-3">
     @if (Model != null)
     {
@@ -46,7 +29,7 @@
                             @meme.Meme.Price KEKs
                         </div>
                         <div class="col-4 d-flex flex-wrap align-content-center p-0 pt-2 h-100 w-100">
-                            @Html.EditorFor(model => meme.Quantity, new { htmlAttributes = new { @class = "col-12 p-1 h-50", @min = "1", @step = "1", @max = meme.Meme.VendorAmount} })
+                            @Html.EditorFor(model => meme.Quantity, new { htmlAttributes = new { @class = "col-12 p-1 h-50", @min = "1", @step = "1", @max = meme.Meme.VendorAmount } })
                             @Html.EditorFor(model => meme.AssetName, new { htmlAttributes = new { @class = "col-12 p-1 h-50", @placeholder = "Name your meme" } })
                             <button type="submit" class="btn bg-bleu h-100 w-100 mt-1" name="buy" value="@meme.Meme.ID"><div class="form-text">BUY</div></button>
                             @Html.ValidationMessage("MemeModel", new { @class = "text-error" })
@@ -60,49 +43,8 @@
 
 @section PartialScript
 {
+    @Html.Partial("_Scripts")
     <script>
-        $(document).ready(function () {
-            var activeTab = $(".side-tab-left");
-            var otherTab = $(".side-tab-right");
-
-            activeTab.css("border-bottom", "0");
-            otherTab.css("border-bottom", "2px solid");
-
-            var activeContent = $(".people");
-            var otherContent = $(".memes");
-
-            activeContent.css("display", "block");
-            otherContent.css("display", "none");
-
-            activeTab.css("border-bottom", "none");
-            console.log("ready");
-
-            $(".side-tab").click(function (event) {
-                if (this === otherTab.get(0)) {
-                    activeContent.css("display", "none");
-                    otherContent.css("display", "block");
-
-                    var temp = activeTab;
-                    activeTab = otherTab;
-                    otherTab = temp;
-
-                    activeTab.css({ "border-bottom": "0", "background-color": "#FFFD83" });
-                    otherTab.css({ "border-bottom": "2px solid", "background-color": "#EFED73" });
-
-                    var tempC = activeContent;
-                    activeContent = otherContent;
-                    otherContent = tempC;
-                }
-                loadInventory();
-            }
-            );
-
-            loadInventory();
-            loadPeople();
-
-            window.setInterval("loadPeople()", 5000);
-        });
-
         function loadInventory() {
             $.ajax(
                 {
@@ -110,20 +52,8 @@
                     type: 'GET',
                     dataType: 'html'
                 }
-            ).always(function (result) {
-                        $(".memes").html(result);
-            });
-        }
-
-        function loadPeople() {
-            $.ajax(
-                {
-                    url: "@Url.Action("GetPeople", "Home")",
-                    type: 'GET',
-                    dataType: 'html'
-                }
-            ).always(function (result) {
-                        $(".people").html(result);
+            ).always(function(result) {
+                $(".memes").html(result);
             });
         }
     </script>

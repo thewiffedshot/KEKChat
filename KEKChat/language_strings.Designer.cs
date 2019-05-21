@@ -19,7 +19,7 @@ namespace KEKChat {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class language_strings {
@@ -79,6 +79,24 @@ namespace KEKChat {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Редактирай.
+        /// </summary>
+        public static string EditUserButtonText {
+            get {
+                return ResourceManager.GetString("EditUserButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактирай потребител.
+        /// </summary>
+        public static string EditUserFormTitle {
+            get {
+                return ResourceManager.GetString("EditUserFormTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to И-мейл.
         /// </summary>
         public static string EmailFieldLabel {
@@ -129,6 +147,15 @@ namespace KEKChat {
         public static string PasswordLengthError {
             get {
                 return ResourceManager.GetString("PasswordLengthError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Администратор.
+        /// </summary>
+        public static string PrivilegedFieldLabel {
+            get {
+                return ResourceManager.GetString("PrivilegedFieldLabel", resourceCulture);
             }
         }
         

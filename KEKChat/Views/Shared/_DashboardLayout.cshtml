@@ -53,7 +53,20 @@
             @RenderBody()
         </div>
         <div class="main-right bg-pastelyellow col-5 col-xl-4 p-0">
-            @RenderSection("SideBar")
+            <div class="row tab-row m-0">
+                <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link text-oceanblue" id="peopleList">
+                    People
+                </div>
+                <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link text-oceanblue">
+                    Memes
+                </div>
+            </div>
+            <div class="row content-row m-0">
+                <div class="people h-100">
+                </div>
+                <div class="memes h-100">
+                </div>
+            </div>
         </div>
     </div>
 

@@ -231,6 +231,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Chat.css" />
     <Content Include="Content\Dashboard.css" />
+    <Content Include="Content\EditUser.css" />
     <Content Include="Content\GeneralLayout.css" />
     <Content Include="Content\LoginForm.css" />
     <Content Include="Content\Store.css" />
@@ -364,6 +365,7 @@
     <Content Include="Views\Administration\_AdminPanelPartial.cshtml" />
     <Content Include="Views\Administration\EditUserView.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Email.cshtml" />
+    <Content Include="Views\Shared\_Scripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
