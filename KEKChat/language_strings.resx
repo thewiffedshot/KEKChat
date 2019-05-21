@@ -123,6 +123,12 @@
   <data name="CurrencyFieldLabel" xml:space="preserve">
     <value>Валута</value>
   </data>
+  <data name="EditUserButtonText" xml:space="preserve">
+    <value>Редактирай</value>
+  </data>
+  <data name="EditUserFormTitle" xml:space="preserve">
+    <value>Редактирай потребител</value>
+  </data>
   <data name="EmailFieldLabel" xml:space="preserve">
     <value>И-мейл</value>
   </data>
@@ -140,6 +146,9 @@
   </data>
   <data name="PasswordLengthError" xml:space="preserve">
     <value>Паролата трябва да е поне 6 символа.</value>
+  </data>
+  <data name="PrivilegedFieldLabel" xml:space="preserve">
+    <value>Администратор</value>
   </data>
   <data name="RequiredFieldError" xml:space="preserve">
     <value>Полето е задължително.</value>

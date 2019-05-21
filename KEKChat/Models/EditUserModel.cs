@@ -36,6 +36,9 @@ namespace KEKChat.Models
         [DataType(DataType.Password)]
         [Display(Name = "ConfirmPasswordFieldLabel", ResourceType = typeof(language_strings))]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "PrivilegedFieldLabel", ResourceType = typeof(language_strings))]
+        public bool Privileged { get; set; }
     }
 
     public class EmailInfo

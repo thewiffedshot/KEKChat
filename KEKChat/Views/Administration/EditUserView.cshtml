@@ -1,60 +1,19 @@
-﻿@model KEKChat.Models.EditUserModel
+﻿@using DevExpress.XtraReports.Serialization
+@model KEKChat.Models.EditUserModel
 @{
     ViewBag.Title = "EditUserView";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
 @section CustomCss{
-    <link href="~/Content/Chat.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/EditUser.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/LoginForm.css" rel="stylesheet" type="text/css" />
 }
 
 @section PartialScript
 {
+    @Html.Partial("_Scripts")
     <script>
-        var polling = false;
-
-        $(document).ready(function () {
-            var activeTab = $(".side-tab-left");
-            var otherTab = $(".side-tab-right");
-
-            activeTab.css("border-bottom", "0");
-            otherTab.css("border-bottom", "2px solid");
-
-            var activeContent = $(".people");
-            var otherContent = $(".memes");
-
-            activeContent.css("display", "block");
-            otherContent.css("display", "none");
-
-            activeTab.css("border-bottom", "none");
-            console.log("ready");
-
-            $(".side-tab").click(function (event) {
-                if (this === otherTab.get(0)) {
-                    activeContent.css("display", "none");
-                    otherContent.css("display", "block");
-
-                    var temp = activeTab;
-                    activeTab = otherTab;
-                    otherTab = temp;
-
-                    activeTab.css({ "border-bottom": "0", "background-color": "#FFFD83" });
-                    otherTab.css({ "border-bottom": "2px solid", "background-color": "#EFED73" });
-
-                    var tempC = activeContent;
-                    activeContent = otherContent;
-                    otherContent = tempC;
-                }
-            }
-            );
-
-            loadInventory();
-            loadPeople();
-
-            window.setInterval(loadPeople, 5000);
-        });
-
         function loadInventory() {
             $.ajax(
                 {
@@ -66,41 +25,11 @@
                         $(".memes").html(result);
             });
         }
-
-        function loadPeople() {
-            $.ajax(
-                {
-                    url: "@Url.Action("GetPeople", "Home")",
-                    type: 'GET',
-                    dataType: 'html'
-                }
-            ).always(function (result) {
-                        $(".people").html(result);
-            });
-        }
     </script>
 }
 
-@section SideBar
-{
-    <div class="row tab-row m-0">
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-left nav-link text-oceanblue" id="peopleList">
-            People
-        </div>
-        <div class="col-6 p-0 m-0 text-center side-tab side-tab-right nav-link text-oceanblue">
-            Memes
-        </div>
-    </div>
-    <div class="row content-row m-0">
-        <div class="people h-100">
-        </div>
-        <div class="memes h-100">
-        </div>
-    </div>
-}
-
 <div class="form-parent-div">
-    <h3 class="login-title">Edit User</h3>
+    <h3 class="login-title">@language_strings.EditUserFormTitle</h3>
     <div class="login-div">
         @using (Html.BeginForm("UpdateUserInfo", "Administration", FormMethod.Post))
         {
@@ -119,6 +48,8 @@
             @Html.EditorFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email.EmailName, null, new { @class = "text-error" })
             <hr>
+            @Html.LabelFor(model => model.Privileged) @Html.Raw(" ") @Html.EditorFor(model => model.Privileged)
+            <hr>
             @Html.LabelFor(model => model.Password)
             <br>
             @Html.EditorFor(model => model.Password)
@@ -129,7 +60,7 @@
             @Html.EditorFor(model => model.ConfirmPassword)
             @Html.ValidationMessageFor(model => model.ConfirmPassword, null, new { @class = "text-error" })
             <br>
-            <button type="submit" class="login-button">Edit</button>
+            <button type="submit" class="login-button">@language_strings.EditUserButtonText</button>
         }
     </div>
 </div>

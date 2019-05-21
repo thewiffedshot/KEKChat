@@ -26,7 +26,7 @@
                
         });
 
-        settings.ClientSideEvents.CustomButtonClick = String.Format("function(s, e) {{ CustomButtonClick(s, e, '{0}'); }}", Url.Action("EditButtonClick", "Administration"));
+        settings.ClientSideEvents.CustomButtonClick = String.Format("function(s, e) {{ CustomButtonClick(s, e, '{0}'); }}", Url.Action("EditUser", "Administration"));
 
         settings.KeyFieldName = "ID";
 
